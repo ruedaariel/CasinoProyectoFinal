@@ -17,4 +17,6 @@ export class TragamonedasTematico extends Tragamonedas {
     public pagar():void {};
 
     public apostar():void {};
+
+    public jugar():void {}
 }

@@ -33,7 +33,7 @@ export abstract class Tragamonedas implements JuegoCasino {
 
     }
 
-    abstract realizarApuesta(valor: number): string;
+    abstract jugar(): void;
 
     abstract pagar(): void;
 

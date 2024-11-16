@@ -1,5 +1,6 @@
 export interface JuegoCasino {
-    realizarApuesta(valor: number): string;
-    pagar():void;
-    apostar():void;
-};
+    apostar();
+    jugar();
+    pagar();
+    
+}
