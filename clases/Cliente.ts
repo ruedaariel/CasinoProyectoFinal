@@ -1,9 +1,10 @@
 export class Cliente {
+    private dni: number;
     private nombre: string;
-    
     private credito: number; 
 
-    constructor (nombre: string) {
+    constructor (dni: number, nombre: string) {
+        this.dni = dni;
         if (nombre!= undefined && nombre != "") {
             this.nombre = nombre.trim();
         }else {
@@ -11,6 +12,11 @@ export class Cliente {
         }
         this.credito = 0;
     }
+
+    public getdni(): number{
+        return this.dni;
+    }
+    
     public getNombre(): string {
         return this.nombre;
     }

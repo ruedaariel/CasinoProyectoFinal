@@ -2,8 +2,8 @@
 import * as rls from "readline-sync";
 import * as fs from 'fs';
 import { Casino } from './clases/Casino';
-
-
+import { TragamonedasClasico } from "./clases/tragamonedas/TragamonedasClasico";
+import { TragamonedasTematico } from "./clases/tragamonedas/TragamonedasTematico";
 
 
 function mostrarMenu() {
@@ -47,6 +47,8 @@ function elegirOpcion(): number {
             break;
         case 2: //Jugar
             let nombre: string = rls.question("Ingrese el nombre del juego: ");
+            const TragamonedasClasico1 = new TragamonedasClasico();
+            TragamonedasClasico1.apostar(1000);
             /* ACA TENEMOS QUE VER BIEN COMO DFINIMOS LOS JUEGOS, SI ES CON UN ARREGLO, O QUE HACEMOS
             const juego = casino.elegirJuego(nombre);
             if (juego) {

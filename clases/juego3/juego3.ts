@@ -34,5 +34,8 @@ export class Juego3 implements JuegoCasino {
     }
     public pagar():void {};
 
-    public apostar():void {};
+    apostar(valor: number): string{
+        return "Hola"
+    }
+    jugar(){}
 }
