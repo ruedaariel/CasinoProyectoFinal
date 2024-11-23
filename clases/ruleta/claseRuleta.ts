@@ -10,9 +10,11 @@
     // par o impar  monto apostado x 2
     // Pleno	1 número	monto apostado x 36	
 
+import { JuegoCasino } from "../../interfaz/juegoCasino";
 import { ApuestaRuleta } from "./Apuesta";
 
-export class Ruleta {
+export class Ruleta implements JuegoCasino{
+  
   private nrosRuleta: number[] = [];
   private colorRuleta: string[] = [];
 
@@ -22,45 +24,10 @@ export class Ruleta {
       21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36,
     ];
 
-    this.colorRuleta = [
-      "verde",
-      "rojo",
-      "negro",
-      "rojo",
-      "negro",
-      "rojo",
-      "negro",
-      "rojo",
-      "negro",
-      "rojo",
-      "negro",
-      "negro",
-      "rojo",
-      "negro",
-      "rojo",
-      "negro",
-      "rojo",
-      "negro",
-      "rojo",
-      "negro",
-      "rojo",
-      "negro",
-      "rojo",
-      "negro",
-      "rojo",
-      "negro",
-      "rojo",
-      "negro",
-      "rojo",
-      "negro",
-      "rojo",
-      "negro",
-      "rojo",
-      "negro",
-      "rojo",
-      "negro",
-      "rojo",
-    ];
+    this.colorRuleta = [ "verde","rojo","negro","rojo","negro","rojo","negro","rojo","negro","rojo",
+                         "negro","negro","rojo","negro","rojo","negro","rojo","negro","rojo","negro",
+                         "rojo","negro","rojo","negro","rojo","negro","rojo","negro","rojo","negro",
+                         "rojo","negro","rojo","negro","rojo","negro","rojo",];
   }
 
   public tirarBolilla(): number {
