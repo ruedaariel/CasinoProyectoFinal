@@ -1,6 +1,8 @@
+import { Cliente } from "../clases/Cliente";
+
 export interface JuegoCasino {
-    apostar();
-    jugar();
-    pagar();
+    apostar(jugador:Cliente):void;
+    jugar():void;
+    pagar():number;
     
 }

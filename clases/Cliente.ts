@@ -1,15 +1,22 @@
 export class Cliente {
+    private dni: number;
     private nombre: string;
-    
     private credito: number; 
 
-    constructor (nombre: string) {
+    constructor (dni: number,nombre: string) {
+        this.dni = dni;
         if (nombre!= undefined && nombre != "") {
             this.nombre = nombre.trim();
         }else {
             this.nombre = "Anonimo"
         }
         this.credito = 0;
+    }
+    public getDni():number {
+        return this.dni
+    }
+    public setDni(dni:number):void {
+        this.dni=dni;
     }
     public getNombre(): string {
         return this.nombre;
