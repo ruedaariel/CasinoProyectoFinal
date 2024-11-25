@@ -233,3 +233,88 @@ export function igualoCadena(cadena: string, largo: number, caracter: string): s
 
 }
 
+export function dibujaUnDado(dado1:number, dado2:number): void {
+
+  const todosLosDados:string [][] = [["╔════╦════╦════╗",
+                                      "║    ║    ║    ║",
+                                      "╠════╬════╬════╣",
+                                      "║    ║ ██ ║    ║",
+                                      "╠════╬════╬════╣",
+                                      "║    ║    ║    ║",
+                                      "╚════╩════╩════╝"],
+                                     ["╔════╦════╦════╗",
+                                      "║ ██ ║    ║    ║",
+                                      "╠════╬════╬════╣",
+                                      "║    ║    ║    ║",
+                                      "╠════╬════╬════╣",
+                                      "║    ║    ║ ██ ║",
+                                      "╚════╩════╩════╝"],
+                                     ["╔════╦════╦════╗",
+                                      "║ ██ ║    ║    ║",
+                                      "╠════╬════╬════╣",
+                                      "║    ║ ██ ║    ║",
+                                      "╠════╬════╬════╣",
+                                      "║    ║    ║ ██ ║",
+                                      "╚════╩════╩════╝"],
+                                     ["╔════╦════╦════╗",
+                                      "║ ██ ║    ║ ██ ║",
+                                      "╠════╬════╬════╣",
+                                      "║    ║    ║    ║",
+                                      "╠════╬════╬════╣",
+                                      "║ ██ ║    ║ ██ ║",
+                                      "╚════╩════╩════╝"],
+                                      ["╔════╦════╦════╗",
+                                       "║ ██ ║    ║ ██ ║",
+                                       "╠════╬════╬════╣",
+                                       "║    ║ ██ ║    ║",
+                                       "╠════╬════╬════╣",
+                                       "║ ██ ║    ║ ██ ║",
+                                       "╚════╩════╩════╝"],
+                                       ["╔════╦════╦════╗",
+                                        "║ ██ ║    ║ ██ ║",
+                                        "╠════╬════╬════╣",
+                                        "║ ██ ║    ║ ██ ║",
+                                        "╠════╬════╬════╣",
+                                        "║ ██ ║    ║ ██ ║",
+                                        "╚════╩════╩════╝"]]
+  
+  
+  
+  const bordeSuperior1: string =   "┌────┬────┬────┐";
+  
+  const primeraLinea1: string =    "│ ██ │ ██ │ ██ │";
+  
+  const lineaInternedia1: string = "├────┼────┼────┤";
+  
+  const segundaLInea1:string =     "│ ██ │ ██ │ ██ │";
+  
+  
+  const teceraLinea1: string =     "│ ██ │ ██ │ ██ │";
+  
+  const ultimaLinea1: string =     "└────┴────┴────┘";
+  
+  
+     console.clear();
+  
+  
+  console.log("                     "+"**************");
+  
+  
+  
+  
+  
+      const todosLosDadosAux:string [][] = [...todosLosDados];
+      const dadoUno:string[] = [...todosLosDadosAux[dado1-1]];
+      const dadoDos:string[] = [...todosLosDadosAux[dado2-1]];
+  
+  
+      for (let i = 0; i < dadoUno.length; i++){
+  
+          console.log("                     "+dadoUno[i]+ "    " + dadoDos[i]);
+          
+  
+      }
+  
+  }
+  
+
