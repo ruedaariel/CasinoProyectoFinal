@@ -92,6 +92,7 @@ export class PaseIngles implements JuegoCasino{
                     funciones.mensajeAlerta("Lo siento, has perdido esta vez. 😢 ¡No te rindas, inténtalo de nuevo!", "amarillo")
                 }
                 funciones.mensajeAlerta(`Saldo actual: ${jugador.getACredito()}$`, "verde");
+                let caracter = rls.question(" Presione una tecla para continuar ...").blue;
             }
         }
     }
@@ -117,7 +118,7 @@ export class PaseIngles implements JuegoCasino{
             if (this.punto != 0) {
                 let salida: string = "SIGUE";
                 do {
-                    let caracter = rls.question(" Presione una tecla para continuar ...");
+                    let caracter = rls.question(" Presione una tecla para continuar ...").blue;
                     console.clear();
                     funciones.mensajeAlerta(`Sigues jugando \n Estas en Tiro de Punto \n tu numero de Punto es ${this.punto} `,"azul");
                     this.tirarDados();
