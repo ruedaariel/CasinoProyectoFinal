@@ -46,7 +46,7 @@ export class Casino {
       }
       let dniString: string = rls.question("Ingrese el DNI (0 para salir): ");
       dni = parseInt(dniString);
-      if (isNaN(dni) || dni <= 0) {
+      if (isNaN(dni) || dni < 0) {
         errorEntrada = false;
       } else {
         errorEntrada = true;
