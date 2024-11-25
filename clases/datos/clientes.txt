@@ -1,0 +1,7 @@
+[
+  {
+    "dni": 16998400,
+    "nombre": "gladys",
+    "credito": 1150
+  }
+]
