@@ -3,16 +3,22 @@ import { Cliente } from "../Cliente";
 import * as funciones from "../../Funciones/funciones";
 import * as rls from "readline-sync";
 import "colors";
+import { Juego } from "../juego";
 
-export class PaseIngles implements JuegoCasino{
+export class PaseIngles extends Juego implements JuegoCasino{
     private dado1: number = 0;
     private dado2: number = 0;
     private punto: number = 0;
     private apuesta: number = 0; //monto de la apuesta
     private gano: boolean = false;
-    private apuestaMinima: number = 100;
-    private apuestaMaxima: number = 10000;
+    // private apuestaMinima: number = 100;
+    // private apuestaMaxima: number = 10000;
 
+    constructor () {
+        super();
+        this.apuestaMinima = 100;
+        this.apuestaMinima = 10000;
+    }
     
     public getGano(): boolean {
         return this.gano;

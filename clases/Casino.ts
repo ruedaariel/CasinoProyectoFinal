@@ -15,6 +15,7 @@ export class Casino {
   // ruleta : Ruleta;
   // blackjack : BlackJack;
   paseIngles: PaseIngles;
+  
   constructor() {
     this.tragamonedasClasico = new TragamonedasClasico();
     this.tragamonedasTematico = new TragamonedasTematico();
@@ -141,14 +142,17 @@ export class Casino {
 
   private mostrarMenu(jugador: Cliente): void {
     let opcion: string;
+    let condicion: string="";
     let errorIngreso: boolean = true;
     console.clear();
     const servicios: string[] = [
-      "1. Blackjack",
-      "2. Ruleta",
-      "3. Dados",
-      "4. Cargar Crédito",
-      "5. Administrar Usuario",
+      "1. Tragamonedas Clasico",
+      "2. Tragamonedas Tematico",
+      "3. Blackjack",
+      "4. Ruleta",
+      "5. Dados",
+      "6. Cargar Crédito",
+      "7. Listar Cliente",
       "0. Salir",
     ];
     do {
@@ -173,7 +177,11 @@ export class Casino {
           break;
         case "3":
           console.log("seleccionaste Dados");
-          this.paseIngles.apostar(jugador);
+          
+          while (parseInt(condicion)>0) {
+            this.paseIngles.apostar(jugador);
+            condicion = rls.question("Si desea seguir apostando ingrese un número mayor a 0: ")
+        }
           break;
         case "4":
           console.log("seleccionaste Cargar Crédito");
