@@ -28,7 +28,12 @@ export class PaseIngles implements JuegoCasino{
         return this.apuestaMinima;
     }
     public setApuestaMinima(value: number) {
-        this.apuestaMinima = value;
+        if (value != undefined) {
+            this.apuestaMinima = value;
+        } else {
+            this.apuestaMinima = 0;
+        }
+        
     }
 
     private inicializarNuevoJuego():void {
@@ -50,7 +55,7 @@ export class PaseIngles implements JuegoCasino{
         do {
             console.clear();
             funciones.mensajeAlerta(`La apuesta puede variar entre ${this.apuestaMinima} y ${this.apuestaMaxima}`, "azul");
-            // funciones.mensajeAlerta("Ingrese la apuesta: ", "azul")
+           
             // para evitar el scroll indefinido usamos una variable bool 
             if (!errorEntrada) {
                 funciones.mensajeAlerta(`Monto inválido. Debe ser un numero entre ${montoMinimo} y ${montoMaximo}`, "rojo");
