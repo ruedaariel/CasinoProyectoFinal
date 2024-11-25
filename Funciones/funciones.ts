@@ -297,7 +297,7 @@ export function dibujaUnDado(dado1:number, dado2:number): void {
      console.clear();
   
   
-  console.log("                     "+"**************");
+  console.log("                               "+"************************************");
   
   
   
@@ -310,7 +310,7 @@ export function dibujaUnDado(dado1:number, dado2:number): void {
   
       for (let i = 0; i < dadoUno.length; i++){
   
-          console.log("                     "+dadoUno[i]+ "    " + dadoDos[i]);
+          console.log("                               "+dadoUno[i]+ "    " + dadoDos[i]);
           
   
       }
