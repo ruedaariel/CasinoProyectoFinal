@@ -1,0 +1,13 @@
+Come Out Roll (Tiro de Salida):
+
+Gana: Si el tirador obtiene un 7 u 11, gana la apuesta de la línea de pase (Pass Line).
+
+Pierde: Si el tirador obtiene un 2, 3 o 12, pierde la apuesta de la línea de pase (Pass Line).
+
+Establecer Punto: Si el tirador obtiene un 4, 5, 6, 8, 9 o 10, ese número se convierte en el "punto" y el juego continúa a la segunda ronda.
+
+Point Roll (Tiro del Punto):
+
+Gana: Si el tirador obtiene el "punto" antes de sacar un 7, gana la apuesta de la línea de pase (Pass Line).
+
+Pierde: Si el tirador obtiene un 7 antes de volver a obtener el "punto", pierde la apuesta de la línea de pase (Pass Line).
