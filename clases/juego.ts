@@ -6,8 +6,6 @@ export abstract class Juego implements JuegoCasino{
     protected apuestaMinima: number = 0;
     protected apuestaMaxima: number = 100000;
 
-    constructor () {}
-
     public abstract apostar(jugador: Cliente): void 
 
     public abstract pagar():number;
