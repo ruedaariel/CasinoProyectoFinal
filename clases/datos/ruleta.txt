@@ -1,0 +1,20 @@
+Objetivo: Predecir en qué casilla numerada o tipo de casilla caerá la bola en la rueda de la ruleta.
+
+Tipos de Apuestas:
+
+Apuestas
+
+    Straight Up: Apostar a un solo número.
+
+    Red/Black: Apostar a rojo o negro.
+
+    Even/Odd: Apostar a par o impar.
+
+
+Colocar las Apuestas: Los jugadores colocan sus fichas en el tapete de apuestas antes de que el crupier cierre las apuestas.
+
+Girar la Rueda: El crupier gira la rueda y lanza la bola en la dirección opuesta.
+
+Resultado: Cuando la rueda se detiene, la bola caerá en una de las casillas numeradas.
+
+Pago de Apuestas Ganadoras: El crupier paga las apuestas ganadoras según una tabla de pagos predefinida.

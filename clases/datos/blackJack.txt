@@ -1,0 +1,39 @@
+Objetivo: Obtener una mano con un valor lo más cercano posible a 21 sin pasarse.
+
+Valores de las Cartas:
+
+    Cartas numeradas (2-10) tienen su valor nominal.
+
+    Figuras (J, Q, K) valen 10 puntos.
+
+    As (A) vale 1 o 11 puntos, según convenga más al jugador.
+
+El Juego:
+
+    Cada jugador recibe dos cartas boca arriba.
+
+    El crupier recibe una carta boca arriba y una carta boca abajo.
+
+Decisiones del Jugador:
+
+    Hit (Pedir): Recibir otra carta.
+
+    Stand (Plantarse): Mantener la mano actual y finalizar el turno.
+
+    Double Down (Doblar): Duplicar la apuesta y recibir solo una carta adicional.
+
+    Split (Dividir): Si las dos cartas iniciales tienen el mismo valor, se pueden dividir en dos manos separadas y jugar cada una individualmente.
+
+Acciones del Crupier:
+
+    El crupier revela su carta oculta una vez que todos los jugadores han terminado sus turnos.
+
+    El crupier debe pedir cartas hasta alcanzar al menos 17 puntos.
+
+Ganador:
+
+    Gana quien tenga la mano más alta sin pasar de 21.
+
+    Si te pasas de 21, pierdes automáticamente.
+
+    Si el crupier se pasa de 21, todos los jugadores que no se hayan pasado ganan.
