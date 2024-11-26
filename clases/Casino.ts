@@ -3,6 +3,7 @@ import { TragamonedasTematico } from "./tragamonedas/TragamonedasTematico";
 import { Cliente } from "./Cliente";
 import * as rls from "readline-sync";
 import * as funciones from "../Funciones/funciones";
+import { Ruleta } from "./ruleta/claseRuleta";
 // import { Ruleta } from "./ruleta/claseRuleta";
 // import { BlackJack } from "./Blackjack/blackjack";
 import { PaseIngles } from "./Dados/PaseIngles";
@@ -13,14 +14,14 @@ export class Casino {
   clientes: Cliente[] = [];
   tragamonedasClasico: TragamonedasClasico;
   tragamonedasTematico: TragamonedasTematico;
-  // ruleta : Ruleta;
+  ruleta : Ruleta;
   // blackjack : BlackJack;
   paseIngles: PaseIngles;
 
   constructor() {
     this.tragamonedasClasico = new TragamonedasClasico();
     this.tragamonedasTematico = new TragamonedasTematico();
-    //    this.ruleta =  new Ruleta();
+    this.ruleta =  new Ruleta();
     //    this.blackjack = new BlackJack();
     this.paseIngles = new PaseIngles();
   }
@@ -210,7 +211,7 @@ export class Casino {
         case "4":
           menu.mensajeAlerta("          ⚪    BIENVENIDOS A RULETA    ⚪          ", "verde");
           this.leerArchivoInstrucciones("./clases/datos/ruleta.txt", "Ruleta");
-          console.log("seleccionaste Ruleta");
+          this.ruleta.comenzarAJugar(jugador);
           break;
         case "5":
           //  console.log("seleccionaste Dados");
