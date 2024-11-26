@@ -317,4 +317,71 @@ export function dibujaUnDado(dado1:number, dado2:number): void {
   
   }
   
+  import * as readlineSync from 'readline-sync';
 
+export function validarNumeroEntre(cartel:string,min: number, max: number, averificar:number): number {
+    let numero: number;
+    let errorEntrada: boolean = true;
+
+    
+    while(true) {
+        console.clear();
+
+        mensajeAlerta(cartel,"azul");
+
+        // para evitar el scroll indefinido usamos una variable bool 
+        if (!errorEntrada) {
+           
+            mensajeAlerta("Ingreso invalido... reintente por favor","rojo");
+            errorEntrada = true;
+        }
+
+        numero = rls.questionInt(igualoCadena("", 31, " ") + "Ingrese el valor: ".green);
+
+        if (numero >= averificar || averificar < min) {
+          cartel = `No dispone de crédito para realizar una apuesta de $${numero} su saldo máximo es $${averificar}`;
+          errorEntrada = false
+        }
+
+        if (numero >= min && numero <= max ) { break;} 
+        errorEntrada = false;
+        console.clear();
+
+    } 
+
+    //console.clear();
+    return numero
+}
+
+
+
+
+export function stop(): void {
+
+  let pausa:string = rls.question("Pulsando una tecla sigue ...  ".green);
+}
+
+// valida la entrada de dos/tres cadenas
+export function ingresarString(cartel: string, cad1:string, cad2:string, cad3?:string): string {
+  let cadena: string = "";
+  let errorEntrada: boolean = true;
+
+  do {
+      console.clear();
+      // para evitar el scroll indefinido usamos una variable bool 
+      if (!errorEntrada) {
+          
+          mensajeAlerta("Nombre inválido. Vuelva a Ingresar","rojo");
+      }
+
+      cadena = rls.question(igualoCadena("", 31, " ") + `Ingrese  ${cartel} : `.green); 
+
+
+
+      if (cad1) { errorEntrada = false;}
+
+  } while (!cad1);
+  
+  console.clear();
+  return cadena;
+}
