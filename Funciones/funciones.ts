@@ -1,4 +1,5 @@
 import "colors";
+import { error } from "console";
 import * as rls from "readline-sync";
 
 // resuleve la logica de la seleccion de opciones conm manejo del error
@@ -413,9 +414,11 @@ export function dibujaUnDado(dado1: number, dado2: number): void {
 
   console.log("                               ");
 
+
   const todosLosDadosAux: string[][] = [...todosLosDados];
   const dadoUno: string[] = [...todosLosDadosAux[dado1 - 1]];
   const dadoDos: string[] = [...todosLosDadosAux[dado2 - 1]];
+
 
   for (let i = 0; i < dadoUno.length; i++) {
     console.log(
@@ -478,8 +481,10 @@ export function ingresarString(
 ): string {
   let cadena: string = "";
   let errorEntrada: boolean = true;
+  let errorIngreso: boolean = true;
 
   do {
+
     console.clear();
     // para evitar el scroll indefinido usamos una variable bool
     if (!errorEntrada) {
@@ -495,7 +500,173 @@ export function ingresarString(
     }
   } while (!cad1);
 
+
   console.clear();
   return cadena;
+}
+
+
+// ---------------------------------------------
+// funciones parea dibujar tablero de ruleta
+// ---------------------------------------------
+
+const apuesta: number[] = [6,9,35,17,15,23,36];
+const PADIZQUIERDO:string = igualoCadena(" ",0," ");
+//const colorDefecto: string =`white`;
+const colorApuesta: string = `white`;
+
+
+//----- defino colors de rojo o negro por defecto --------
+let colorRojo: string = `bgRed`;
+let colorNegro: string = `bgBlack`;
+const rojo: string = "    Rojo   ";
+const negro:string = "   Negro   ";
+
+//----- defino colors de par o impar por defecto --------
+let colorPar: string = `white`;
+let colorImpar: string = `white`;
+const impar: string = "   Impar   ";
+const par:string = "    Par    ";
+
+//----- defino colors de docena por defecto --------
+let colorPriDoc: string = `white`;
+let colorSegDoc: string = `white`;
+let colorTerDoc: string = `white`;
+const priDoc: string = "        1ra doc        ";
+const segDoc: string = "        2da doc        ";
+const terDoc: string = "        3ra doc        ";
+
+
+const nrosTablero: number[] = [3,6,9,12,15,18,21,24,27,30,33,36,2,5,8,11,14,17,20,23,26,29,32,35,1,4,7,10,13,16,19,22,25,28,31,34];
+const distribucionTablero:string [] =   ["  3  ","  6  ","  9  "," 1 2 "," 1 5 "," 1 8 "," 2 1 "," 2 4 ",
+                                 " 2 7 "," 3 0 "," 3 3 "," 3 6 ","  2  ","  5  ","  8  "," 1 1 "," 1 4 "," 1 7 "," 2 0 "," 2 3 ",
+                                 " 2 6 "," 2 9 "," 3 2 "," 3 5 ","  1  ","  4  ","  7  "," 1 0 "," 1 3 "," 1 6 "," 1 9 "," 2 2 ",
+                                 " 2 5 "," 2 8 "," 3 1 "," 3 4 " ];
+
+const  colorRuleta = ["rojo","negro","rojo","rojo","negro","rojo","rojo",
+                      "negro","rojo","rojo","negro","rojo","negro","rojo","negro",
+                      "negro","rojo","negro","negro","rojo","negro","negro","rojo",
+                      "negro","rojo","negro","rojo","negro","negro","rojo","rojo",
+                      "negro","rojo","negro","negro","rojo"];
+
+
+
+
+const bordeSuperior: string =   "╔═════╦═════╦═════╦═════╦═════╦═════╦═════╦═════╦═════╦═════╦═════╦═════╦═════╗".green;
+
+//const primeraLinea: string =    "║   3 ║  6  ║  9  ║ 1 2 ║ 1 5 ║ 1 8 ║ 2 1 ║ 2 4 ║ 2 7 ║ 3 0 ║ 3 3 ║ 3 6 ║".blue;
+
+const lineaInternedia: string = "║".green+"     ".bgGreen+"╠═════╬═════╬═════╬═════╬═════╬═════╬═════╬═════╬═════╬═════╬═════╬═════╣".green;
+
+//const segundaLInea:string =     "║   2 ║  5  ║  8  ║ 1 1 ║ 1 4 ║ 1 7 ║ 2 0 ║ 2 3 ║ 2 5 ║ 2 9 ║ 3 2 ║ 3 5 ║".blue;
+
+//const lineaIntermedia string = ╠═════╬═════╬═════╬═════╬═════╬═════╬═════╬═════╬═════╬═════╬═════╬═════╣";
+
+const teceraLinea: string =     "║     ║  4  ║  7  ║ 1 0 ║ 1 3 ║ 1 6 ║ 1 9 ║ 2 2 ║ 2 4 ║ 2 8 ║ 3 1 ║ 3 4 ║".blue;
+
+const bordeInferior:string =    "║".green+"     ".bgGreen+"╠═════╩═════╩═════╩═════╬═════╩═════╩═════╩═════╬═════╩═════╩═════╩═════╣".green;
+
+const cuartaLinea: string =     "║".green+"     ".bgGreen+"║".green+(priDoc as any)[colorPriDoc]+"║".green+(segDoc as any)[colorSegDoc].white+"║".green+(terDoc as any)[colorTerDoc].white+"║".green;
+
+const quintaLinea: string =     "╚═════╩═══════════╦═══════════╬═══════════╦═══════════╬═══════════╦═══════════╝".green;
+
+const lineaParRojo: string =    "                  ║".green+(par as any)[colorPar]+"║".green+(rojo as any)[colorRojo] +"║"+(negro as any)[colorNegro]+"║".green+(impar as any)[colorImpar]+"║            ".green;
+
+const ultimaLinea: string =     "                  ╚═══════════╩═══════════╩═══════════╩═══════════╝            ".green;
+
+//console.log(bordeSuperior);
+
+// dibuja tablero recibe dos arreglos, uno con los nros y otro con color, par etc
+
+export function dibujaTablero(apuestaNumero: number[],apuestaColor: string[] ): void {
+
+    
+    console.clear();
+    console.log(PADIZQUIERDO+ bordeSuperior);
+    
+    armaLineaTablero(apuestaNumero);
+
+    //armaColorParDoc(apuestaColor)
+
+    console.log(PADIZQUIERDO+bordeInferior);
+    console.log(PADIZQUIERDO+cuartaLinea);
+    console.log(PADIZQUIERDO+quintaLinea);
+    console.log(PADIZQUIERDO+lineaParRojo);
+    console.log(PADIZQUIERDO+ultimaLinea);
+
+}
+
+
+function armaColorParDoc (colores:string[]): void {
+
+// por cada lugar del arreglo asigna fondo azul para lo apostado
+    const azul = `bgBlue`;
+
+    if (colores.length === 0) {return;}
+
+    colores.forEach(apuesta => {
+
+      if (apuesta === "rojo") { colorRojo = azul;}
+      if (apuesta === "negro") { colorNegro = azul;}
+      if (apuesta === "par") { colorPar = azul;}
+      if (apuesta === "impar") { colorImpar = azul;}
+      if (apuesta === "primera") { colorPriDoc = azul;}
+      if (apuesta === "segunda") { colorSegDoc = azul;}
+      if (apuesta === "tercera") { colorTerDoc = azul;}
+
+
+    })
+
+
+
+
+}
+
+
+
+
+function armaLineaTablero(apuesta:number[]): void  {
+
+const colorRuletaAux: string[] = [...colorRuleta]; // crea una copia auxiliar
+
+    apuesta.forEach(elemt => {
+
+        let indiceApuesta: number = nrosTablero.findIndex(apu =>  apu === elemt);
+        if (indiceApuesta != -1) {colorRuletaAux[indiceApuesta] = "verde";}
+    })
+
+
+
+const INICIO: string = "║".green;
+
+let inicio: string = "║".green+"     ".bgGreen +INICIO;
+
+
+distribucionTablero.forEach( a => {
+
+})
+
+distribucionTablero.forEach( (casillero, indice) => { 
+    
+    
+    if (colorRuletaAux[indice] === "verde") { 
+        casillero = casillero.bgBlue;}
+    else {
+        if (colorRuletaAux[indice] === "rojo") { 
+        casillero = casillero.white.bgRed;}
+        else {
+              casillero = casillero.bgBlack.white;}}
+       
+    inicio += casillero + INICIO;
+
+    if ((indice+1) % 12 === 0 && indice <= 37)  { 
+        console.log(PADIZQUIERDO+inicio);
+        if (indice < 30) { 
+
+
+            console.log(PADIZQUIERDO +lineaInternedia);inicio = "║".green+"     ".bgGreen+INICIO;}
+    }
+
+    })
 }
 
