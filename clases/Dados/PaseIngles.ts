@@ -1,11 +1,11 @@
-import { JuegoCasino } from "../../interfaz/juegoCasino";
+//import { JuegoCasino } from "../../interfaz/juegoCasino";
 import { Cliente } from "../Cliente";
 import * as funciones from "../../Funciones/funciones";
 import * as rls from "readline-sync";
 import "colors";
 import { Juego } from "../juego";
 
-export class PaseIngles extends Juego implements JuegoCasino{
+export class PaseIngles extends Juego {
     private dado1: number = 0;
     private dado2: number = 0;
     private punto: number = 0;
@@ -14,6 +14,7 @@ export class PaseIngles extends Juego implements JuegoCasino{
   
     constructor () {
         super();
+        this.setNombre("Pase Ingles");
         this.setApuestaMinima(100) ;
         this.setApuestaMaxima(10000);
         
