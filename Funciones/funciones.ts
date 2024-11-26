@@ -1,10 +1,6 @@
 import "colors";
 import * as rls from "readline-sync";
 
-
-
-
-
 // resuleve la logica de la seleccion de opciones conm manejo del error
 // servicio => es un aregllo que define las opciones y su texto y sirve para pasarlo a
 // pantalla menu para dibujarlo 

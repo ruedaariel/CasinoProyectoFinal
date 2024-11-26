@@ -2,6 +2,7 @@ import { TragamonedasClasico } from "./tragamonedas/TragamonedasClasico";
 import { TragamonedasTematico } from "./tragamonedas/TragamonedasTematico";
 import { Cliente } from "./Cliente";
 import * as rls from "readline-sync";
+import * as funciones from "../Funciones/funciones";
 // import { Ruleta } from "./ruleta/claseRuleta";
 // import { BlackJack } from "./Blackjack/blackjack";
 import { PaseIngles } from "./Dados/PaseIngles";
@@ -165,29 +166,42 @@ export class Casino {
           2
         );
       }
-      opcion = rls.question(
-        this.igualoCadena("", 31, " ") + "Seleccione una de las opciones:".green
+      opcion = rls.question(this.igualoCadena("", 31, " ") + "Seleccione una de las opciones:".green
       );
+      condicion = "1";
       switch (opcion) {
         case "1":
+          console.log("seleccionaste Tragamonedas Clásico");
+          while (parseInt(condicion)>0) {
+            this.tragamonedasClasico.apostar(jugador);
+            condicion = rls.question(funciones.igualoCadena("", 31, " ") + 'Si desea seguir apostando ingrese un número mayor a 0: '.green)
+          }
+          break;
+          case "2":
+            console.log("seleccionaste Tragamonedas Temático");
+            while (parseInt(condicion)>0) {
+              this.tragamonedasTematico.apostar(jugador);
+              condicion = rls.question(funciones.igualoCadena("", 31, " ") + 'Si desea seguir apostando ingrese un número mayor a 0: '.green)
+            }
+            break;
+        case "3":
           console.log("seleccionaste Blackjack");
           break;
-        case "2":
+        case "4":
           console.log("seleccionaste Ruleta");
           break;
-        case "3":
+        case "5":
           console.log("seleccionaste Dados");
-          
           while (parseInt(condicion)>0) {
             this.paseIngles.apostar(jugador);
             condicion = rls.question("Si desea seguir apostando ingrese un número mayor a 0: ")
-        }
+          }
           break;
-        case "4":
+        case "6":
           console.log("seleccionaste Cargar Crédito");
           this.cargarCredito(jugador);
           break;
-        case "5":
+        case "7":
           console.log("seleccionaste Administrar Usuario");
           break;
         case "0":
