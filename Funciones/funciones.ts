@@ -101,16 +101,16 @@ export function cierreSuperior(
   if (set === 1) {
     console.log(
       igualoCadena(" ", padIzquierdo, " ") +
-        "┌" +
-        igualoCadena("─", ancho, "─") +
-        "┐"
+      "┌" +
+      igualoCadena("─", ancho, "─") +
+      "┐"
     );
   } else {
     console.log(
       igualoCadena(" ", padIzquierdo, " ") +
-        "╔" +
-        igualoCadena("═", ancho, "═") +
-        "╗"
+      "╔" +
+      igualoCadena("═", ancho, "═") +
+      "╗"
     );
   }
 }
@@ -120,16 +120,16 @@ export function linea(padIzquierdo: number, ancho: number, set: number) {
   if (set === 1) {
     console.log(
       igualoCadena(" ", padIzquierdo, " ") +
-        "" +
-        igualoCadena("─", ancho, "─") +
-        ""
+      "" +
+      igualoCadena("─", ancho, "─") +
+      ""
     );
   } else {
     console.log(
       igualoCadena(" ", padIzquierdo, " ") +
-        "" +
-        igualoCadena("═", ancho, "═") +
-        ""
+      "" +
+      igualoCadena("═", ancho, "═") +
+      ""
     );
   }
 }
@@ -143,16 +143,16 @@ export function cierreInferior(
   if (set === 1) {
     console.log(
       igualoCadena(" ", padIzquierdo, " ") +
-        "└" +
-        igualoCadena("─", ancho, "─") +
-        "┘"
+      "└" +
+      igualoCadena("─", ancho, "─") +
+      "┘"
     );
   } else {
     console.log(
       igualoCadena(" ", padIzquierdo, " ") +
-        "╚" +
-        igualoCadena("═", ancho, "═") +
-        "╝"
+      "╚" +
+      igualoCadena("═", ancho, "═") +
+      "╝"
     );
   }
 }
@@ -167,16 +167,16 @@ export function armaLinea(
   if (set === 1) {
     console.log(
       igualoCadena(" ", padIzquierdo, " ") +
-        "│ " +
-        igualoCadena(texto, ancho - 1, " ").green +
-        "│"
+      "│ " +
+      igualoCadena(texto, ancho - 1, " ").green +
+      "│"
     );
   } else {
     console.log(
       igualoCadena(" ", padIzquierdo, " ") +
-        "║ " +
-        igualoCadena(texto, ancho - 1, " ").green +
-        "║"
+      "║ " +
+      igualoCadena(texto, ancho - 1, " ").green +
+      "║"
     );
   }
 }
@@ -207,16 +207,16 @@ export function armaLineaError(
   if (set === 1) {
     console.log(
       igualoCadena(" ", padIzquierdo, " ") +
-        "│ " +
-        igualoCadena(texto, ancho - 1, " ").red +
-        "│"
+      "│ " +
+      igualoCadena(texto, ancho - 1, " ").red +
+      "│"
     );
   } else {
     console.log(
       igualoCadena(" ", padIzquierdo, " ") +
-        "║ " +
-        igualoCadena(texto, ancho - 1, " ").red +
-        "║"
+      "║ " +
+      igualoCadena(texto, ancho - 1, " ").red +
+      "║"
     );
   }
 }
@@ -237,16 +237,16 @@ export function separador(padIzquierdo: number, ancho: number, set: number) {
   if (set === 1) {
     console.log(
       igualoCadena(" ", padIzquierdo, " ") +
-        "├" +
-        igualoCadena("─", ancho, "─") +
-        "┤"
+      "├" +
+      igualoCadena("─", ancho, "─") +
+      "┤"
     );
   } else {
     console.log(
       igualoCadena(" ", padIzquierdo, " ") +
-        "╠" +
-        igualoCadena("═", ancho, "═") +
-        "╣"
+      "╠" +
+      igualoCadena("═", ancho, "═") +
+      "╣"
     );
   }
 }
@@ -289,16 +289,16 @@ export function mensajeAlerta(mensaje: string, color: string): void {
   if (set === 1) {
     console.log(
       igualoCadena(" ", padIzquierdo, " ") +
-        "┌" +
-        igualoCadena("─", ancho + 2, "─") +
-        "┐"
+      "┌" +
+      igualoCadena("─", ancho + 2, "─") +
+      "┐"
     );
   } else {
     console.log(
       igualoCadena(" ", padIzquierdo, " ") +
-        "╔" +
-        igualoCadena("═", ancho + 2, "═") +
-        "╗"
+      "╔" +
+      igualoCadena("═", ancho + 2, "═") +
+      "╗"
     );
   }
 
@@ -314,16 +314,16 @@ export function mensajeAlerta(mensaje: string, color: string): void {
   if (set === 1) {
     console.log(
       igualoCadena(" ", padIzquierdo, " ") +
-        "└" +
-        igualoCadena("─", ancho + 2, "─") +
-        "┘"
+      "└" +
+      igualoCadena("─", ancho + 2, "─") +
+      "┘"
     );
   } else {
     console.log(
       igualoCadena(" ", padIzquierdo, " ") +
-        "╚" +
-        igualoCadena("═", ancho + 2, "═") +
-        "╝"
+      "╚" +
+      igualoCadena("═", ancho + 2, "═") +
+      "╝"
     );
   }
 }
@@ -411,7 +411,7 @@ export function dibujaUnDado(dado1: number, dado2: number): void {
 
   console.clear();
 
-  console.log("                               " );
+  console.log("                               ");
 
   const todosLosDadosAux: string[][] = [...todosLosDados];
   const dadoUno: string[] = [...todosLosDadosAux[dado1 - 1]];
