@@ -1,26 +1,21 @@
-import { JuegoCasino } from "../../interfaz/juegoCasino";
 import { Cliente } from "../Cliente";
 import * as rls from "readline-sync";
+import { Juego } from "../../clases/juego";
+import * as funciones from "../../Funciones/funciones"
 
-export abstract class Tragamonedas implements JuegoCasino {
-    protected nombre: string; //Nombre el tragamonedas
-    protected apuestaMinima: number = 0; //apuesta mínima del tragamonedas
+export abstract class Tragamonedas extends Juego {
     protected temaTambores: string[]; //iconos que componen los tragamonedas
     protected estructuraTambores: string[][]; //cantidad de tambores
     protected comodin: string //icono distintivo que suma mas puntos
-    protected apuestaMaxima: number = 0; //Pago máximo del tragamonedas
     private multiplicador: number; //Se usa en metodo pagar()
     private resultadoJuego: string[] = [] //Se usa en metodo Juego()
     private cantApostada: number; //Se usa en Apostar() y Pagar()
   
     constructor(nombre: string, apuestaMinima: number,apuestaMaxima: number, temaTambores: string[], estructuraTambores: string[][], comodin: string, multiplicador: number) {
-        if (nombre != undefined && nombre != "") {
-            this.nombre = nombre.trim();
-        } else {
-            this.nombre = "Tragamonedas";
-        }
-        this.apuestaMinima = apuestaMinima;
-        this.apuestaMaxima = apuestaMaxima
+        super();
+        this.setNombre(nombre);
+        this.setApuestaMinima(apuestaMinima);
+        this.setApuestaMaxima(apuestaMaxima);
         this.temaTambores = temaTambores;
         this.estructuraTambores = estructuraTambores; 
         this.comodin = comodin;
@@ -32,47 +27,22 @@ export abstract class Tragamonedas implements JuegoCasino {
         for (let i = 0; i < this.estructuraTambores.length; i++) { 
             this.estructuraTambores[i] = [...this.temaTambores, this.comodin]; 
         }
-    }
-        
-    public getNombre(): string {
-        return this.nombre;
-    }
-    public setNombre(value: string) {
-        if (value != undefined && value.trim() != "") {
-            this.nombre = value.trim();
-        }
-    }
-    public getApuestaMinima(): number {
-        return this.apuestaMinima;
-    }
-    public setApuestaMinima(value: number) {
-        if (value != undefined && value > 0) {
-            this.apuestaMinima = value;
-        }
-    }
-    public getApuestaMaxima(): number {
-        return this.apuestaMinima;
-    }
-    public setApuestaMaxima(value: number) {
-        if (value != undefined && value > 0) {
-            this.apuestaMinima = value;
-        }
-    }
-
+    } 
+ 
     public apostar(jugador: Cliente): void{ 
         let premio: number = 0; //Variable para asignar monto ganado en la jugada
         this.cantApostada = this.ingresarApuesta();
         if (this.cantApostada >= jugador.getACredito()) {
-            console.log(`La apuesta debe ser menor o igual a su credito de $ ${jugador.getACredito()}`);
+            funciones.mensajeAlerta(`La apuesta debe ser menor o igual a su credito de $ ${jugador.getACredito()}`, "Rojo")
         } else {
             jugador.setCredito(jugador.getACredito()-this.cantApostada);
-            console.log(`Tu crédito actual es de ${jugador.getACredito()}`)
-            console.log(`Apostando ${this.cantApostada} pesos...`); 
+            funciones.mensajeAlerta(`Tu crédito actual es de ${jugador.getACredito()}`,"Rojo");
+            funciones.mensajeAlerta(`Apostando ${this.cantApostada} pesos...`,"Azul"); 
             this.jugar();
             premio = this.pagar();
             jugador.setCredito(jugador.getACredito()+premio);
-            console.log(premio > 0 ? `¡Ganaste ${premio} pesos!` : `Lo siento, perdiste.`);
-            console.log(`Tu crédito actual es de ${jugador.getACredito()}`)
+            funciones.mensajeAlerta(premio > 0 ? `¡Ganaste ${premio} pesos!` : `Lo siento, perdiste.`, premio > 0? "Rojo" : "Azul");
+            funciones.mensajeAlerta(`Tu crédito actual es de ${jugador.getACredito()}`,"Rojo");
         }
     }
 
@@ -82,7 +52,7 @@ export abstract class Tragamonedas implements JuegoCasino {
             const indice = Math.floor(Math.random() * this.estructuraTambores[i].length);
             this.resultadoJuego.push(this.estructuraTambores[i][indice]);
         }
-        console.log(`Resultados: ${this.resultadoJuego.join(" | ")}`);
+        funciones.mensajeAlerta(`Resultados: ${this.resultadoJuego.join(" | ")}`,"Amarillo");
     }
 
     public pagar(): number {
@@ -115,11 +85,11 @@ export abstract class Tragamonedas implements JuegoCasino {
 
         do {
             console.clear();
-            console.log(`La apuesta puede variar entre ${this.apuestaMinima} y ${this.apuestaMaxima}`);
+            funciones.mensajeAlerta(`La apuesta puede variar entre ${this.apuestaMinima} y ${this.apuestaMaxima}`,"Amarillo");
             if (!errorEntrada) {
-                console.log(`Monto inválido. Debe ser un numero entre ${this.apuestaMinima} y ${this.apuestaMaxima}`);
+                funciones.mensajeAlerta(`Monto inválido. Debe ser un numero entre ${this.apuestaMinima} y ${this.apuestaMaxima}`,"Rojo");
             }
-            montoApuesta = rls.questionInt('Ingrese la apuesta (0: sale): ');
+            montoApuesta = rls.questionInt(funciones.igualoCadena("", 31, " ") + 'Ingrese el la apuesta (0: sale): '.green);
             if (!this.validarMontoApuesta(montoApuesta)) { 
                 errorEntrada = false; 
             }
