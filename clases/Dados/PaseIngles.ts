@@ -14,8 +14,9 @@ export class PaseIngles extends Juego implements JuegoCasino{
   
     constructor () {
         super();
-        this.apuestaMinima = 100;
-        this.apuestaMinima = 10000;
+        this.setApuestaMinima(100) ;
+        this.setApuestaMaxima(10000);
+        
     }
 
     public getGano(): boolean {
@@ -28,16 +29,16 @@ export class PaseIngles extends Juego implements JuegoCasino{
         console.log(`Dados: ${this.dado1} + ${this.dado2} = ${this.dado1 + this.dado2}`);
     }
 
-    public getApuestaMinima(): number {
-        return this.apuestaMinima;
-    }
-    public setApuestaMinima(value: number) {
-        if (value != undefined) {
-            this.apuestaMinima = value;
-        } else {
-            this.apuestaMinima = 0;
-        }
-    }
+    // public getApuestaMinima(): number {
+    //     return this.apuestaMinima;
+    // }
+    // public setApuestaMinima(value: number) {
+    //     if (value != undefined) {
+    //         this.apuestaMinima = value;
+    //     } else {
+    //         this.apuestaMinima = 0;
+    //     }
+    // }
 
     private inicializarNuevoJuego():void {
         this.dado1 = 0;
@@ -46,8 +47,10 @@ export class PaseIngles extends Juego implements JuegoCasino{
         this.punto = 0;
     }
     private validarMontoApuesta(valor: string, montoMinimo: number, montoMaximo: number): boolean {
-        return !isNaN(parseInt(valor)) && parseInt(valor) == 0 || parseInt(valor) >= montoMinimo && parseInt(valor) <= montoMaximo;  
+       // return !isNaN(parseInt(valor)) && parseInt(valor) == 0 || parseInt(valor) >= montoMinimo && parseInt(valor) <= montoMaximo; 
+       return !isNaN(parseInt(valor)) && (parseInt(valor) == 0 || (parseInt(valor) >= montoMinimo && parseInt(valor) <= montoMaximo));
     }
+    
 
     public ingresarApuesta(montoMinimo: number, montoMaximo: number): number {
         let montoApuesta: number;
@@ -55,9 +58,9 @@ export class PaseIngles extends Juego implements JuegoCasino{
         let errorEntrada: boolean = true
 
         do {
-            console.clear();
+           // console.clear();
             funciones.mensajeAlerta(`La apuesta puede variar entre ${this.apuestaMinima} y ${this.apuestaMaxima}`, "azul");
-           
+          
             // para evitar el scroll indefinido usamos una variable bool 
             if (!errorEntrada) {
                 funciones.mensajeAlerta(`Monto inválido. Debe ser un numero entre ${montoMinimo} y ${montoMaximo}`, "rojo");

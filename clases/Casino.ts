@@ -16,7 +16,7 @@ export class Casino {
   // ruleta : Ruleta;
   // blackjack : BlackJack;
   paseIngles: PaseIngles;
-  
+
   constructor() {
     this.tragamonedasClasico = new TragamonedasClasico();
     this.tragamonedasTematico = new TragamonedasTematico();
@@ -28,6 +28,9 @@ export class Casino {
   public abrirCasino(): void {
     let jugador: Cliente;
     this.clientes = this.leeDatos("./clases/datos/clientes.txt");
+    // ************************** recien agregado ******************
+    menu.mensajeAlerta("          🃏    BIENVENIDOS al CASINO     🃏          ", "verde");
+   // let caracter = rls.question(" Presione una tecla para continuar ...").blue;
     let dni: number = this.ingresarDni();
     let clienteIndex: number = this.existeDni(dni, this.clientes);
     if (dni !== 0) {
@@ -48,7 +51,7 @@ export class Casino {
     let errorEntrada: boolean = true;
 
     do {
-      console.clear();
+     // console.clear();
       menu.mensajeAlerta("Por favor, ingrese su DNI:", "azul");
       if (!errorEntrada) {
         menu.mensajeAlerta("DNI inválido. Debe ser un número.", "rojo");
@@ -129,6 +132,7 @@ export class Casino {
     console.clear();
     return creditoCliente;
   }
+
   public cargarCredito(jugador: Cliente): void {
     jugador.mostrarCliente();
     if (jugador) {
@@ -143,7 +147,7 @@ export class Casino {
 
   private mostrarMenu(jugador: Cliente): void {
     let opcion: string;
-    let condicion: string="";
+    let condicion: string = "";
     let errorIngreso: boolean = true;
     console.clear();
     const servicios: string[] = [
@@ -157,48 +161,64 @@ export class Casino {
       "0. Salir",
     ];
     do {
-      this.pantallaMenu(" Casino ", servicios, 30, 40, 2);
+      console.clear();
+      funciones.pantallaMenu("      CASINO ON-LINE ", servicios, 30, 40, 2);
       if (!errorIngreso) {
-        this.lineaConRecuadroError(
+        funciones.lineaConRecuadroError(
           30,
           "Opción inválida. Por favor, intente nuevamente",
           40,
           2
         );
       }
-      opcion = rls.question(this.igualoCadena("", 31, " ") + "Seleccione una de las opciones:".green
+      opcion = rls.question(
+        funciones.igualoCadena("", 31, " ") +
+          "Seleccione una de las opciones:".green
       );
       condicion = "1";
+      console.clear();
       switch (opcion) {
         case "1":
-          console.log("seleccionaste Tragamonedas Clásico");
-          while (parseInt(condicion)>0) {
+          menu.mensajeAlerta("          🍒    BIENVENIDOS TRAGAMONEDAS CLASICO    🍒          ", "verde");
+         // console.log("seleccionaste Tragamonedas Clásico");
+          while (parseInt(condicion) > 0) {
             this.tragamonedasClasico.apostar(jugador);
-            condicion = rls.question(funciones.igualoCadena("", 31, " ") + 'Si desea seguir apostando ingrese un número mayor a 0: '.green)
+            condicion = rls.question(
+              funciones.igualoCadena("", 31, " ") +
+                "Si desea seguir apostando ingrese un número mayor a 0: ".green
+            );
           }
           break;
-          case "2":
-            console.log("seleccionaste Tragamonedas Temático");
-            while (parseInt(condicion)>0) {
-              this.tragamonedasTematico.apostar(jugador);
-              condicion = rls.question(funciones.igualoCadena("", 31, " ") + 'Si desea seguir apostando ingrese un número mayor a 0: '.green)
-            }
-            break;
+        case "2":
+         // console.log("seleccionaste Tragamonedas Temático");
+         menu.mensajeAlerta("          🍀    BIENVENIDOS TRAGAMONEDAS TEMATICO    🍀          ", "verde");
+          while (parseInt(condicion) > 0) {
+            this.tragamonedasTematico.apostar(jugador);
+            condicion = rls.question(
+              funciones.igualoCadena("", 31, " ") +
+                "Si desea seguir apostando ingrese un numero mayor a 0: ".green
+            );
+          }
+          break;
         case "3":
+          menu.mensajeAlerta("          🃏    BIENVENIDOS A BLACKJACK    🃏          ", "verde");
           console.log("seleccionaste Blackjack");
           break;
         case "4":
+          menu.mensajeAlerta("          ⚪    BIENVENIDOS A RULETA    ⚪          ", "verde");
           console.log("seleccionaste Ruleta");
           break;
         case "5":
-          console.log("seleccionaste Dados");
-          while (parseInt(condicion)>0) {
+        //  console.log("seleccionaste Dados");
+        menu.mensajeAlerta("          🎲    BIENVENIDOS A PASE INGLES    🎲          ", "verde");
+          while (parseInt(condicion) > 0) {
             this.paseIngles.apostar(jugador);
-            condicion = rls.question("Si desea seguir apostando ingrese un número mayor a 0: ")
+            condicion = rls.question(funciones.igualoCadena("", 31, " ") + "Si desea seguir apostando ingrese un numero mayor a 0: ".green);
           }
           break;
         case "6":
-          console.log("seleccionaste Cargar Crédito");
+          menu.mensajeAlerta("          💵    BIENVENIDOS A CARGAR CREDITO    💵          ", "verde");
+         // console.log("seleccionaste Cargar Crédito");
           this.cargarCredito(jugador);
           break;
         case "7":
@@ -215,133 +235,6 @@ export class Casino {
     } while (opcion !== "0");
   }
 
-  private pantallaMenu(
-    titulo: string,
-    opciones: string[],
-    padIzquierdo: number,
-    ancho: number,
-    set: number
-  ): void {
-    this.lineaConRecuadro(padIzquierdo, titulo, ancho, set);
-    this.cierreSuperior(padIzquierdo, ancho, set);
-    opciones.forEach((element) => {
-      this.armaLinea(padIzquierdo, element, ancho, set);
-    });
-    this.cierreInferior(padIzquierdo, ancho, set);
-  }
-  private cierreSuperior(
-    padIzquierdo: number,
-    ancho: number,
-    set: number
-  ): void {
-    if (set === 1) {
-      console.log(
-        this.igualoCadena(" ", padIzquierdo, " ") +
-          "┌" +
-          this.igualoCadena("─", ancho, "─") +
-          "┐"
-      );
-    } else {
-      console.log(
-        this.igualoCadena(" ", padIzquierdo, " ") +
-          "╔" +
-          this.igualoCadena("═", ancho, "═") +
-          "╗"
-      );
-    }
-  }
-  private cierreInferior(
-    padIzquierdo: number,
-    ancho: number,
-    set: number
-  ): void {
-    if (set === 1) {
-      console.log(
-        this.igualoCadena(" ", padIzquierdo, " ") +
-          "└" +
-          this.igualoCadena("─", ancho, "─") +
-          "┘"
-      );
-    } else {
-      console.log(
-        this.igualoCadena(" ", padIzquierdo, " ") +
-          "╚" +
-          this.igualoCadena("═", ancho, "═") +
-          "╝"
-      );
-    }
-  }
-  private armaLinea(
-    padIzquierdo: number,
-    texto: string,
-    ancho: number,
-    set: number
-  ): void {
-    if (set === 1) {
-      console.log(
-        this.igualoCadena(" ", padIzquierdo, " ") +
-          "│ " +
-          this.igualoCadena(texto, ancho - 1, " ").green +
-          "│"
-      );
-    } else {
-      console.log(
-        this.igualoCadena(" ", padIzquierdo, " ") +
-          "║ " +
-          this.igualoCadena(texto, ancho - 1, " ").green +
-          "║"
-      );
-    }
-  }
-  private lineaConRecuadro(
-    padIzquierdo: number,
-    texto: string,
-    ancho: number,
-    set: number
-  ): void {
-    this.cierreSuperior(padIzquierdo, ancho, set);
-    this.armaLinea(padIzquierdo, texto, ancho, set);
-    this.cierreInferior(padIzquierdo, ancho, set);
-  }
-  private lineaConRecuadroError(
-    padIzquierdo: number,
-    texto: string,
-    ancho: number,
-    set: number
-  ): void {
-    this.cierreSuperior(padIzquierdo, ancho, set);
-    this.armaLineaError(padIzquierdo, texto, ancho, set);
-    this.cierreInferior(padIzquierdo, ancho, set);
-  }
-  private armaLineaError(
-    padIzquierdo: number,
-    texto: string,
-    ancho: number,
-    set: number
-  ): void {
-    if (set === 1) {
-      console.log(
-        this.igualoCadena(" ", padIzquierdo, " ") +
-          "│ " +
-          this.igualoCadena(texto, ancho - 1, " ").red +
-          "│"
-      );
-    } else {
-      console.log(
-        this.igualoCadena(" ", padIzquierdo, " ") +
-          "║ " +
-          this.igualoCadena(texto, ancho - 1, " ").red +
-          "║"
-      );
-    }
-  }
-  private igualoCadena(
-    cadena: string,
-    largo: number,
-    caracter: string
-  ): string {
-    return cadena.padEnd(largo, caracter);
-  }
 
   public grabaDatos(archivo: string, datos: Cliente[]): void {
     // Convertir los datos a JSON
