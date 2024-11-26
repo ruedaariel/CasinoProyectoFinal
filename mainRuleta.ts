@@ -7,7 +7,7 @@ import * as rls from "readline-sync";
 
 const ruleta:Ruleta = new Ruleta();
 let jugador:Cliente = new Cliente(17342282,"Ariel");
-jugador.setCredito(500);
+jugador.setCredito(1000);
 
 const apuestas: Apuesta[] = [];
 
