@@ -1,5 +1,5 @@
 // Tipo de apuesta que un jugador puede realizar
-export class ApuestaRuleta {
+export class Apuesta {
     
     // tipo puede ser "numero"  "color" "docena" "parOImpar"
     private tipo: string = "";

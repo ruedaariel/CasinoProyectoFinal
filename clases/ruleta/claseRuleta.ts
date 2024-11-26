@@ -11,12 +11,20 @@
     // Pleno	1 número	monto apostado x 36	
 
 import { JuegoCasino } from "../../interfaz/juegoCasino";
-import { ApuestaRuleta } from "./Apuesta";
+import { Apuesta } from "./Apuesta";
+import { Cliente } from "../Cliente" 
+import * as funciones from "../../Funciones/funciones"
+import "colors";
+import * as rls from "readline-sync";
 
 export class Ruleta implements JuegoCasino{
   
   private nrosRuleta: number[] = [];
   private colorRuleta: string[] = [];
+  private APUESTA_MINIMA: number = 100;
+  private APUESTA_MAXIMA: number = 1000;
+  private apuestas: Apuesta[] = [];
+
 
   public constructor() {
     this.nrosRuleta = [
@@ -24,11 +32,57 @@ export class Ruleta implements JuegoCasino{
       21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36,
     ];
 
-    this.colorRuleta = [ "verde","rojo","negro","rojo","negro","rojo","negro","rojo","negro","rojo",
+    this.colorRuleta = [ "rojo","negro","rojo","negro","rojo","negro","rojo","negro","rojo",
                          "negro","negro","rojo","negro","rojo","negro","rojo","negro","rojo","negro",
                          "rojo","negro","rojo","negro","rojo","negro","rojo","negro","rojo","negro",
                          "rojo","negro","rojo","negro","rojo","negro","rojo",];
   }
+
+public comenzarAJugar(jugador:Cliente): void {
+
+  let JugadorRuleta:Cliente = jugador;
+
+  if (!this.verificarCredito(jugador)) { return;} // retorno a casino
+
+  // jugador habilitado voy a apostar
+  this.apostar(JugadorRuleta);
+
+  
+
+  
+
+
+}
+
+private verificarCredito(jugador:Cliente): boolean {
+
+  if ((jugador.getACredito() < this.APUESTA_MINIMA)  || (jugador.getACredito() === 0)) { 
+    
+    funciones.mensajeAlerta(`El Cliente ${jugador.getNombre()} no dispone de saldo suficiente para apostar`,"rojo");
+    return false;} 
+  
+    return true;
+}
+
+// public apostar(jugador:Cliente): void {
+
+// console.clear();
+
+// }
+
+public jugar(): void{
+
+console.clear();
+
+}
+
+public pagar(): number {
+
+  return 4;
+}
+
+
+
 
   public tirarBolilla(): number {
     const numero = Math.floor(Math.random() * this.nrosRuleta.length);
@@ -42,7 +96,7 @@ export class Ruleta implements JuegoCasino{
   // retorna el monto ganado en cada apuesta
   // lo acumula y devuelve el monto total.
 
-public calcularGanacia (apuesta: ApuestaRuleta []): void {
+public calcularGanacia (apuesta: Apuesta []): void {
 
   let numero = this.tirarBolilla(); // numero que salio al tirar la bolilla
 
@@ -61,7 +115,7 @@ public calcularGanacia (apuesta: ApuestaRuleta []): void {
   // en funcion del tipo de apuesta evalua si hubo acierto o no
   // y ademas calcula el monto ganado en funcion de lo apostado
 
-  private evaluarApuesta(apuesta: ApuestaRuleta, bolilla: number): number {
+  private evaluarApuesta(apuesta: Apuesta, bolilla: number): number {
 
     let numero = this.tirarBolilla(); // numero que salio al tirar la bolilla
     let color = this.colorRuleta[numero]; // color del nro que salio
@@ -122,7 +176,72 @@ public calcularGanacia (apuesta: ApuestaRuleta []): void {
 
   }
 
+  public apostar(jugador:Cliente): void {
+
+    let opcion: string;
+    let errorIngreso: boolean = true;
+    console.clear();
   
+    const opcionesApuesta: string[] = ['1. Apuesta a Numero',
+      '2. Apuesta a Color',
+      '3. Apuesta a Par o Impar',
+      '4. Apuesta a Docena',
+      '0. Salir'];
+  
+    do {
+  
+      funciones.pantallaMenu( ` ${jugador.getNombre()} Tomamos su apuesta `, opcionesApuesta, 30, 40, 2);
+  
+  
+      if (!errorIngreso) { funciones.lineaConRecuadroError(30, "Opción inválida. Por favor, reinteinte", 40, 2); }
+  
+  
+  
+      opcion = rls.question(funciones.igualoCadena("", 31, " ") + "Seleccione una de las opciones:".green);
+  
+      switch (opcion) {
+        case "1":
+          
+          let numero: number = funciones.validarNumeroEntre("Apueste por un nro entre 0 y 36",0,36,0);
+          let apuestaN:number = funciones.validarNumeroEntre("apuesta",this.APUESTA_MINIMA,this.APUESTA_MAXIMA,jugador.getACredito());
+          jugador.setCredito(jugador.getACredito() - apuestaN);
+          console.log("***** " + jugador.getACredito());
+          funciones.stop();
+          this.apuestas.push(new Apuesta ("numero", numero.toString() , apuestaN));
+          
+          break;
+        case "2":
+          console.log("seleccionaste Opcion 2");
+          
+          break;
+        case "3":
+          console.log("seleccionaste Opcion 3");
+          
+          break;
+        case "4":
+          console.log("seleccionaste Opcion 4");
+          
+          break;
+        case "5":
+          console.log("seleccionaste Opcion 5");
+        case "0":
+          //salir
+    
+          break;
+        default:
+          errorIngreso = false;
+          console.clear();
+  
+          break;
+      }
+    } while (opcion !== "0");
+    console.log(this.apuestas);
+  }
+ 
+  
+
+
+
 }
 
 
