@@ -26,7 +26,10 @@ export class Ruleta extends Juego implements JuegoCasino{
   //private apuestaMaxima: number = 1000;
   private apuestas: Apuesta[] = [];
   private bolilla: number = 0;
-  private resultadoApuesta: number = 0;
+  private bolillaColor: string = ""
+  private bolillaPar: string = ""
+  private bolillaDocena: number = 0
+  
 
 
   public constructor() {
@@ -53,6 +56,16 @@ public comenzarAJugar(jugador:Cliente): void {
 
   if (!this.verificarCredito(jugador)) { return;} // retorno a casino
 
+  while (true){
+  
+    funciones.mensajeAlerta(`Bienvenido ${jugador.getNombre()} a la mesa de ruleta. Dispone de $${jugador.getACredito()}` + " para apostar","azul")
+        
+    funciones.mensajeAlerta(" -- Presionando cualquier tecla va a jugar -- . -- Pulsando 0 -- vuelve al casino ","azul");
+    let pausa: string = rls.question((funciones.igualoCadena("", 31, " ") + "Presione su opcion..."))
+
+    if (pausa === "0" ) {return;}
+
+
   // jugador habilitado voy a apostar
   this.apostar(JugadorRuleta);
 
@@ -65,10 +78,10 @@ public comenzarAJugar(jugador:Cliente): void {
   // actualizo el crédito del cliente.
   JugadorRuleta.setCredito(paraAcreditar);
 
-  console.log(" ******* -> " + paraAcreditar + " <- ******* ");
-  funciones.stop();
+  //console.log(" ******* -> " + paraAcreditar + " <- ******* ");
+  //funciones.stop();
 
-
+  }
 
 }
 
@@ -77,24 +90,14 @@ private verificarCredito(jugador:Cliente): boolean {
   if ((jugador.getACredito() < this.apuestaMinima)  || (jugador.getACredito() === 0)) { 
     
     funciones.mensajeAlerta(`El Cliente ${jugador.getNombre()} no dispone de saldo suficiente para apostar`,"rojo");
+    funciones.mensajeAlerta(`Puede volver al Casino para recargar credito. Muchas Gracias.`,"azul");
+    let pausa: string = rls.question((funciones.igualoCadena("", 31, " ") + "Presione una tecla ..."))
+    
     return false;} 
+    
   
     return true;
 }
-
-// public apostar(jugador:Cliente): void {
-
-// console.clear();
-
-// }
-
-/* public pagar(): number {
-
-  // actualizo crédito del cliente con el resultado de su apuesta
-
-
-  return 4;
-} */
 
   public tirarBolilla(): number {
     const numero = Math.floor(Math.random() * this.nrosRuleta.length);
@@ -113,15 +116,30 @@ public  jugar (): void {
   this.bolilla = this.tirarBolilla(); // numero que salio al tirar la bolilla
 
 }
+
 public pagar(): number {
 
   let apostado:number = 0;
   let montoGanado: number = 0;
 
-  this.apuestas.forEach(apuesta => { montoGanado += this.evaluarApuesta(apuesta,this.bolilla);
-                               apostado += apuesta.getCantidadApostada();});
+  console.clear();
 
-  console.log(`Apostaste ${apostado} y ganaste ${montoGanado}`);
+  this.apuestas.forEach(apuesta => { 
+    
+    montoGanado += this.evaluarApuesta(apuesta,this.bolilla);
+    apostado += apuesta.getCantidadApostada(); });
+
+
+    funciones.mensajeAlerta(funciones.igualoCadena(` Bolilla: -${this.bolilla}-  Color: "${this.bolillaColor}"  Par: "${this.bolillaPar}" Docena: "${this.bolillaDocena}" `,46, " "), "verde");
+
+    funciones.mensajeAlerta(funciones.igualoCadena("Lo apostado fue: ",46, " "),"azul");
+
+    funciones.mostrarResultadoApuesta (this.apuestas,apostado,montoGanado)
+
+    funciones.stop();
+
+
+  //console.log(`Apostaste ${apostado} y ganaste ${montoGanado}`);
 
   return montoGanado
 
@@ -136,67 +154,84 @@ public pagar(): number {
   private evaluarApuesta(apuesta: Apuesta, bolilla: number): number {
 
     //let numero = this.tirarBolilla(); // numero que salio al tirar la bolilla
-    let color = this.colorRuleta[bolilla]; // color del nro que salio
-    let docena = 0; // docena donde se encuentra el nro
+    this.bolillaColor = this.colorRuleta[bolilla]; // color del nro que salio
+    //let docena = 0; // docena donde se encuentra el nro
 
     let montoGanado = 0;
 
     if (bolilla / 12 - Math.trunc(bolilla / 12) === 0) {
-      docena = Math.trunc(bolilla / 12);
+      this.bolillaDocena = Math.trunc(bolilla / 12);
     } else {
-      docena = Math.floor(bolilla / 12) + 1;
+      this.bolillaDocena = Math.floor(bolilla / 12) + 1;
     }
 
-    let parOImpar = ""; // se almacena si par o impar el nro que salio
+    this.bolillaPar = ""; // se almacena si par o impar el nro que salio
 
     if (bolilla % 2 === 0) {
-      parOImpar = "par";
+      this.bolillaPar = "par";
     } else {
-      parOImpar = "impar";
+      this.bolillaPar = "impar";
     }
 
     // verifico si acerto con el nro apostado
     if (apuesta.getTipo().toLowerCase() === "numero" && bolilla === Number(apuesta.getValor())) {
 
       montoGanado += apuesta.getCantidadApostada() * 36;
-      console.log(` Tu apuesta por el nro ${apuesta.getValor()} resulto ganadora`);
+      apuesta.setResultadoApuesta(montoGanado);
+      //console.log(` Tu apuesta por el nro ${apuesta.getValor()} resulto ganadora`);
     }
 
     // verifico si acerto con el color apostado
-    if (apuesta.getTipo().toLowerCase() === "color" && color === apuesta.getValor()) {
+    if (apuesta.getTipo().toLowerCase() === "color" && this.bolillaColor === apuesta.getValor()) {
       
       montoGanado += apuesta.getCantidadApostada() * 2;
-      console.log(` Tu apuesta por el color ${apuesta.getValor()} resulto ganadora` );
+      apuesta.setResultadoApuesta(montoGanado);
+      //console.log(` Tu apuesta por el color ${apuesta.getValor()} resulto ganadora` );
     }
 
     // verifico si acerto con la docena
-    if (apuesta.getTipo().toLowerCase() === "docena" && docena === Number(apuesta.getValor())) {
+    if (apuesta.getTipo().toLowerCase() === "docena" && this.bolillaDocena === Number(apuesta.getValor())) {
 
       montoGanado += apuesta.getCantidadApostada() * 2;
-      console.log(` Tu apuesta por la docena ${apuesta.getValor()} resulto ganadora`);
+      apuesta.setResultadoApuesta(montoGanado);
+      //console.log(` Tu apuesta por la docena ${apuesta.getValor()} resulto ganadora`);
     }
     
     // verifico si acerto par o impar
-    if (apuesta.getTipo().toLowerCase() === "paroimpar" && parOImpar === apuesta.getValor()) {
+    if (apuesta.getTipo().toLowerCase() === "paroimpar" && this.bolillaPar === apuesta.getValor()) {
 
       montoGanado += apuesta.getCantidadApostada() * 2;
-      console.log(` Tu apuesta por par o impar ${apuesta.getValor()} resulto ganadora`);
+      apuesta.setResultadoApuesta(montoGanado);
+      //console.log(` Tu apuesta por par o impar ${apuesta.getValor()} resulto ganadora`);
     }
-    this.resultadoApuesta = montoGanado;
+    //this.resultadoApuesta = montoGanado;
     return montoGanado; // retor el resultado de la apuesta
 
   }
 
-  private mostrarApuesta (): string {
-
-    let apuestaANro:string = "Tu apuesta:";
+  private mostrarApuesta (): void {
+    
+    let contador:number = 1;
+    let separador: string = " a "
+    let apuestaANro1:string = "Tu apuesta: |";
+    let apuestaANro2:string = "| ";
     this.apuestas.forEach ( apuesta => {
 
-      apuestaANro += ` $${apuesta.getCantidadApostada()} al ${apuesta.getValor()} |`;
-      
+      if (apuesta.getTipo() === "numero") { separador = " al ";contador++;}
+      else {separador = " a ";contador++;}
+
+      if (contador <= 6) { apuestaANro1 += `$${apuesta.getCantidadApostada()}` + separador+`${apuesta.getValor()} |`;}
+      else {apuestaANro2 += `$${apuesta.getCantidadApostada()}` + separador+`${apuesta.getValor()} |`;}
+      //apuestaANro += `$${apuesta.getCantidadApostada()}` + separador+`${apuesta.getValor()} |`;
+          
     })
+
+    if (contador <= 6 ) {funciones.mensajeAlertaSinMarco(apuestaANro1,"amarillo");}
+    else {
+      funciones.mensajeAlertaSinMarco(apuestaANro1,"amarillo");
+      funciones.mensajeAlertaSinMarco(apuestaANro2,"amarillo");}
+    
   
-  return apuestaANro;
   
   }
   
@@ -220,7 +255,9 @@ public pagar(): number {
 
       if (this.apuestas.length != 0) {
         let cartel = this.mostrarApuesta();
-        funciones.mensajeAlerta(cartel,"amarillo");};
+        
+        }
+        
       
       if ( jugador.getACredito() === 0) { cartel = `${jugador.getNombre()} su saldo es $0. Finalice apuesta `.red }
       else { cartel = ` ${jugador.getNombre()} Tomamos su apuesta `}
@@ -282,6 +319,7 @@ public pagar(): number {
       }
     } while (opcion !== "0");
     //console.log(this.apuestas);
+    //funciones.stop()
   }
 
 
@@ -307,10 +345,4 @@ public pagar(): number {
 
   }
 
-
-
 }
-
-
-
-

@@ -1,6 +1,7 @@
 import "colors";
 import { error } from "console";
 import * as rls from "readline-sync";
+import { Apuesta } from "../clases/ruleta/Apuesta";
 
 
 
@@ -355,8 +356,8 @@ export function validarNumeroEntre(cartel:string,min: number, max: number, averi
 }
 
 export function stop(): void {
-
-  let pausa:string = rls.question("Pulsando una tecla sigue ...  ".green);
+ 
+  let pausa = rls.question(igualoCadena("", 28, " ") + `Presione una tecla ... `.green);
 }
 
 // valida la entrada de dos/tres cadenas
@@ -513,6 +514,8 @@ function armaLineaTablero(apuesta:number[]): void  {
 
 const colorRuletaAux: string[] = [...colorRuleta]; // crea una copia auxiliar
 
+
+    // establece un color ("verde") para todoa aquellos nros que tengan una apuesta realizada
     apuesta.forEach(elemt => {
 
         let indiceApuesta: number = nrosTablero.findIndex(apu =>  apu === elemt);
@@ -578,5 +581,78 @@ export function mensajeAlertaSinMarco(mensaje:string, color: string): void {
       console.log(igualoCadena(" ", padIzquierdo, " ") +  mensaje + " ");
  
   
+
+}
+
+//---------- muestra resultado de la apuesta  ---------------------
+
+export function mostrarResultadoApuesta (apuestas:Apuesta[], montoApostado:number,montoGanado:number):void {
+
+  let tabIzquierdo:string = igualoCadena(" ",26," ");
+  let lineaSuperior: string = tabIzquierdo +
+  igualoCadena(" ┌", 13, "─") + "┬" +
+  igualoCadena("─", 11, "─") + "┬" +
+  igualoCadena("─", 11, "─") + "┬" +
+  igualoCadena("─", 12, "─") + "┐";
+  //define linea inferior de titulo
+  let lineafinal: string = tabIzquierdo +
+  igualoCadena(" └", 13, "─") + "┴" +
+  igualoCadena("─", 11, "─") + "┴" +
+  igualoCadena("─", 11, "─") + "┴" +
+  igualoCadena("─", 12, "─") + "┘";
+
+  let lineafinalParcial: string = tabIzquierdo +
+  igualoCadena("  ", 13, " ") + " " +
+  igualoCadena(" ", 11, " ") + "└" +
+  igualoCadena("─", 11, "─") + "┴" +
+  igualoCadena("─", 12, "─") + "┘";
+
+  let lineaInferior: string = tabIzquierdo +
+  igualoCadena(" ├", 13, "─") + "┼" +
+  igualoCadena("─", 11, "─") + "┼" +
+  igualoCadena("─", 11, "─") + "┼" +
+  igualoCadena("─", 12, "─") + "┤";
+
+  let lineaInferiorParcial: string = tabIzquierdo +
+  igualoCadena(" └", 13, "─") + "┴" +
+  igualoCadena("─", 11, "─") + "┼" +
+  igualoCadena("─", 11, "─") + "┼" +
+  igualoCadena("─", 12, "─") + "┤";
+  
+  // define linea que enzabeza el listado                            
+  let lineaEncabezado: string = tabIzquierdo + " │ " +
+  igualoCadena("Tipo ", 9, " ").blue + " │ " +
+  igualoCadena("Valor  ", 9, " ").blue + " │ " +
+  igualoCadena("Apostado ", 6, " ").blue + " │ " +
+  igualoCadena("Resultado ",11, " ").blue+ "│"; 
+  
+  console.log(lineaSuperior);
+  console.log(lineaEncabezado);
+  //console.log(lineaIntermedia);
+  console.log(lineaInferior);
+  
+  apuestas.forEach(apuesta => { 
+  
+    //montoGanado += this.evaluarApuesta(apuesta,this.bolilla);
+    //apostado += apuesta.getCantidadApostada();
+    let lineaImprimir: string = tabIzquierdo + " │ " +
+    igualoCadena(apuesta.getTipo(), 9, " ").yellow + " │ " +
+    igualoCadena(apuesta.getValor().toString(), 9, " ").yellow + " │ " +
+    igualoCadena(apuesta.getCantidadApostada().toString(), 9, " ").yellow + " │ " +
+    igualoCadena(apuesta.getResultadoApuesta().toString(), 11, " ").yellow + "│";
+
+  console.log(lineaImprimir);      
+                                });
+  
+  let lineaResultado: string = tabIzquierdo + "   " +
+  igualoCadena(" ", 9, " ").yellow + "  " +
+  igualoCadena(" ", 10, " ").yellow + " │ " +
+  igualoCadena(montoApostado.toString(), 9, " ").red + " │ " +
+  igualoCadena(montoGanado.toString(), 11, " ").green + "│";
+
+  console.log(lineaInferiorParcial);
+  console.log(lineaResultado);
+
+  console.log(lineafinalParcial);
 
 }
