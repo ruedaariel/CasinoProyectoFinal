@@ -5,12 +5,14 @@ export class Apuesta {
     private tipo: string = "";
     private valor: string = ""; // El valor depende del tipo de apuesta number, string, string
     private cantidadApostada: number = 0; // Cantidad apostada
+    private resultadoApuesta: number = 0; // alamacena el monto que gano
 
     public constructor (tipo: string, valor: string, cantidadApostada: number){
 
       this.tipo = tipo;
       this.valor = valor;
       this.cantidadApostada = cantidadApostada;
+      
 
     }
 
@@ -28,6 +30,18 @@ export class Apuesta {
   public setCantidadApostada (cantidadApostada:number): void {
 
     this.cantidadApostada = cantidadApostada;
+
+  }
+
+  public setResultadoApuesta (monto:number): void {
+
+    this.resultadoApuesta = monto;
+
+  }
+
+  public getResultadoApuesta (): number {
+
+    return this.resultadoApuesta;
 
   }
 
