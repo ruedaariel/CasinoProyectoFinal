@@ -76,7 +76,7 @@ public comenzarAJugar(jugador:Cliente): void {
   let paraAcreditar: number = this.pagar();
 
   // actualizo el crédito del cliente.
-  JugadorRuleta.setCredito(paraAcreditar);
+  JugadorRuleta.setCredito(jugador.getACredito() - paraAcreditar);
 
   //console.log(" ******* -> " + paraAcreditar + " <- ******* ");
   //funciones.stop();
