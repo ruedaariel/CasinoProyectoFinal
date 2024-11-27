@@ -199,10 +199,10 @@ export class Casino {
           this.repetirUnJuego(2,jugador); //VER COMO SE INICIA BLACKJACK
           break;
         case "4":
-          Funciones.mensajeAlerta("          ⚪    BIENVENIDOS A RULETA    ⚪          ", "verde");
+          Funciones.mensajeAlerta("              BIENVENIDOS A RULETA              ", "verde");
           this.leerArchivoInstrucciones("./clases/datos/ruleta.txt", "Ruleta");
           this.repetirUnJuego(3,jugador);
-         // this.juegos[3].comenzarAJugar(jugador);
+        
           break;
         case "5":
           Funciones.mensajeAlerta("          🎲    BIENVENIDOS A PASE INGLES    🎲          ", "verde");
@@ -238,12 +238,13 @@ export class Casino {
     while (parseInt(condicion) > 0) {
       if (indice == 3) {
          // this.juegos[3].comenzarAJugar(jugador);
+         (this.juegos[2] as Ruleta).comenzarAJugar(jugador);
       } else {
         this.juegos[indice].apostar(jugador);
       }
       condicion = rls.question(
         Funciones.igualoCadena("", 31, " ") +
-        `\n Si desea seguir apostando a ${this.juegos[indice].getNombre()}, presione un numero mayor a 0`.green
+        `\n Si desea seguir apostando a ${this.juegos[indice].getNombre()}, presione un numero mayor a 0  `.green
       );
     }
   }
