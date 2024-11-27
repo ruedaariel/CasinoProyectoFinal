@@ -8,13 +8,13 @@ Apuestas:
         Apostar a par o impar.
         Apostar a Docena
 
-    Los jugadores hacen sus apuestas eligiendo una o varias de las 
-    opciones propuestas en el menu.
-    Puede hacer la cantidad de apuestas que deseen, hasta el limite
-    de su crédito
-
-    Se hace girar la ruleta y se obtiene el numero ganador.
-
-    En funcion del numero ganador se paga la apuesta hecha.
+    + Los jugadores hacen sus apuestas eligiendo una o varias de las 
+      opciones propuestas en el menu.
+    + Puede hacer la cantidad de apuestas que deseen, hasta el limite
+      de su crédito
+    + Las apuestas tienen un Minimo y un Maximo que se informan
+      al inicio del juego.
+    + Se hace girar la ruleta y se obtiene el numero ganador.
+    + En funcion del numero ganador se paga la apuesta hecha.
 
 -----------------------------------------------------------------------

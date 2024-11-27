@@ -59,11 +59,15 @@ public comenzarAJugar(jugador:Cliente): void {
   while (true){
   
     funciones.mensajeAlerta(`Bienvenido ${jugador.getNombre()} a la mesa de ruleta. Dispone de $${jugador.getACredito()}` + " para apostar","azul")
+    funciones.mensajeAlerta(`Las apuestas permitidas son un minimo de $${this.apuestaMinima} y un maximo de $${this.apuestaMaxima} `,"amarillo");
+
         
     funciones.mensajeAlerta(" -- Presionando cualquier tecla va a jugar -- . -- Pulsando 0 -- vuelve al casino ","azul");
     let pausa: string = rls.question((funciones.igualoCadena("", 31, " ") + "Presione su opcion..."))
 
     if (pausa === "0" ) {return;}
+
+    this.apuestas = [];  // asegur tener vacio el arreglo de apuestas
 
 
   // jugador habilitado voy a apostar
