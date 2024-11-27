@@ -34,7 +34,7 @@ export class Cliente {
       this.credito = value;
     }
   }
-  public mostrarCliente(): void {
-    console.log("Nombre: " + this.nombre + "Credito: " + this.credito);
+  public mostrarCliente(): string {
+    return ("   Dni: "+ this.dni+"   Nombre: " + this.nombre + "    Credito: " + this.credito);
   }
 }
