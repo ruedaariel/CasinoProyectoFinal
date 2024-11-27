@@ -216,7 +216,6 @@ public pagar(): number {
   
     do {
 
-
       this.preparaDatosTablero();
 
       if (this.apuestas.length != 0) {
@@ -226,9 +225,7 @@ public pagar(): number {
       if ( jugador.getACredito() === 0) { cartel = `${jugador.getNombre()} su saldo es $0. Finalice apuesta `.red }
       else { cartel = ` ${jugador.getNombre()} Tomamos su apuesta `}
 
-      this.preparaDatosTablero();
-
-      funciones.pantallaMenu(cartel, opcionesApuesta, 30, 40, 2);
+     funciones.pantallaMenu(cartel, opcionesApuesta, 30, 40, 2);
 
       let CreditoParApostar: string = ` Dispone de $${ jugador.getACredito()} `;
   
