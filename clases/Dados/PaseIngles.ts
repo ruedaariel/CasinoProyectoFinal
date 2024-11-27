@@ -27,19 +27,8 @@ export class PaseIngles extends Juego {
     private tirarDados(): void {
         this.dado1 = Math.floor(Math.random() * 6) + 1;
         this.dado2 = Math.floor(Math.random() * 6) + 1;
-        console.log(`Dados: ${this.dado1} + ${this.dado2} = ${this.dado1 + this.dado2}`);
+       
     }
-
-    // public getApuestaMinima(): number {
-    //     return this.apuestaMinima;
-    // }
-    // public setApuestaMinima(value: number) {
-    //     if (value != undefined) {
-    //         this.apuestaMinima = value;
-    //     } else {
-    //         this.apuestaMinima = 0;
-    //     }
-    // }
 
     private inicializarNuevoJuego():void {
         this.dado1 = 0;
@@ -97,7 +86,7 @@ export class PaseIngles extends Juego {
                     funciones.mensajeAlerta("Lo siento, has perdido esta vez. 😢 ¡No te rindas, inténtalo de nuevo!", "amarillo")
                 }
                 funciones.mensajeAlerta(`Saldo actual: ${jugador.getACredito()}$`, "verde"); //muestra el credito que le quedó al jugador
-                let caracter = rls.question(" Presione una tecla para continuar ...").blue;
+                let caracter = rls.question("\n Presione una tecla para continuar ...").blue;
             }
         }
     }
@@ -108,7 +97,9 @@ export class PaseIngles extends Juego {
         console.clear();
         funciones.mensajeAlerta("Estas en el Tiro de Salida","azul");
         this.tirarDados();
+        
         funciones.dibujaUnDado(this.dado1, this.dado2);
+        funciones.mensajeAlertaSinMarco(`Dados: ${this.dado1} + ${this.dado2} = ${this.dado1 + this.dado2}`, "azul");
         if (this.dado1 + this.dado2 == 7 || this.dado1 + this.dado2 == 11) { //gana con 7 u 11
             this.gano = true;
         } else {
@@ -122,11 +113,15 @@ export class PaseIngles extends Juego {
             if (this.punto != 0) { //si ya ganó o perdió, el punto queda en 0
                 let salida: string = "SIGUE";
                 do {
-                    let caracter = rls.question(" Presione una tecla para continuar ...").blue;
+                    let caracter = rls.question(" \n Presione una tecla para continuar ...").blue;
                     console.clear();
-                    funciones.mensajeAlerta(`Sigues jugando \n Estas en Tiro de Punto \n tu numero de Punto es ${this.punto} `,"azul");
+                    
                     this.tirarDados();
                     funciones.dibujaUnDado(this.dado1, this.dado2);
+                    funciones.mensajeAlertaSinMarco(`Dados: ${this.dado1} + ${this.dado2} = ${this.dado1 + this.dado2}`, "azul");
+                   
+                    
+                    
                     if (this.dado1 + this.dado2 == this.punto) { //gana cuando sale el punto
                         this.gano = true;
                         salida = "GANO";
@@ -135,7 +130,8 @@ export class PaseIngles extends Juego {
                             this.gano = false;
                             salida = "PERDIO"
                         } else {
-                            console.log(`Continúa tirando para alcanzar el punto ${this.punto}`);
+                            funciones.mensajeAlertaSinMarco(`\n \n Sigues jugando ...`, "amarillo");
+                            funciones.mensajeAlertaSinMarco(`\n Estas en Tiro de Punto \n tu numero de Punto es ${this.punto} `  ,"azul");
                         }
                     }
 
