@@ -112,8 +112,10 @@ export class PaseIngles extends Juego {
             // jugada de punto
             if (this.punto != 0) { //si ya ganó o perdió, el punto queda en 0
                 let salida: string = "SIGUE";
+                let caracter = rls.question("\n No ganaste, no perdiste ... sigues jugando ...   \n\n Presione una tecla para continuar ...".yellow);
                 do {
-                   // let caracter = rls.question(" \n Presione una tecla para continuar ...").blue;
+                  
+                   
                     console.clear();
                     funciones.mensajeAlerta(`Estas en el Tiro de Punto, con ${this.punto}, ganás`,"azul");
                     this.tirarDados();
@@ -131,7 +133,7 @@ export class PaseIngles extends Juego {
                             salida = "PERDIO"
                         } else {
                             //funciones.mensajeAlertaSinMarco(`\n \n Sigues jugando ...`, "amarillo");
-                            let caracter = rls.question("\n  Sigues jugando ...   \n Presione una tecla para continuar ...".yellow);
+                            let caracter = rls.question("\n  Sigues jugando ...   \n\n Presione una tecla para continuar ...".yellow);
                         }
                     }
 
