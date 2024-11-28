@@ -436,50 +436,60 @@ const  colorRuleta = ["rojo","negro","rojo","rojo","negro","rojo","rojo",
                       "negro","rojo","negro","rojo","negro","negro","rojo","rojo",
                       "negro","rojo","negro","negro","rojo"];
 
+let esCero: string = "     ".bgGreen;
+let cero: string [] = ["╔════".green,"║".green+esCero,"║".green+esCero,"╚═════".green,"                  "];
 
 
-
-const bordeSuperior: string =   "╔═════╦═════╦═════╦═════╦═════╦═════╦═════╦═════╦═════╦═════╦═════╦═════╦═════╗".green;
-
-//const primeraLinea: string =    "║   3 ║  6  ║  9  ║ 1 2 ║ 1 5 ║ 1 8 ║ 2 1 ║ 2 4 ║ 2 7 ║ 3 0 ║ 3 3 ║ 3 6 ║".blue;
-
-const lineaInternedia: string = "║".green+"     ".bgGreen+"╠═════╬═════╬═════╬═════╬═════╬═════╬═════╬═════╬═════╬═════╬═════╬═════╣".green;
-
-//const segundaLInea:string =     "║   2 ║  5  ║  8  ║ 1 1 ║ 1 4 ║ 1 7 ║ 2 0 ║ 2 3 ║ 2 5 ║ 2 9 ║ 3 2 ║ 3 5 ║".blue;
-
-//const lineaIntermedia string = ╠═════╬═════╬═════╬═════╬═════╬═════╬═════╬═════╬═════╬═════╬═════╬═════╣";
-
-const teceraLinea: string =     "║     ║  4  ║  7  ║ 1 0 ║ 1 3 ║ 1 6 ║ 1 9 ║ 2 2 ║ 2 4 ║ 2 8 ║ 3 1 ║ 3 4 ║".blue;
-
-const bordeInferior:string =    "║".green+"     ".bgGreen+"╠═════╩═════╩═════╩═════╬═════╩═════╩═════╩═════╬═════╩═════╩═════╩═════╣".green;
-
-const cuartaLinea: string =     "║".green+"     ".bgGreen+"║".green+(priDoc as any)[colorPriDoc]+"║".green+(segDoc as any)[colorSegDoc].white+"║".green+(terDoc as any)[colorTerDoc].white+"║".green;
-
-const quintaLinea: string =     "╚═════╩═══════════╦═══════════╬═══════════╦═══════════╬═══════════╦═══════════╝".green;
-
-const lineaParRojo: string =    "                  ║".green+(par as any)[colorPar]+"║".green+(rojo as any)[colorRojo] +"║"+(negro as any)[colorNegro]+"║".green+(impar as any)[colorImpar]+"║            ".green;
-
-const ultimaLinea: string =     "                  ╚═══════════╩═══════════╩═══════════╩═══════════╝            ".green;
-
-//console.log(bordeSuperior);
+let bordeSuperior: string =   cero[0]+"═╦═════╦═════╦═════╦═════╦═════╦═════╦═════╦═════╦═════╦═════╦═════╦═════╗".green;
+let lineaInternedia: string = "║".green+esCero+"╠═════╬═════╬═════╬═════╬═════╬═════╬═════╬═════╬═════╬═════╬═════╬═════╣".green;
+let teceraLinea: string =     "║     ║  4  ║  7  ║ 1 0 ║ 1 3 ║ 1 6 ║ 1 9 ║ 2 2 ║ 2 4 ║ 2 8 ║ 3 1 ║ 3 4 ║".blue;
+let bordeInferior:string =    "║".green+`${esCero}`+"╠═════╩═════╩═════╩═════╬═════╩═════╩═════╩═════╬═════╩═════╩═════╩═════╣".green;
+let cuartaLinea: string =     cero[2]+"║".green+(priDoc as any)[colorPriDoc]+"║".green+(segDoc as any)[colorSegDoc].white+"║".green+(terDoc as any)[colorTerDoc].white+"║".green;
+let quintaLinea: string =     cero[3]+"╩═══════════╦═══════════╬═══════════╦═══════════╬═══════════╦═══════════╝".green;
+let lineaParRojo: string =    cero[4]+"║".green+(par as any)[colorPar]+"║".green+(rojo as any)[colorRojo] +"║"+(negro as any)[colorNegro]+"║".green+(impar as any)[colorImpar]+"║            ".green;
+let ultimaLinea: string =     "                  ╚═══════════╩═══════════╩═══════════╩═══════════╝            ".green;
 
 // dibuja tablero recibe dos arreglos, uno con los nros y otro con color, par etc
+function salioCero(apuestaNumero:number[]): void {
+
+  
+  let indiceApuesta: number = apuestaNumero.findIndex(apu =>  apu === 0);
+  if (indiceApuesta != -1) { esCero = "     ".bgBlue;}
+
+  cero = ["╔════".green,"║".green+esCero,"║".green+esCero,"╚═════".green,"                  "];
+  
+  bordeSuperior =   cero[0]+"═╦═════╦═════╦═════╦═════╦═════╦═════╦═════╦═════╦═════╦═════╦═════╦═════╗".green;
+  lineaInternedia = "║".green+`${esCero}`+"╠═════╬═════╬═════╬═════╬═════╬═════╬═════╬═════╬═════╬═════╬═════╬═════╣".green;
+  teceraLinea =     "║     ║  4  ║  7  ║ 1 0 ║ 1 3 ║ 1 6 ║ 1 9 ║ 2 2 ║ 2 4 ║ 2 8 ║ 3 1 ║ 3 4 ║".blue;
+  bordeInferior =    "║".green+`${esCero}`+"╠═════╩═════╩═════╩═════╬═════╩═════╩═════╩═════╬═════╩═════╩═════╩═════╣".green;
+  cuartaLinea =     cero[2]+"║".green+(priDoc as any)[colorPriDoc]+"║".green+(segDoc as any)[colorSegDoc].white+"║".green+(terDoc as any)[colorTerDoc].white+"║".green;
+  quintaLinea =     cero[3]+"╩═══════════╦═══════════╬═══════════╦═══════════╬═══════════╦═══════════╝".green;
+  lineaParRojo =    cero[4]+"║".green+(par as any)[colorPar]+"║".green+(rojo as any)[colorRojo] +"║"+(negro as any)[colorNegro]+"║".green+(impar as any)[colorImpar]+"║            ".green;
+  ultimaLinea =     "                  ╚═══════════╩═══════════╩═══════════╩═══════════╝            ".green;
+
+}
+
 
 export function dibujaTablero(apuestaNumero: number[],apuestaColor: string[] ): void {
 
-    
+    // veo si salio 0 e inicializo las variables
+    armaColorParDoc(apuestaColor);
+    salioCero(apuestaNumero);
+     
+
     armaColorParDoc(apuestaColor);
     console.clear();
+
     console.log(PADIZQUIERDO+ bordeSuperior);
-    
+   
     armaLineaTablero(apuestaNumero);
 
     console.log(PADIZQUIERDO+bordeInferior);
-    console.log( PADIZQUIERDO+"║".green+"     ".bgGreen+"║".green+(priDoc as any)[colorPriDoc]+"║".green+(segDoc as any)[colorSegDoc].white+"║".green+(terDoc as any)[colorTerDoc].white+"║".green)
-    //console.log(PADIZQUIERDO+cuartaLinea);
+    console.log (PADIZQUIERDO+cuartaLinea);
+    //console.log (PADIZQUIERDO+cero[2]+"║".green+(priDoc as any)[colorPriDoc]+"║".green+(segDoc as any)[colorSegDoc].white+"║".green+(terDoc as any)[colorTerDoc].white+"║".green)
     console.log(PADIZQUIERDO+quintaLinea);
-    console.log(PADIZQUIERDO+"                  ║".green+(par as any)[colorPar]+"║".green+(rojo as any)[colorRojo] +"║"+(negro as any)[colorNegro]+"║".green+(impar as any)[colorImpar]+"║            ".green)
-    //console.log(PADIZQUIERDO+lineaParRojo);
+    //console.log(PADIZQUIERDO+"                  ║".green+(par as any)[colorPar]+"║".green+(rojo as any)[colorRojo] +"║"+(negro as any)[colorNegro]+"║".green+(impar as any)[colorImpar]+"║            ".green)
+    console.log(PADIZQUIERDO+lineaParRojo);
     console.log(PADIZQUIERDO+ultimaLinea);
     
 }
@@ -505,37 +515,29 @@ function armaColorParDoc (colores:string[]): void {
 
     })
 
-
-
-
 }
 
 function armaLineaTablero(apuesta:number[]): void  {
 
 const colorRuletaAux: string[] = [...colorRuleta]; // crea una copia auxiliar
 
-
-    // establece un color ("verde") para todoa aquellos nros que tengan una apuesta realizada
+    // establece un color ("verde") para todos aquellos nros que tengan una apuesta realizada
     apuesta.forEach(elemt => {
 
         let indiceApuesta: number = nrosTablero.findIndex(apu =>  apu === elemt);
         if (indiceApuesta != -1) {colorRuletaAux[indiceApuesta] = "verde";}
+        
+
     })
 
 
 
 const INICIO: string = "║".green;
 
-let inicio: string = "║".green+"     ".bgGreen +INICIO;
-
-
-distribucionTablero.forEach( a => {
-
-})
+let inicio: string = cero[1]+INICIO;
 
 distribucionTablero.forEach( (casillero, indice) => { 
-    
-    
+ 
     if (colorRuletaAux[indice] === "verde") { 
         casillero = casillero.bgBlue;}
     else {
@@ -549,9 +551,8 @@ distribucionTablero.forEach( (casillero, indice) => {
     if ((indice+1) % 12 === 0 && indice <= 37)  { 
         console.log(PADIZQUIERDO+inicio);
         if (indice < 30) { 
-
-
-            console.log(PADIZQUIERDO +lineaInternedia);inicio = "║".green+"     ".bgGreen+INICIO;}
+            console.log(PADIZQUIERDO +lineaInternedia);inicio = cero[2]+INICIO;}
+            
     }
 
     })

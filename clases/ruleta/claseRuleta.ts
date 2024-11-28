@@ -106,7 +106,8 @@ private verificarCredito(jugador:Cliente): boolean {
   public tirarBolilla(): number {
     const numero = Math.floor(Math.random() * this.nrosRuleta.length);
 
-    return numero;
+     return numero;
+    //return 0;
   }
 
   // funcion calcular ganancia recibe un arreglo de apuestas armado en el casino
@@ -133,8 +134,8 @@ public pagar(): number {
     montoGanado += this.evaluarApuesta(apuesta,this.bolilla);
     apostado += apuesta.getCantidadApostada(); });
 
-
-    funciones.mensajeAlerta(funciones.igualoCadena(` Bolilla: -${this.bolilla}-  Color: "${this.bolillaColor}"  Par: "${this.bolillaPar}" Docena: "${this.bolillaDocena}" `,46, " "), "verde");
+    let resultadoBolilla:string = funciones.igualoCadena(" Bolilla: -> "+`${this.bolilla}`+" <-  -> "+`${this.bolillaColor}`+" <- -> "+`${this.bolillaPar}`+" <- -> "+`${this.bolillaDocena} <-`,46, " ");
+    funciones.mensajeAlerta(resultadoBolilla, "amarillo");
 
     funciones.mensajeAlerta(funciones.igualoCadena("Lo apostado fue: ",46, " "),"azul");
 
@@ -182,6 +183,14 @@ public pagar(): number {
 
       montoGanado += apuesta.getCantidadApostada() * 36;
       apuesta.setResultadoApuesta(montoGanado);
+
+      // si bolilla es 0 retorno lo que gano en nro, el resto se anula
+      if (bolilla === 0) { 
+        
+        this.bolillaColor = " ";
+        this.bolillaPar = " ";
+        this.bolillaDocena = 0;          
+        return montoGanado;}
       //console.log(` Tu apuesta por el nro ${apuesta.getValor()} resulto ganadora`);
     }
 
