@@ -240,7 +240,7 @@ export class Casino {
         this.juegos[indice].apostar(jugador);
       }
       condicion = rls.question(
-        Funciones.igualoCadena("\n", 31, " ") +
+        Funciones.igualoCadena("\n", 20, " ") +
         ` Si desea seguir apostando a ${this.juegos[indice].getNombre()}, presione un numero mayor a 0  `.green);
       console.clear();
     }
