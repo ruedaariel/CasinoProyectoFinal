@@ -56,7 +56,7 @@ export class PaseIngles extends Juego {
                 funciones.mensajeAlerta(`Monto inválido. Debe ser un numero entre ${montoMinimo} y ${montoMaximo}`, "rojo");
             }
 
-            montoApuestaString = rls.question(funciones.igualoCadena("", 31, " ") + 'Ingrese el la apuesta (0: sale): '.green);
+            montoApuestaString = rls.question(funciones.igualoCadena("\n", 31, " ") + 'Ingrese el la apuesta (0: sale): '.green);
             montoApuesta = parseInt(montoApuestaString); //convierte a numero
             if (!this.validarMontoApuesta(montoApuestaString, montoMinimo, montoMaximo)) { errorEntrada = false; }
 
@@ -83,10 +83,10 @@ export class PaseIngles extends Juego {
                     jugador.setCredito(saldoExistente + montoaPagar);//le acredita el premio
 
                 } else {
-                    funciones.mensajeAlerta("Lo siento, has perdido esta vez. 😢 ¡No te rindas, inténtalo de nuevo!", "amarillo")
+                    funciones.mensajeAlerta(`Lo siento ${jugador.getNombre()} , has perdido esta vez. 😢 ¡No te rindas, inténtalo de nuevo!`, "amarillo")
                 }
                 funciones.mensajeAlerta(`Saldo actual: ${jugador.getACredito()}$`, "verde"); //muestra el credito que le quedó al jugador
-                let caracter = rls.question("\n Presione una tecla para continuar ...").blue;
+              //  let caracter = rls.question("\n Presione una tecla para continuar ...").blue;
             }
         }
     }
@@ -95,7 +95,7 @@ export class PaseIngles extends Juego {
         this.inicializarNuevoJuego();
         //primera jugada
         console.clear();
-        funciones.mensajeAlerta("Estas en el Tiro de Salida","azul");
+        funciones.mensajeAlerta("Estas en el Tiro de Salida, con 11 o 7, ganás","azul");
         this.tirarDados();
         
         funciones.dibujaUnDado(this.dado1, this.dado2);
@@ -113,9 +113,9 @@ export class PaseIngles extends Juego {
             if (this.punto != 0) { //si ya ganó o perdió, el punto queda en 0
                 let salida: string = "SIGUE";
                 do {
-                    let caracter = rls.question(" \n Presione una tecla para continuar ...").blue;
+                   // let caracter = rls.question(" \n Presione una tecla para continuar ...").blue;
                     console.clear();
-                    
+                    funciones.mensajeAlerta(`Estas en el Tiro de Punto, con ${this.punto}, ganás`,"azul");
                     this.tirarDados();
                     funciones.dibujaUnDado(this.dado1, this.dado2);
                     funciones.mensajeAlertaSinMarco(`Dados: ${this.dado1} + ${this.dado2} = ${this.dado1 + this.dado2}`, "azul");
@@ -130,8 +130,8 @@ export class PaseIngles extends Juego {
                             this.gano = false;
                             salida = "PERDIO"
                         } else {
-                            funciones.mensajeAlertaSinMarco(`\n \n Sigues jugando ...`, "amarillo");
-                            funciones.mensajeAlertaSinMarco(`\n Estas en Tiro de Punto \n tu numero de Punto es ${this.punto} `  ,"azul");
+                            //funciones.mensajeAlertaSinMarco(`\n \n Sigues jugando ...`, "amarillo");
+                            let caracter = rls.question("\n  Sigues jugando ...   \n Presione una tecla para continuar ...".yellow);
                         }
                     }
 
