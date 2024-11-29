@@ -230,7 +230,7 @@ export class Casino {
     console.clear();
     while (parseInt(condicion) > 0) {
       if (indice == 3) {
-        (this.juegos[2] as Ruleta).comenzarAJugar(jugador);
+        (this.juegos[indice] as Ruleta).comenzarAJugar(jugador);
       } else {
         this.juegos[indice].apostar(jugador);
       }
