@@ -1,7 +1,7 @@
 import { Juego } from "./juego";
 import { TragamonedasClasico } from "./tragamonedas/TragamonedasClasico";
 import { TragamonedasTematico } from "./tragamonedas/TragamonedasTematico";
-import { BlackJack } from "./Blackjack/blackjack";
+import { BlackJack } from "./Blackjack2/blackjack";
 import { Ruleta } from "./ruleta/claseRuleta";
 import { PaseIngles } from "./Dados/PaseIngles";
 import { Cliente } from "./Cliente";
@@ -20,12 +20,11 @@ export class Casino {
   juegos: Juego[] = [];
 
   constructor() {
-    const juego1 = new TragamonedasClasico();
-    const juego2 = new TragamonedasTematico();
-    const juego3 = new Ruleta(); //ACA CAMBIAR POR BLACKJACK
-    const juego4 = new Ruleta();
-    const juego5 = new PaseIngles();
-    this.juegos.push(juego1, juego2, juego3, juego4, juego5);
+    this.juegos.push(new TragamonedasClasico());
+    this.juegos.push(new TragamonedasTematico());
+    this.juegos.push(new BlackJack());
+    this.juegos.push(new Ruleta());
+    this.juegos.push(new PaseIngles());
   }
 
   public abrirCasino(): void {
