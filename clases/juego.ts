@@ -1,5 +1,7 @@
 import { JuegoCasino } from "../interfaz/juegoCasino";
 import { Cliente } from "./Cliente";
+import * as funciones from "../Funciones/funciones";
+import * as rls from "readline-sync";
 
 export abstract class Juego implements JuegoCasino{
     protected nombre : string = "";
@@ -38,4 +40,17 @@ export abstract class Juego implements JuegoCasino{
         }
 
     }
+    public verificarCredito(jugador:Cliente): boolean {
+
+        if ((jugador.getACredito() < this.apuestaMinima)  || (jugador.getACredito() === 0)) { 
+          
+          funciones.mensajeAlerta(`El Cliente ${jugador.getNombre()} no dispone de saldo suficiente para apostar`,"rojo");
+          funciones.mensajeAlerta(`Puede volver al Casino para recargar credito. Muchas Gracias.`,"azul");
+          let pausa: string = rls.question((funciones.igualoCadena("", 31, " ") + "Presione una tecla ..."))
+          
+          return false;} 
+          
+        
+          return true;
+      }
 }

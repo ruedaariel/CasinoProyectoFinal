@@ -89,19 +89,19 @@ public comenzarAJugar(jugador:Cliente): void {
 
 }
 
-private verificarCredito(jugador:Cliente): boolean {
+// private verificarCredito(jugador:Cliente): boolean {
 
-  if ((jugador.getACredito() < this.apuestaMinima)  || (jugador.getACredito() === 0)) { 
+//   if ((jugador.getACredito() < this.apuestaMinima)  || (jugador.getACredito() === 0)) { 
     
-    funciones.mensajeAlerta(`El Cliente ${jugador.getNombre()} no dispone de saldo suficiente para apostar`,"rojo");
-    funciones.mensajeAlerta(`Puede volver al Casino para recargar credito. Muchas Gracias.`,"azul");
-    let pausa: string = rls.question((funciones.igualoCadena("", 31, " ") + "Presione una tecla ..."))
+//     funciones.mensajeAlerta(`El Cliente ${jugador.getNombre()} no dispone de saldo suficiente para apostar`,"rojo");
+//     funciones.mensajeAlerta(`Puede volver al Casino para recargar credito. Muchas Gracias.`,"azul");
+//     let pausa: string = rls.question((funciones.igualoCadena("", 31, " ") + "Presione una tecla ..."))
     
-    return false;} 
+//     return false;} 
     
   
-    return true;
-}
+//     return true;
+// }
 
   public tirarBolilla(): number {
     const numero = Math.floor(Math.random() * this.nrosRuleta.length);

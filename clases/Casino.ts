@@ -174,7 +174,7 @@ export class Casino {
       console.clear();
       switch (opcion) {
         case "1":
-          Funciones.mensajeAlerta("          🍒    BIENVENIDOS TRAGAMONEDAS CLASICO    🍒          ", "verde");
+          Funciones.mensajeAlerta("          🍒    BIENVENIDOS A TRAGAMONEDAS CLASICO    🍒          ", "verde");
           // console.log("seleccionaste Tragamonedas Clásico");
           this.leerArchivoInstrucciones("./clases/datos/tragamonedas.txt", "Tragamonedas");
           this.repetirUnJuego(0, jugador);
@@ -182,7 +182,7 @@ export class Casino {
         case "2":
           // console.log("seleccionaste Tragamonedas Temático");
           this.leerArchivoInstrucciones("./clases/datos/tragamonedas.txt", "Tragamonedas");
-          Funciones.mensajeAlerta("          🍀    BIENVENIDOS TRAGAMONEDAS TEMATICO    🍀          ", "verde");
+          Funciones.mensajeAlerta("          🍀    BIENVENIDOS A TRAGAMONEDAS TEMATICO    🍀          ", "verde");
           this.repetirUnJuego(1, jugador);
           break;
         case "3":
