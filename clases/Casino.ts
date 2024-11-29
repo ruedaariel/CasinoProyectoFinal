@@ -8,16 +8,12 @@ import { Cliente } from "./Cliente";
 import * as rls from "readline-sync";
 import * as Funciones from "../Funciones/funciones";
 import 'colors';
-// import { Ruleta } from "./ruleta/claseRuleta";
-// import { BlackJack } from "./Blackjack/blackjack";
-
-
 import * as fs from "fs";
 
 
 export class Casino {
-  clientes: Cliente[] = [];
-  juegos: Juego[] = [];
+  private clientes: Cliente[] = [];
+  private juegos: Juego[] = [];
 
   constructor() {
     this.juegos.push(new TragamonedasClasico());
@@ -271,22 +267,6 @@ export class Casino {
 
     return clientes;
   }
-
-
-  // public leeDatosInstrucciones(archivo: string): string[] {
-  //   // Leer el archivo
-  //   const datos = fs.readFileSync(archivo, "utf-8");
-  //   // Parsear los datos leídos
-  //   const objetosLeidos: any[] = JSON.parse(datos);
-  //   const texto: string[] = [];
-
-  //   // Reconstituir los objetos como instancias de Cliente
-  //   objetosLeidos.forEach((linea) => {
-  //     texto.push(linea);
-  //   });
-
-  //   return texto;
-  // }
 
   public leerArchivoInstrucciones(ruta: string, titulo: string) {
     // VER
