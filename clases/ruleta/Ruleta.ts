@@ -58,6 +58,7 @@ public comenzarAJugar(jugador:Cliente): void {
 
   while (true){
   
+    console.clear();
     funciones.mensajeAlerta(`Bienvenido ${jugador.getNombre()} a la mesa de ruleta. Dispone de $${jugador.getACredito()}` + " para apostar","azul")
     funciones.mensajeAlerta(`Las apuestas permitidas son un minimo de $${this.apuestaMinima} y un maximo de $${this.apuestaMaxima} `,"amarillo");
 
