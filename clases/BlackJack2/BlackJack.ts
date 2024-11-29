@@ -1,9 +1,10 @@
-import * as funciones from "../../Funciones/funciones"
+//import * as funciones from "../../Funciones/funciones";
 import "colors";
 import { Cliente } from '../Cliente';
 import {Carta} from './Carta';
 import  * as readlineSync from 'readline-sync';
-import { Juego } from "../../Juego";
+import { Juego } from "../juego";
+import * as funciones from "../../Funciones/funciones";
 
 export class BlackJack extends Juego {
   private baraja:Carta[]=[];
