@@ -3,10 +3,6 @@ import { error } from "console";
 import * as rls from "readline-sync";
 import { Apuesta } from "../clases/ruleta/Apuesta";
 
-
-
-
-
 // resuleve la logica de la seleccion de opciones conm manejo del error
 // servicio => es un aregllo que define las opciones y su texto y sirve para pasarlo a
 // pantalla menu para dibujarlo 
@@ -306,7 +302,7 @@ export function dibujaUnDado(dado1: number, dado2: number): void {
 }
 
 
-
+// valida la entrada de dos numeros
 export function validarNumeroEntre(cartel: string, min: number, max: number, averificar: number): number {
   let numero: number;
   let errorEntrada: boolean = true;
@@ -337,7 +333,7 @@ export function validarNumeroEntre(cartel: string, min: number, max: number, ave
 
   }
 
-  //console.clear();
+ 
   return numero
 }
 
@@ -385,7 +381,6 @@ export function ingresarString(cartel: string, cad1: string, cad2: string, cad3?
 
 const apuesta: number[] = [6, 9, 35, 17, 15, 23, 36];
 const PADIZQUIERDO: string = igualoCadena(" ", 8, " ");
-//const colorDefecto: string =`white`;
 const colorApuesta: string = `white`;
 
 
@@ -435,7 +430,7 @@ let quintaLinea: string = cero[3] + "╩═══════════╦═�
 let lineaParRojo: string = cero[4] + "║".green + (par as any)[colorPar] + "║".green + (rojo as any)[colorRojo] + "║" + (negro as any)[colorNegro] + "║".green + (impar as any)[colorImpar] + "║            ".green;
 let ultimaLinea: string = "                  ╚═══════════╩═══════════╩═══════════╩═══════════╝            ".green;
 
-// dibuja tablero recibe dos arreglos, uno con los nros y otro con color, par etc
+// si se aposto por cero se pinta esa zona del tablero
 function salioCero(apuestaNumero: number[]): void {
 
 
@@ -455,14 +450,13 @@ function salioCero(apuestaNumero: number[]): void {
 
 }
 
-
 export function dibujaTablero(apuestaNumero: number[], apuestaColor: string[]): void {
 
   // veo si salio 0 e inicializo las variables
   armaColorParDoc(apuestaColor);
   salioCero(apuestaNumero);
 
-
+  
   armaColorParDoc(apuestaColor);
   console.clear();
 
@@ -480,7 +474,7 @@ export function dibujaTablero(apuestaNumero: number[], apuestaColor: string[]): 
 
 }
 
-
+// se definen colores para los nro apostados
 function armaColorParDoc(colores: string[]): void {
 
   // por cada lugar del arreglo asigna fondo azul para lo apostado
@@ -516,8 +510,6 @@ function armaLineaTablero(apuesta: number[]): void {
 
   })
 
-
-
   const INICIO: string = "║".green;
 
   let inicio: string = cero[1] + INICIO;
@@ -549,7 +541,7 @@ function armaLineaTablero(apuesta: number[]): void {
   })
 }
 
-
+// muestra un mensaje que se le puede variar el color
 export function mensajeAlertaSinMarco(mensaje: string, color: string): void {
 
   let ancho = mensaje.length;
@@ -567,17 +559,12 @@ export function mensajeAlertaSinMarco(mensaje: string, color: string): void {
   if (color.toLocaleLowerCase().trim() === "amarillo") { mensaje = igualoCadena(mensaje, ancho, "").yellow; }
 
   padIzquierdo = 50 - ancho / 2;
-
-
-
   console.log(igualoCadena(" ", padIzquierdo, " ") + mensaje + " ");
-
-
-
 }
 
 //---------- muestra resultado de la apuesta  ---------------------
 
+//arma un listado con las apuestas hechas al momento de pagar
 export function mostrarResultadoApuesta(apuestas: Apuesta[], montoApostado: number, montoGanado: number): void {
 
   let tabIzquierdo: string = igualoCadena(" ", 26, " ");
@@ -620,13 +607,10 @@ export function mostrarResultadoApuesta(apuestas: Apuesta[], montoApostado: numb
 
   console.log(lineaSuperior);
   console.log(lineaEncabezado);
-  //console.log(lineaIntermedia);
-  console.log(lineaInferior);
+    console.log(lineaInferior);
 
   apuestas.forEach(apuesta => {
-
-    //montoGanado += this.evaluarApuesta(apuesta,this.bolilla);
-    //apostado += apuesta.getCantidadApostada();
+    
     let lineaImprimir: string = tabIzquierdo + " │ " +
       igualoCadena(apuesta.getTipo(), 9, " ").yellow + " │ " +
       igualoCadena(apuesta.getValor().toString(), 9, " ").yellow + " │ " +
@@ -644,7 +628,6 @@ export function mostrarResultadoApuesta(apuestas: Apuesta[], montoApostado: numb
 
   console.log(lineaInferiorParcial);
   console.log(lineaResultado);
-
   console.log(lineafinalParcial);
 
 }
