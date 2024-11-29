@@ -2,7 +2,7 @@ import { Juego } from "./juego";
 import { TragamonedasClasico } from "./tragamonedas/TragamonedasClasico";
 import { TragamonedasTematico } from "./tragamonedas/TragamonedasTematico";
 import { BlackJack } from "./Blackjack/blackjack";
-import { Ruleta } from "./ruleta/claseRuleta";
+import { Ruleta } from "./ruleta/Ruleta";
 import { PaseIngles } from "./Dados/PaseIngles";
 import { Cliente } from "./Cliente";
 import * as rls from "readline-sync";
