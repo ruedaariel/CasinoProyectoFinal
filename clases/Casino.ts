@@ -25,6 +25,7 @@ export class Casino {
 
   public abrirCasino(): void {
     let jugador: Cliente;
+    let condicion:string="";
 
     this.clientes = this.leeDatosCliente("./clases/datos/clientes.txt");
     Funciones.mensajeAlerta("          🃏    BIENVENIDOS al CASINO     🃏          ", "verde");
@@ -32,38 +33,44 @@ export class Casino {
     let dni: number = this.ingresarDni();
     let clienteIndex: number = this.existeDni(dni, this.clientes);
     if (dni !== 0) {
-      if (clienteIndex !== -1) {
-        Funciones.mensajeAlerta("Cliente encontrado: ", "azul");
-        this.clientes[clienteIndex].mostrarCliente();
+      if (clienteIndex !== -1) { //Cliente encontrado
         jugador = this.clientes[clienteIndex];
-      } else {
+        Funciones.mensajeAlertaSinMarco("Cliente encontrado:\n ", "azul");
+        Funciones.mensajeAlerta(jugador.mostrarCliente(), "azul");
+      } else { //Carga de cliente nuevo
         jugador = this.hacerAltaCliente(dni);
+        Funciones.mensajeAlerta("Cliente guardado ", "azul");
       }
+      condicion = rls.question(
+        Funciones.igualoCadena("", 31, " ") +
+        `\n Presione una tecla para continuar ...`.green);
+      
       this.mostrarMenu(jugador);
+      //Cuando salgo, grabo los datos de los clientes
       this.grabaDatos("./clases/datos/clientes.txt", this.clientes);
     }
   }
 
   private ingresarDni(): number {
     let dni: number;
-    let errorEntrada: boolean = true;
+    let errorEntrada: boolean = false;
 
     do {
       // console.clear();
-      Funciones.mensajeAlerta("Por favor, ingrese su DNI:", "azul");
-      if (!errorEntrada) {
+      
+      if (errorEntrada) {
         Funciones.mensajeAlerta("DNI inválido. Debe ser un número.", "rojo");
-      }
+      } else {Funciones.mensajeAlerta("Por favor, ingrese su DNI:", "azul");}
       let dniString: string = rls.question(
         Funciones.igualoCadena("\n", 31, " ") + "Ingrese el DNI (0 para salir): ".green
       );
       dni = parseInt(dniString);
-      if (isNaN(dni) || dni < 0) {
-        errorEntrada = false;
-      } else {
+      if (isNaN(dni) || (dni< 1000000 && dni != 0) || dni > 99999999) {
         errorEntrada = true;
+      } else {
+        errorEntrada = false;
       }
-    } while (!errorEntrada);
+    } while (errorEntrada);
     console.clear();
     return dni;
   }
