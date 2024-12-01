@@ -23,5 +23,20 @@
     "dni": 14342282,
     "nombre": "Enzo",
     "credito": 3400
+  },
+  {
+    "dni": 12345,
+    "nombre": "rob",
+    "credito": 0
+  },
+  {
+    "dni": 23456674,
+    "nombre": "www",
+    "credito": 11000
+  },
+  {
+    "dni": 123456,
+    "nombre": "Hugo Corrales",
+    "credito": 16500
   }
 ]

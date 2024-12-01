@@ -31,7 +31,8 @@ public apostar(jugador:Cliente):void {
   let premio:number=0; 
   this.apuestaActual = this.ingresarApuesta();
   if (this.apuestaActual >= jugador.getACredito()) {
-         funciones.mensajeAlerta(`La apuesta debe ser menor o igual a su credito de $ ${jugador.getACredito()}`, "Rojo")
+         funciones.mensajeAlerta(`La apuesta debe serdir
+           menor o igual a su credito de $ ${jugador.getACredito()}`, "Rojo")
   } else {
           jugador.setCredito(jugador.getACredito()-this.apuestaActual);
           //funciones.mensajeAlerta(`Tu crédito actual es de ${jugador.getACredito()}`,"Rojo");
@@ -39,7 +40,7 @@ public apostar(jugador:Cliente):void {
           this.jugar();
           premio = this.pagar();
           jugador.setCredito(jugador.getACredito()+premio);
-          funciones.mensajeAlerta(premio > 0 ? `¡Ganaste ${premio} pesos!` : `Lo siento, perdiste.`, premio > 0? "Rojo" : "Azul");
+          funciones.mensajeAlerta(premio > 0 ? `¡Ganaste ${this.apuestaActual} pesos!` : `Lo siento, perdiste.`, premio > 0? "Rojo" : "Azul");
           funciones.mensajeAlerta(`Tu crédito actual es de ${jugador.getACredito()}`,"Rojo");
        }
   }

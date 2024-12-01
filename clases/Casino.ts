@@ -1,11 +1,11 @@
 import { Juego } from "./juego";
 import { TragamonedasClasico } from "./tragamonedas/TragamonedasClasico";
 import { TragamonedasTematico } from "./tragamonedas/TragamonedasTematico";
-import { BlackJack } from "./Blackjack2/blackjack";
+import { BlackJack } from "./BlackJack2/BlackJack";
 import { Ruleta } from "./ruleta/Ruleta";
 import { PaseIngles } from "./Dados/PaseIngles";
 import { Cliente } from "./Cliente";
-import * as rls from "readline-sync";
+import * as readlineSync from "readline-sync";
 import * as Funciones from "../Funciones/funciones";
 import 'colors';
 import * as fs from "fs";
@@ -54,7 +54,7 @@ export class Casino {
       if (!errorEntrada) {
         Funciones.mensajeAlerta("DNI inválido. Debe ser un número.", "rojo");
       }
-      let dniString: string = rls.question(
+      let dniString: string = readlineSync.question(
         Funciones.igualoCadena("\n", 31, " ") + "Ingrese el DNI (0 para salir): ".green
       );
       dni = parseInt(dniString);
@@ -81,7 +81,7 @@ export class Casino {
       if (!errorEntrada) {
         Funciones.mensajeAlerta("Error en el ingreso del nombre", "rojo");
       }
-      nombre = rls.question(
+      nombre = readlineSync.question(
         Funciones.igualoCadena("\n", 31, " ") + "Ingrese el nombre: ".green
       );
       if (nombre.trim() === "") {
@@ -113,7 +113,7 @@ export class Casino {
           "rojo"
         );
       }
-      let creditoString: string = rls.question(
+      let creditoString: string = readlineSync.question(
         Funciones.igualoCadena("\n", 31, " ") +
         "Ingrese el monto (0 para salir): ".green
       );
@@ -166,7 +166,7 @@ export class Casino {
           2
         );
       }
-      opcion = rls.question(
+      opcion = readlineSync.question(
         Funciones.igualoCadena("", 31, " ") +
         "Seleccione una de las opciones:".green
       );
@@ -209,7 +209,7 @@ export class Casino {
           Funciones.mensajeAlerta("              LISTAR CLIENTE              ", "verde");
           console.log("\n");
           Funciones.mensajeAlertaSinMarco(jugador.mostrarCliente(), "azul");
-          condicion = rls.question(
+          condicion = readlineSync.question(
             Funciones.igualoCadena("", 31, " ") +
             `\n Presione una tecla para continuar ...`.green
           );
@@ -234,7 +234,7 @@ export class Casino {
       } else {
         this.juegos[indice].apostar(jugador);
       }
-      condicion = rls.question(
+      condicion = readlineSync.question(
         Funciones.igualoCadena("\n", 20, " ") +
         ` Si desea seguir apostando a ${this.juegos[indice].getNombre()}, presione un numero mayor a 0:  `.green);
       console.clear();
@@ -276,7 +276,7 @@ export class Casino {
       Funciones.mensajeAlerta(`Instrucciones para ${titulo} `, "azul");
       console.log(`\n${instrucciones}`);
       console.log("\n \n");
-      let caracter = rls.question(" Presione una tecla para continuar ...").blue;
+      let caracter = readlineSync.question(" Presione una tecla para continuar ...").blue;
       console.log("\n \n");
     } else {
       Funciones.mensajeAlerta(`\nNo se encontraron instrucciones para ${titulo}.`, "amarillo");
