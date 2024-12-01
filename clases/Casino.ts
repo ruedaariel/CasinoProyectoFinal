@@ -1,68 +1,83 @@
+import { Juego } from "./juego";
 import { TragamonedasClasico } from "./tragamonedas/TragamonedasClasico";
 import { TragamonedasTematico } from "./tragamonedas/TragamonedasTematico";
+import { BlackJack } from "./Blackjack2/blackjack";
+import { Ruleta } from "./ruleta/Ruleta";
+import { PaseIngles } from "./Dados/PaseIngles";
 import { Cliente } from "./Cliente";
 import * as rls from "readline-sync";
 import * as funciones from "../Funciones/funciones";
-// import { Ruleta } from "./ruleta/claseRuleta";
-// import { BlackJack } from "./Blackjack/blackjack";
-import { PaseIngles } from "./Dados/PaseIngles";
-import * as menu from "../Funciones/funciones";
+import 'colors';
 import * as fs from "fs";
 
+
 export class Casino {
-  clientes: Cliente[] = [];
-  tragamonedasClasico: TragamonedasClasico;
-  tragamonedasTematico: TragamonedasTematico;
-  // ruleta : Ruleta;
-  // blackjack : BlackJack;
-  paseIngles: PaseIngles;
-  
+  private clientes: Cliente[] = [];
+  private juegos: Juego[] = [];
+
   constructor() {
-    this.tragamonedasClasico = new TragamonedasClasico();
-    this.tragamonedasTematico = new TragamonedasTematico();
-    //    this.ruleta =  new Ruleta();
-    //    this.blackjack = new BlackJack();
-    this.paseIngles = new PaseIngles();
+    this.juegos.push(new TragamonedasClasico());
+    this.juegos.push(new TragamonedasTematico());
+    this.juegos.push(new BlackJack());
+    this.juegos.push(new Ruleta());
+    this.juegos.push(new PaseIngles());
   }
 
   public abrirCasino(): void {
     let jugador: Cliente;
-    this.clientes = this.leeDatos("./clases/datos/clientes.txt");
+    let condicion: string = "";
+
+    //carga los datos desde el archivo
+    this.clientes = this.leeDatosCliente("./clases/datos/clientes.txt");
+
+    funciones.mensajeAlerta("          🃏    BIENVENIDOS al CASINO     🃏          ", "verde");
+
     let dni: number = this.ingresarDni();
     let clienteIndex: number = this.existeDni(dni, this.clientes);
-    if (dni !== 0) {
-      if (clienteIndex !== -1) {
-        menu.mensajeAlerta("Cliente encontrado: ", "azul");
-        this.clientes[clienteIndex].mostrarCliente();
+    if (dni !== 0) { //controla que no quiera salir
+      if (clienteIndex !== -1) { //Cliente encontrado
         jugador = this.clientes[clienteIndex];
-      } else {
+        funciones.mensajeAlertaSinMarco("Cliente encontrado:\n ", "azul");
+        funciones.mensajeAlerta(jugador.mostrarCliente(), "azul");
+      } else { //Carga de cliente nuevo
         jugador = this.hacerAltaCliente(dni);
+        funciones.mensajeAlerta("Cliente guardado ", "azul");
       }
+
+      condicion = rls.question(
+        funciones.igualoCadena("", 31, " ") +
+        `\n Presione una tecla para continuar ...`.green);
+
+      //este menu permite acceder a las distintas opciones de casino
       this.mostrarMenu(jugador);
+
+      //Cuando salgo, grabo los datos de los clientes
       this.grabaDatos("./clases/datos/clientes.txt", this.clientes);
     }
   }
 
   private ingresarDni(): number {
+    //controla que sea un numero entre 10000000 y 100000000, el numero puede ser 0
     let dni: number;
-    let errorEntrada: boolean = true;
+    let errorEntrada: boolean = false;
 
     do {
-      console.clear();
-      menu.mensajeAlerta("Por favor, ingrese su DNI:", "azul");
-      if (!errorEntrada) {
-        menu.mensajeAlerta("DNI inválido. Debe ser un número.", "rojo");
-      }
+
+      if (errorEntrada) {
+        funciones.mensajeAlerta("DNI inválido. Debe ser un número.", "rojo");
+      } else { funciones.mensajeAlerta("Por favor, ingrese su DNI:", "azul"); }
+
       let dniString: string = rls.question(
-        menu.igualoCadena("", 31, " ") + "Ingrese el DNI (0 para salir): ".green
+        funciones.igualoCadena("\n", 31, " ") + "Ingrese el DNI (0 para salir): ".green
       );
+
       dni = parseInt(dniString);
-      if (isNaN(dni) || dni < 0) {
-        errorEntrada = false;
-      } else {
+      if (isNaN(dni) || (dni < 1000000 && dni != 0) || dni > 99999999) {
         errorEntrada = true;
+      } else {
+        errorEntrada = false;
       }
-    } while (!errorEntrada);
+    } while (errorEntrada);
     console.clear();
     return dni;
   }
@@ -76,14 +91,14 @@ export class Casino {
     let cartel: string = "Ingrese nombre del Cliente";
     do {
       console.clear();
-      menu.mensajeAlerta(cartel, "azul");
+      funciones.mensajeAlerta(cartel, "azul");
       if (!errorEntrada) {
-        menu.mensajeAlerta("Error en el ingreso del nombre", "rojo");
+        funciones.mensajeAlerta("Error en el ingreso del nombre", "rojo");
       }
       nombre = rls.question(
-        menu.igualoCadena("", 31, " ") + "Ingrese el nombre: ".green
+        funciones.igualoCadena("\n", 31, " ") + "Ingrese el nombre: ".green
       );
-      if (nombre.trim() === "") {
+      if (nombre.trim() === "") { //controla que el nombre no sea vacio
         errorEntrada = false;
       } else {
         errorEntrada = true;
@@ -92,35 +107,31 @@ export class Casino {
     console.clear();
     return nombre;
   }
+
   private hacerAltaCliente(dni: number): Cliente {
     const nombre: string = this.ingresarNombre();
     const nuevoCliente = new Cliente(dni, nombre);
     this.clientes.push(nuevoCliente);
     return nuevoCliente;
   }
+
   private ingresarCredito(): number {
     let creditoCliente: number;
     let creditoString: string = "";
     let errorEntrada: boolean = true;
 
     do {
-      console.clear();
-      menu.mensajeAlerta(
-        "Por favor, ingrese el dinero que desea tener a favor :",
-        "azul"
-      );
+      funciones.mensajeAlerta("Por favor, ingrese el dinero que desea tener a favor :", "azul");
       if (!errorEntrada) {
-        menu.mensajeAlerta(
+        funciones.mensajeAlerta(
           "Monto inválido. Debe ser un número mayor que 0.",
           "rojo"
         );
       }
-      let creditoString: string = rls.question(
-        menu.igualoCadena("", 31, " ") +
-          "Ingrese el monto (0 para salir): ".green
-      );
+
+      let creditoString: string = rls.question(funciones.igualoCadena("\n", 31, " ") + "Ingrese el monto (0 para salir): ".green);
       creditoCliente = parseInt(creditoString);
-      if (isNaN(creditoCliente) || creditoCliente < 0) {
+      if (isNaN(creditoCliente) || creditoCliente < 0) { //controla que sea un numero >= 0
         errorEntrada = false;
       } else {
         errorEntrada = true;
@@ -129,21 +140,23 @@ export class Casino {
     console.clear();
     return creditoCliente;
   }
+
   public cargarCredito(jugador: Cliente): void {
-    jugador.mostrarCliente();
-    if (jugador) {
+    //muestra los datos del jugador
+    funciones.mensajeAlertaSinMarco(jugador.mostrarCliente(), "azul");
+    if (jugador) { //si no es undefined
       let nuevoCredito = this.ingresarCredito();
       if (nuevoCredito != 0) {
         jugador.setCredito(jugador.getACredito() + nuevoCredito);
-      }
+      }  //si es 0, sale, no hace nada
     } else {
-      menu.mensajeAlerta("No se encontro el cliente", "rojo");
+      funciones.mensajeAlerta("No se encontro el cliente", "rojo");
     }
   }
 
   private mostrarMenu(jugador: Cliente): void {
     let opcion: string;
-    let condicion: string="";
+    let condicion: string = "";
     let errorIngreso: boolean = true;
     console.clear();
     const servicios: string[] = [
@@ -157,52 +170,56 @@ export class Casino {
       "0. Salir",
     ];
     do {
-      this.pantallaMenu(" Casino ", servicios, 30, 40, 2);
+      console.clear();
+      funciones.pantallaMenu("      CASINO ON-LINE ", servicios, 30, 40, 2);
       if (!errorIngreso) {
-        this.lineaConRecuadroError(
-          30,
-          "Opción inválida. Por favor, intente nuevamente",
-          40,
-          2
-        );
+        funciones.lineaConRecuadroError(30, "Opción inválida. Por favor, intente nuevamente", 40, 2);
       }
-      opcion = rls.question(this.igualoCadena("", 31, " ") + "Seleccione una de las opciones:".green
-      );
+      opcion = rls.question(funciones.igualoCadena("", 31, " ") + "Seleccione una de las opciones:".green);
       condicion = "1";
+      console.clear();
+
       switch (opcion) {
         case "1":
-          console.log("seleccionaste Tragamonedas Clásico");
-          while (parseInt(condicion)>0) {
-            this.tragamonedasClasico.apostar(jugador);
-            condicion = rls.question(funciones.igualoCadena("", 31, " ") + 'Si desea seguir apostando ingrese un número mayor a 0: '.green)
-          }
+          funciones.mensajeAlerta("          🍒    BIENVENIDOS A TRAGAMONEDAS CLASICO    🍒          ", "verde");
+          // console.log("seleccionaste Tragamonedas Clásico");
+          this.leerArchivoInstrucciones("./clases/datos/tragamonedas.txt", "Tragamonedas");
+          this.repetirUnJuego(0, jugador);
           break;
-          case "2":
-            console.log("seleccionaste Tragamonedas Temático");
-            while (parseInt(condicion)>0) {
-              this.tragamonedasTematico.apostar(jugador);
-              condicion = rls.question(funciones.igualoCadena("", 31, " ") + 'Si desea seguir apostando ingrese un número mayor a 0: '.green)
-            }
-            break;
+        case "2":
+          // console.log("seleccionaste Tragamonedas Temático");
+          this.leerArchivoInstrucciones("./clases/datos/tragamonedas.txt", "Tragamonedas");
+          funciones.mensajeAlerta("          🍀    BIENVENIDOS A TRAGAMONEDAS TEMATICO    🍀          ", "verde");
+          this.repetirUnJuego(1, jugador);
+          break;
         case "3":
-          console.log("seleccionaste Blackjack");
+          funciones.mensajeAlerta("          🃏    BIENVENIDOS A BLACKJACK    🃏          ", "verde");
+          this.leerArchivoInstrucciones("./clases/datos/blackJack.txt", "Blackjack");
+          this.repetirUnJuego(2, jugador); //VER COMO SE INICIA BLACKJACK
           break;
         case "4":
-          console.log("seleccionaste Ruleta");
+          funciones.mensajeAlerta("              BIENVENIDOS A RULETA              ", "verde");
+          this.leerArchivoInstrucciones("./clases/datos/ruleta.txt", "Ruleta");
+          this.repetirUnJuego(3, jugador);
+
           break;
         case "5":
-          console.log("seleccionaste Dados");
-          while (parseInt(condicion)>0) {
-            this.paseIngles.apostar(jugador);
-            condicion = rls.question("Si desea seguir apostando ingrese un número mayor a 0: ")
-          }
+          funciones.mensajeAlerta("          🎲    BIENVENIDOS A PASE INGLES    🎲          ", "verde");
+          this.leerArchivoInstrucciones("./clases/datos/paseIngles.txt", "Pase Ingles");
+          this.repetirUnJuego(4, jugador);
           break;
         case "6":
-          console.log("seleccionaste Cargar Crédito");
+          funciones.mensajeAlerta("          💵    BIENVENIDOS A CARGAR CREDITO    💵          ", "verde");
           this.cargarCredito(jugador);
           break;
         case "7":
-          console.log("seleccionaste Administrar Usuario");
+          funciones.mensajeAlerta("              LISTAR CLIENTE              ", "verde");
+          console.log("\n");
+          funciones.mensajeAlertaSinMarco(jugador.mostrarCliente(), "azul");
+          condicion = rls.question(
+            funciones.igualoCadena("", 31, " ") +
+            `\n Presione una tecla para continuar ...`.green
+          );
           break;
         case "0":
           console.log("Saliendo del menú...");
@@ -215,158 +232,80 @@ export class Casino {
     } while (opcion !== "0");
   }
 
-  private pantallaMenu(
-    titulo: string,
-    opciones: string[],
-    padIzquierdo: number,
-    ancho: number,
-    set: number
-  ): void {
-    this.lineaConRecuadro(padIzquierdo, titulo, ancho, set);
-    this.cierreSuperior(padIzquierdo, ancho, set);
-    opciones.forEach((element) => {
-      this.armaLinea(padIzquierdo, element, ancho, set);
-    });
-    this.cierreInferior(padIzquierdo, ancho, set);
-  }
-  private cierreSuperior(
-    padIzquierdo: number,
-    ancho: number,
-    set: number
-  ): void {
-    if (set === 1) {
-      console.log(
-        this.igualoCadena(" ", padIzquierdo, " ") +
-          "┌" +
-          this.igualoCadena("─", ancho, "─") +
-          "┐"
-      );
-    } else {
-      console.log(
-        this.igualoCadena(" ", padIzquierdo, " ") +
-          "╔" +
-          this.igualoCadena("═", ancho, "═") +
-          "╗"
-      );
+  public repetirUnJuego(indice: number, jugador: Cliente) {
+    let condicion = "1";
+    console.clear();
+    while (parseInt(condicion) > 0) {
+      if (indice == 3) {
+        (this.juegos[indice] as Ruleta).comenzarAJugar(jugador);
+      } else {
+        this.juegos[indice].apostar(jugador);
+      }
+      condicion = rls.question(
+        funciones.igualoCadena("\n", 20, " ") +
+        ` Si desea seguir apostando a ${this.juegos[indice].getNombre()}, presione un numero mayor a 0:  `.green);
+      console.clear();
     }
-  }
-  private cierreInferior(
-    padIzquierdo: number,
-    ancho: number,
-    set: number
-  ): void {
-    if (set === 1) {
-      console.log(
-        this.igualoCadena(" ", padIzquierdo, " ") +
-          "└" +
-          this.igualoCadena("─", ancho, "─") +
-          "┘"
-      );
-    } else {
-      console.log(
-        this.igualoCadena(" ", padIzquierdo, " ") +
-          "╚" +
-          this.igualoCadena("═", ancho, "═") +
-          "╝"
-      );
-    }
-  }
-  private armaLinea(
-    padIzquierdo: number,
-    texto: string,
-    ancho: number,
-    set: number
-  ): void {
-    if (set === 1) {
-      console.log(
-        this.igualoCadena(" ", padIzquierdo, " ") +
-          "│ " +
-          this.igualoCadena(texto, ancho - 1, " ").green +
-          "│"
-      );
-    } else {
-      console.log(
-        this.igualoCadena(" ", padIzquierdo, " ") +
-          "║ " +
-          this.igualoCadena(texto, ancho - 1, " ").green +
-          "║"
-      );
-    }
-  }
-  private lineaConRecuadro(
-    padIzquierdo: number,
-    texto: string,
-    ancho: number,
-    set: number
-  ): void {
-    this.cierreSuperior(padIzquierdo, ancho, set);
-    this.armaLinea(padIzquierdo, texto, ancho, set);
-    this.cierreInferior(padIzquierdo, ancho, set);
-  }
-  private lineaConRecuadroError(
-    padIzquierdo: number,
-    texto: string,
-    ancho: number,
-    set: number
-  ): void {
-    this.cierreSuperior(padIzquierdo, ancho, set);
-    this.armaLineaError(padIzquierdo, texto, ancho, set);
-    this.cierreInferior(padIzquierdo, ancho, set);
-  }
-  private armaLineaError(
-    padIzquierdo: number,
-    texto: string,
-    ancho: number,
-    set: number
-  ): void {
-    if (set === 1) {
-      console.log(
-        this.igualoCadena(" ", padIzquierdo, " ") +
-          "│ " +
-          this.igualoCadena(texto, ancho - 1, " ").red +
-          "│"
-      );
-    } else {
-      console.log(
-        this.igualoCadena(" ", padIzquierdo, " ") +
-          "║ " +
-          this.igualoCadena(texto, ancho - 1, " ").red +
-          "║"
-      );
-    }
-  }
-  private igualoCadena(
-    cadena: string,
-    largo: number,
-    caracter: string
-  ): string {
-    return cadena.padEnd(largo, caracter);
   }
 
   public grabaDatos(archivo: string, datos: Cliente[]): void {
-    // Convertir los datos a JSON
-    const datosJSON = JSON.stringify(datos, null, 2);
-    // Escribir datos en un archivo .txt
-    fs.writeFileSync(archivo, datosJSON, "utf-8");
-    //console.log(Archivo ${archivo} creado con éxito.);
+    try {
+      // Convertir los datos a JSON, null no aplica ninguna transformacion especial, space = 2 mejora la legilibilidad del JSON
+      const datosJSON = JSON.stringify(datos, null, 2);
+      // Escribir datos en un archivo .txt
+      fs.writeFileSync(archivo, datosJSON, "utf-8");
+    } catch (e) {
+      funciones.mensajeAlertaSinMarco(`\n ${(e as Error).message}.`, "amarillo");
+      let caracter = rls.question("\n Presione una tecla para continuar ...").blue;
+    }
   }
 
-  public leeDatos(archivo: string): Cliente[] {
-    // Leer el archivo
-    const datos = fs.readFileSync(archivo, "utf-8");
-    // Parsear los datos leídos
-    const objetosLeidos: any[] = JSON.parse(datos);
+  public leeDatosCliente(archivo: string): Cliente[] {
     const clientes: Cliente[] = [];
+    try {
+      // Lee el archivo
+      const datos = fs.readFileSync(archivo, "utf-8");
+      // Parsea los datos leídos
+      const clientesLeidos: any[] = JSON.parse(datos);
 
-    // Reconstituir los objetos como instancias de Cliente
-    objetosLeidos.forEach((objeto) => {
-      const cliente = new Cliente(objeto.dni, objeto.nombre);
+      clientesLeidos.forEach((elem) => {
+        const cliente = new Cliente(elem.dni, elem.nombre);
+        //el credito no se carga en el constructor 
+        cliente.setCredito(elem.credito);
 
-      cliente.setCredito(objeto.credito);
+        clientes.push(cliente);
 
-      clientes.push(cliente);
-    });
+      });
+    } catch (e) {
+      funciones.mensajeAlertaSinMarco("Error en archivo de Clientes, se retorna un arreglo vacio", "rojo");
+      funciones.mensajeAlertaSinMarco(` ${(e as Error).message}`, "rojo");
+    }
+    finally {
+      return clientes
+    }
+  }
 
-    return clientes;
+
+  public leerArchivoInstrucciones(ruta: string, titulo: string) {
+    try {
+      //controla que exista el archivo
+      if (fs.existsSync(ruta)) {
+        //lee el archivo
+        const instrucciones = fs.readFileSync(ruta, "utf-8");
+
+        funciones.mensajeAlerta(`Instrucciones para ${titulo} `, "azul");
+        console.log(`\n${instrucciones}`); //muetra el contenido del archivo
+        console.log("\n \n");
+        let caracter = rls.question(" Presione una tecla para continuar ...").blue;
+        console.log("\n \n");
+      } else {
+        funciones.mensajeAlertaSinMarco(`\nNo se encontraron instrucciones para ${titulo}.`, "amarillo");
+        let caracter = rls.question("\n Presione una tecla para continuar ...").blue;
+      }
+    } catch (e) {
+      //otros tipos de errores menos frecuentes (como error de acceso)
+      funciones.mensajeAlertaSinMarco(` ${(e as Error).message}`, "rojo");
+    }
+
   }
 }

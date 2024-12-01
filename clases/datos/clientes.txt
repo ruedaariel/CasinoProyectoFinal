@@ -2,16 +2,37 @@
   {
     "dni": 16998400,
     "nombre": "gladys",
-    "credito": 4023
+    "credito": 8800
   },
   {
     "dni": 17342282,
     "nombre": "Ariel",
-    "credito": 1000
+    "credito": 11489
   },
   {
     "dni": 23457291,
     "nombre": "Marcelo",
     "credito": 512890
+    "credito": 340500
+  },
+  {
+    "dni": 11123123,
+    "nombre": "Federico",
+    "credito": 2200
+  },
+  {
+    "dni": 14342282,
+    "nombre": "Enzo",
+    "credito": 3400
+  },
+  {
+    "dni": 25333222,
+    "nombre": "Juan Perez",
+    "credito": 0
+  },
+  {
+    "dni": 10000000,
+    "nombre": "Carolina",
+    "credito": 0
   }
 ]

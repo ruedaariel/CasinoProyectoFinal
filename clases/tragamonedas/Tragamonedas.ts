@@ -9,7 +9,7 @@ export abstract class Tragamonedas extends Juego {
     protected comodin: string //icono distintivo que suma mas puntos
     private multiplicador: number; //Se usa en metodo pagar()
     private resultadoJuego: string[] = [] //Se usa en metodo Juego()
-    private cantApostada: number; //Se usa en Apostar() y Pagar()
+    private cantApostada: number = 0 ; //Se usa en Apostar() y Pagar()
   
     constructor(nombre: string, apuestaMinima: number,apuestaMaxima: number, temaTambores: string[], estructuraTambores: string[][], comodin: string, multiplicador: number) {
         super();
