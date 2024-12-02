@@ -5,12 +5,12 @@ export class TragamonedasClasico extends Tragamonedas {
     private bonusExtras: number; //Esta variable determina cada cuantas jugadas puede tener un porcentaje extra
     private cantDeTiradas: number = 1; //Sumador de tiradas
     constructor() {
-        super("Tragamonedas Clásico", 500, 10000, ["🍎", "🍌", "🍒", "🍇", "🍉", "🍈", "🥝", "🍐", "🫐  "], [[], [], []], "⭐", 5);
+        super("Tragamonedas Clasico", 500, 10000, ["🥭", "🍎", "🍋‍🟩", "🥥", "🍋", "🍈", "🍊", "🍌", "🍒", "🍇", "🍉", "🍍", "🍈", "🥝", "🍐", "🍓", "🫐  "], [[], [], []], "⭐", 5);
         this.bonusExtras = 3;
     }
 
     public pagoBonus(premio: number): number {
-        funciones.mensajeAlerta(`Llevas ${this.cantDeTiradas} de ${this.bonusExtras} tiros. EL TERCERO SUMA AL PREMIO!!!`, "Rojo");
+        funciones.mensajeAlerta(`Llevas ${this.cantDeTiradas} de ${this.bonusExtras} tiros. EL TERCERO SUMA UN PORCENTAJE AL PREMIO!!!`, "Rojo");
 
         // Lógica para aplicar los bonos extras
         let bonusGanado: number = 0;
