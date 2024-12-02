@@ -1,73 +1,64 @@
 // Tipo de apuesta que un jugador puede realizar
 export class Apuesta {
-    
-    // tipo puede ser "numero"  "color" "docena" "parOImpar"
-    private tipo: string = "";
-    private valor: string = ""; // El valor depende del tipo de apuesta number, string, string
-    private cantidadApostada: number = 0; // Cantidad apostada
-    private resultadoApuesta: number = 0; // alamacena el monto que gano
 
-    public constructor (tipo: string, valor: string, cantidadApostada: number){
+  // tipo puede ser "numero"  "color" "docena" "parOImpar"
+  private tipo: string = "";
+  private valor: string = "";           // El valor depende del tipo de apuesta number, string, string
+  private cantidadApostada: number = 0; // Cantidad apostada
+  private resultadoApuesta: number = 0; // alamacena el monto que gano
 
-      this.tipo = tipo;
-      this.valor = valor;
-      this.cantidadApostada = cantidadApostada;
-      
-
-    }
-
-  public setTipo (tipo:string): void {
+  public constructor(tipo: string, valor: string, cantidadApostada: number) {
 
     this.tipo = tipo;
+    this.valor = valor;
+    this.cantidadApostada = cantidadApostada;
 
   }
-  public setValor (valor:string): void {
+
+  public setTipo(tipo: string): void {
+
+    this.tipo = tipo;
+  }
+
+  public setValor(valor: string): void {
 
     this.valor = valor;
 
   }
 
-  public setCantidadApostada (cantidadApostada:number): void {
+  public setCantidadApostada(cantidadApostada: number): void {
 
     this.cantidadApostada = cantidadApostada;
 
   }
 
-  public setResultadoApuesta (monto:number): void {
+  public setResultadoApuesta(monto: number): void {
 
     this.resultadoApuesta = monto;
 
   }
 
-  public getResultadoApuesta (): number {
+  public getResultadoApuesta(): number {
 
     return this.resultadoApuesta;
 
   }
 
-  public getTipo (): string {
+  public getTipo(): string {
 
     return this.tipo;
 
   }
-  public getValor (): string {
+  public getValor(): string {
 
     return this.valor;
 
   }
-  
-  public getCantidadApostada (): number {
+
+  public getCantidadApostada(): number {
 
     return this.cantidadApostada;
 
   }
 
-
-
-
-
-
-
-
-
-  }
+}

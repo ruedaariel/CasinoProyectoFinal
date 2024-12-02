@@ -2,12 +2,12 @@
   {
     "dni": 16998400,
     "nombre": "gladys",
-    "credito": 0
+    "credito": 4000
   },
   {
     "dni": 17342282,
     "nombre": "Ariel",
-    "credito": 11489
+    "credito": 2039
   },
   {
     "dni": 23457291,
