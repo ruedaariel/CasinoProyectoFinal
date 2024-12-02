@@ -40,6 +40,8 @@ export abstract class Juego implements JuegoCasino{
         }
 
     }
+
+    // devuelve true si el jugador cumple condiciones de credito
     public verificarCredito(jugador:Cliente): boolean {
 
         if ((jugador.getACredito() < this.apuestaMinima)  || (jugador.getACredito() === 0)) { 

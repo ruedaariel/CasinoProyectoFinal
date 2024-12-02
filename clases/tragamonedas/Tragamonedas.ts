@@ -31,7 +31,7 @@ export abstract class Tragamonedas extends Juego {
  
     public apostar(jugador: Cliente): void{ 
         let premio: number = 0; //Variable para asignar monto ganado en la jugada
-        if (!this.verificarCredito(jugador)) { return;} // retorno a casino
+        //if (!this.verificarCredito(jugador)) { return;} // retorno a casino
         this.cantApostada = this.ingresarApuesta();
         if (this.cantApostada > jugador.getACredito()) {
             funciones.mensajeAlerta(`La apuesta debe ser menor o igual a su credito de $ ${jugador.getACredito()}`, "Rojo")
