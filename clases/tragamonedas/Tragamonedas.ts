@@ -31,7 +31,7 @@ export abstract class Tragamonedas extends Juego {
  
     public apostar(jugador: Cliente): void{ 
         let premio: number = 0; //Variable para asignar monto ganado en la jugada
-        funciones.mensajeAlerta(`Tu crédito actual es de ${jugador.getACredito()} pesos`,"Azul");
+        if (!this.verificarCredito(jugador)) { return;} // retorno a casino
         this.cantApostada = this.ingresarApuesta();
         if (this.cantApostada > jugador.getACredito()) {
             funciones.mensajeAlerta(`La apuesta debe ser menor o igual a su credito de $ ${jugador.getACredito()}`, "Rojo")
@@ -53,7 +53,7 @@ export abstract class Tragamonedas extends Juego {
             const indice = Math.floor(Math.random() * this.estructuraTambores[i].length);
             this.resultadoJuego.push(this.estructuraTambores[i][indice]);
         }
-        funciones.mensajeAlerta(`Resultados: ${this.resultadoJuego.join(" | ")}`,"Amarillo");
+        funciones.mensajeAlertaSinMarco(`${this.resultadoJuego.join(" | ")}`,"Amarillo");
     }
 
     public pagar(): number {
