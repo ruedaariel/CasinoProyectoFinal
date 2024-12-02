@@ -5,7 +5,7 @@ export class TragamonedasTematico extends Tragamonedas {
     private mediaParaBonusExtras: number; //Esta variable determina la media para calcular un premio extra del 50 % del premio obtenido
 
     constructor() {
-        super("Tragamonedas Temático", 10000, 1000000, ["🐵","🐶","🐺","🦊","🦝","🐱","🦁","🐯","🐷","🐮","🐭","🐰","🐹","🐧","🐻","🦉"], [[], [], [], [], []], "👑", 2);
+        super("Tragamonedas Tematico", 10000, 1000000, ["🦒", "🐵","🐶","🐺","🦊","🦝","🐱","🦁","🐯","🐷","🐮","🐭","🐰","🐹","🐧","🐻","🦉"], [[], [], [], [], []], "👑", 2);
         this.mediaParaBonusExtras = 10
     }
     pagoBonus(premio: number): number{
