@@ -181,7 +181,7 @@ export class Casino {
 
       switch (opcion) {
         case "1":
-          funciones.mensajeAlerta("          🍒    BIENVENIDOS A TRAGAMONEDAS CLASICO    🍒          ", "verde");
+          funciones.mensajeAlerta(`          🍒    BIENVENIDO ${jugador.getNombre()} A TRAGAMONEDAS CLASICO    🍒          `, "verde");
           // console.log("seleccionaste Tragamonedas Clásico");
           this.leerArchivoInstrucciones("./clases/datos/tragamonedas.txt", "Tragamonedas");
           this.repetirUnJuego(0, jugador);
@@ -189,27 +189,27 @@ export class Casino {
         case "2":
           // console.log("seleccionaste Tragamonedas Temático");
           this.leerArchivoInstrucciones("./clases/datos/tragamonedas.txt", "Tragamonedas");
-          funciones.mensajeAlerta("          🍀    BIENVENIDOS A TRAGAMONEDAS TEMATICO    🍀          ", "verde");
+          funciones.mensajeAlerta(`          🍀    BIENVENIDO ${jugador.getNombre()} A TRAGAMONEDAS TEMATICO    🍀         ` , "verde");
           this.repetirUnJuego(1, jugador);
           break;
         case "3":
-          funciones.mensajeAlerta("          🃏    BIENVENIDOS A BLACKJACK    🃏          ", "verde");
+          funciones.mensajeAlerta(`          🃏    BIENVENIDO ${jugador.getNombre()} A BLACKJACK    🃏          `, "verde");
           this.leerArchivoInstrucciones("./clases/datos/blackJack.txt", "Blackjack");
           this.repetirUnJuego(2, jugador); //VER COMO SE INICIA BLACKJACK
           break;
         case "4":
-          funciones.mensajeAlerta("              BIENVENIDOS A RULETA              ", "verde");
+          funciones.mensajeAlerta(`              BIENVENIDO ${jugador.getNombre()} A RULETA              `, "verde");
           this.leerArchivoInstrucciones("./clases/datos/ruleta.txt", "Ruleta");
           this.repetirUnJuego(3, jugador);
 
           break;
         case "5":
-          funciones.mensajeAlerta("          🎲    BIENVENIDOS A PASE INGLES    🎲          ", "verde");
+          funciones.mensajeAlerta(`          🎲    BIENVENIDO ${jugador.getNombre()} A PASE INGLES    🎲          `, "verde");
           this.leerArchivoInstrucciones("./clases/datos/paseIngles.txt", "Pase Ingles");
           this.repetirUnJuego(4, jugador);
           break;
         case "6":
-          funciones.mensajeAlerta("          💵    BIENVENIDOS A CARGAR CREDITO    💵          ", "verde");
+          funciones.mensajeAlerta(`          💵    BIENVENIDO ${jugador.getNombre()} A CARGAR CREDITO    💵          `, "verde");
           this.cargarCredito(jugador);
           break;
         case "7":
