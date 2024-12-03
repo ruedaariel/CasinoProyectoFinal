@@ -17,9 +17,10 @@ export class Ruleta extends Juego implements JuegoCasino {
   private colorRuleta: string[] = [];
   private apuestas: Apuesta[] = [];
   private bolilla: number = 0;
-  private bolillaColor: string = ""
-  private bolillaPar: string = ""
-  private bolillaDocena: number = 0
+  private bolillaColor: string = "";
+  private bolillaPar: string = "";
+  private bolillaDocena: number = 0;
+  private bolillaDocenaString = "";
 
 
 
@@ -29,6 +30,8 @@ export class Ruleta extends Juego implements JuegoCasino {
 
     this.apuestaMaxima = 1000;
     this.apuestaMinima = 100;
+    this.nombre = "RULETA";
+    
 
     this.nrosRuleta = [
       0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
@@ -91,9 +94,7 @@ export class Ruleta extends Juego implements JuegoCasino {
     const numero = Math.floor(Math.random() * this.nrosRuleta.length);
 
     return numero;
-    //return 0;
     
-
   }
 
   public jugar(): void {
@@ -108,15 +109,19 @@ export class Ruleta extends Juego implements JuegoCasino {
     let montoGanado: number = 0;
 
     console.clear();
+    
+    // si longitud es 0 no evaluo porque no se aposto nada
+    if (this.apuestas.length === 0) {return 0;}
 
-
+    
+    
     this.apuestas.forEach(apuesta => {
 
       montoGanado += this.evaluarApuesta(apuesta, this.bolilla);
       apostado += apuesta.getCantidadApostada();
     });
 
-    let resultadoBolilla: string = funciones.igualoCadena(" Bolilla: -> " + `${this.bolilla}` + " <-  -> " + `${this.bolillaColor}` + " <- -> " + `${this.bolillaPar}` + " <- -> " + `${this.bolillaDocena} <-`, 46, " ");
+    let resultadoBolilla: string = funciones.igualoCadena(" Bolilla: -> " + `${this.bolilla}` + " <-  -> " + `${this.bolillaColor}` + " <- -> " + `${this.bolillaPar}` + " <- -> " + `${this.bolillaDocenaString} <-`, 46, " ");
     funciones.mensajeAlerta(resultadoBolilla, "amarillo");
 
     funciones.mensajeAlerta(funciones.igualoCadena("Lo apostado fue: ", 46, " "), "azul");
@@ -146,6 +151,10 @@ export class Ruleta extends Juego implements JuegoCasino {
       this.bolillaDocena = Math.floor(bolilla / 12) + 1;
     }
 
+    if (this.bolillaDocena === 1) { this.bolillaDocenaString = "primera";}
+    else { if (this.bolillaDocena === 2) {this.bolillaDocenaString = "segunda";}
+            else {this.bolillaDocenaString = "tercera";}}
+
     this.bolillaPar = ""; // se almacena si par o impar el nro que salio
 
     if (bolilla % 2 === 0) {
@@ -154,6 +163,7 @@ export class Ruleta extends Juego implements JuegoCasino {
       this.bolillaPar = "impar";
     }
 
+   
     // verifico si acerto con el nro apostado
     if (apuesta.getTipo().toLowerCase() === "numero" && bolilla === Number(apuesta.getValor())) {
 
@@ -180,11 +190,11 @@ export class Ruleta extends Juego implements JuegoCasino {
     }
 
     // verifico si acerto con la docena
-    if (apuesta.getTipo().toLowerCase() === "docena" && this.bolillaDocena === Number(apuesta.getValor())) {
+    if (apuesta.getTipo().toLowerCase() === "docena" && this.bolillaDocenaString === apuesta.getValor()) {
 
       montoGanado += apuesta.getCantidadApostada() * 2;
       apuesta.setResultadoApuesta(montoGanado);
-
+      
     }
 
     // verifico si acerto par o impar
