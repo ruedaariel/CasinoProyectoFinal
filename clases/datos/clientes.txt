@@ -1,7 +1,22 @@
 [
   {
     "dni": 17342282,
-    "nombre": "ariel",
-    "credito": 2050
+    "nombre": "Ariel",
+    "credito": 9989
+  },
+  {
+    "dni": 23457291,
+    "nombre": "Marcelo",
+    "credito": 400
+  },
+  {
+    "dni": 11123123,
+    "nombre": "Federico",
+    "credito": 2200
+  },
+  {
+    "dni": 14342282,
+    "nombre": "Enzo",
+    "credito": 3400
   }
 ]
