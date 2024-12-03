@@ -48,7 +48,7 @@ export class Ruleta extends Juego implements JuegoCasino {
     let mensajeBienvenida: string = ""
     this.apuestas = [];  // asegur tener vacio el arreglo de apuestas
 
-    if (!this.verificarCredito(jugador)) { return; } // retorno a casino
+    //if (!this.verificarCredito(jugador)) { return; } // retorno a casino
 
     //while (true) {
 
