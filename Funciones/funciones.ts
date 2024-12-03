@@ -353,15 +353,22 @@ export function validarValidezApuesta(cartel: string, apumin: number, apumax: nu
       errorEntrada = false
     }else{ 
 
-            if (apuestaHecha >= apumin && apuestaHecha <= apumax) 
-               { errorEntrada = true}
-            else {
-                 if (apuestaHecha > apumax || apuestaHecha < apumin) {
-                    cartel = `Su apuesta de $${apuestaHecha} esta fuera del minimo de $${apumin} o el maximo de $${apumax}`;
+            
+            if ((apuestaHecha > apumax) || (apuestaHecha < apumin) || (apuestaHecha > saldo)) {
+                    cartel = `Su apuesta de $${apuestaHecha} esta fuera del minimo de $${apumin} o el maximo de $${apumax}. O supera su crédito de $${saldo}`;
                     errorEntrada = false
                     }
+            else {
+
+              if (apuestaHecha >= apumin && apuestaHecha <= apumax) 
+                { errorEntrada = true}
+
+            }        
+                 
+                 
+
                  }
-         }
+         
     
          //console.clear();
 
