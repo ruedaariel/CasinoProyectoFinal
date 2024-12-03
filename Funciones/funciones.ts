@@ -399,9 +399,10 @@ export function ingresarString(cartel: string, cad1: string, cad2: string, cad3?
     }
 
     mensajeAlerta(cartel, "azul");
-    cadena = rls.question(igualoCadena("", 31, " ") + `Ingrese valor: `.green);
+    cadena= rls.question(igualoCadena("", 31, " ") + `Ingrese valor: `.green).toLowerCase();
+  
 
-    if (cadena.toLowerCase() === cad1 || cadena.toLowerCase() === cad2 || cadena.toLowerCase() === cad3) {
+    if (cadena === cad1 || cadena === cad2 || cadena === cad3) {
 
       errorEntrada = false;
       //errorIngreso = true;
