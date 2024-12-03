@@ -65,10 +65,8 @@ export class Ruleta extends Juego implements JuegoCasino {
       funciones.mensajeAlerta(`Las apuestas permitidas son un minimo de $${this.apuestaMinima} y un maximo de $${this.apuestaMaxima} `, "amarillo");
 
 
-      funciones.mensajeAlerta(" -- Presionando cualquier tecla va a jugar -- . -- Pulsando 0 -- vuelve al casino ", "azul");
-      let pausa: string = rls.question((funciones.igualoCadena("", 31, " ") + "Presione su opcion..."))
-
-      if (pausa === "0") { return; }
+      //funciones.mensajeAlerta(" -- Presionando cualquier tecla va a jugar -- . -- Pulsando 0 -- vuelve al casino ", "azul");
+      funciones.stop();
 
      
 
