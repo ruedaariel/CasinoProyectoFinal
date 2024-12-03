@@ -1,31 +1,7 @@
 [
   {
-    "dni": 16998400,
-    "nombre": "gladys",
-    "credito": 4000
-  },
-  {
     "dni": 17342282,
-    "nombre": "Ariel",
-<<<<<<<<< Temporary merge branch 1
-    "credito": 2039
-=========
-    "credito": 10989
->>>>>>>>> Temporary merge branch 2
-  },
-  {
-    "dni": 23457291,
-    "nombre": "Marcelo",
+    "nombre": "enzo",
     "credito": 0
-  },
-  {
-    "dni": 11123123,
-    "nombre": "Federico",
-    "credito": 2200
-  },
-  {
-    "dni": 14342282,
-    "nombre": "Enzo",
-    "credito": 3400
   }
 ]
