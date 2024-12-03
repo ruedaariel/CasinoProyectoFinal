@@ -1,6 +1,10 @@
 [
   {
     "dni": 17342282,
+<<<<<<< HEAD
+    "nombre": "ariel",
+    "credito": 32050
+=======
     "nombre": "Ariel",
     "credito": 4089
   },
@@ -23,5 +27,6 @@
     "dni": 16998400,
     "nombre": "Gladys",
     "credito": 4500
+>>>>>>> fd19157de43b29ecdfffccb62d3a2d12b47eed0e
   }
 ]
