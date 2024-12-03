@@ -353,15 +353,22 @@ export function validarValidezApuesta(cartel: string, apumin: number, apumax: nu
       errorEntrada = false
     }else{ 
 
-            if (apuestaHecha >= apumin && apuestaHecha <= apumax) 
-               { errorEntrada = true}
-            else {
-                 if (apuestaHecha > apumax || apuestaHecha < apumin) {
-                    cartel = `Su apuesta de $${apuestaHecha} esta fuera del minimo de $${apumin} o el maximo de $${apumax}`;
+            
+            if ((apuestaHecha > apumax) || (apuestaHecha < apumin) || (apuestaHecha > saldo)) {
+                    cartel = `Su apuesta de $${apuestaHecha} esta fuera del minimo de $${apumin} o el maximo de $${apumax}. O supera su crédito de $${saldo}`;
                     errorEntrada = false
                     }
+            else {
+
+              if (apuestaHecha >= apumin && apuestaHecha <= apumax) 
+                { errorEntrada = true}
+
+            }        
+                 
+                 
+
                  }
-         }
+         
     
          //console.clear();
 
@@ -392,9 +399,10 @@ export function ingresarString(cartel: string, cad1: string, cad2: string, cad3?
     }
 
     mensajeAlerta(cartel, "azul");
-    cadena = rls.question(igualoCadena("", 31, " ") + `Ingrese valor: `.green);
+    cadena= rls.question(igualoCadena("", 31, " ") + `Ingrese valor: `.green).toLowerCase();
+  
 
-    if (cadena.toLowerCase() === cad1 || cadena.toLowerCase() === cad2 || cadena.toLowerCase() === cad3) {
+    if (cadena === cad1 || cadena === cad2 || cadena === cad3) {
 
       errorEntrada = false;
       //errorIngreso = true;

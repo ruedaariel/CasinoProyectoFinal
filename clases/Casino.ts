@@ -11,6 +11,8 @@ import 'colors';
 import * as fs from "fs";
 
 
+
+
 export class Casino {
   private clientes: Cliente[] = [];
   private juegos: Juego[] = [];
@@ -235,77 +237,88 @@ export class Casino {
   public repetirUnJuego(indice: number, jugador: Cliente) {
     let condicion = "1";
     console.clear();
+
+
     while (parseInt(condicion) > 0) {
-      if (indice == 3) {
-        (this.juegos[indice] as Ruleta).comenzarAJugar(jugador);
-      } else {
-        this.juegos[indice].apostar(jugador);
+
+      if (this.juegos[indice].verificarCredito(jugador)) {
+
+
+        if (indice == 3) {
+          (this.juegos[indice] as Ruleta).comenzarAJugar(jugador);
+        } else {
+          this.juegos[indice].apostar(jugador);
+        }
+      
+        condicion = rls.question(
+          funciones.igualoCadena("\n", 20, " ") +
+          ` Si desea seguir apostando a ${this.juegos[indice].getNombre()}, presione un numero mayor a 0:  `.green);
+        console.clear();
       }
-      condicion = rls.question(
-        funciones.igualoCadena("\n", 20, " ") +
-        ` Si desea seguir apostando a ${this.juegos[indice].getNombre()}, presione un numero mayor a 0:  `.green);
-      console.clear();
+      else { condicion = "0"; }
+
     }
   }
+
 
   public grabaDatos(archivo: string, datos: Cliente[]): void {
-    try {
-      // Convertir los datos a JSON, null no aplica ninguna transformacion especial, space = 2 mejora la legilibilidad del JSON
-      const datosJSON = JSON.stringify(datos, null, 2);
-      // Escribir datos en un archivo .txt
-      fs.writeFileSync(archivo, datosJSON, "utf-8");
-    } catch (e) {
-      funciones.mensajeAlertaSinMarco(`\n ${(e as Error).message}.`, "amarillo");
-      let caracter = rls.question("\n Presione una tecla para continuar ...").blue;
-    }
+  try {
+    // Convertir los datos a JSON, null no aplica ninguna transformacion especial, space = 2 mejora la legilibilidad del JSON
+    const datosJSON = JSON.stringify(datos, null, 2);
+    // Escribir datos en un archivo .txt
+    fs.writeFileSync(archivo, datosJSON, "utf-8");
+  } catch(e) {
+    funciones.mensajeAlertaSinMarco(`\n ${(e as Error).message}.`, "amarillo");
+    let caracter = rls.question("\n Presione una tecla para continuar ...").blue;
   }
+}
 
   public leeDatosCliente(archivo: string): Cliente[] {
-    const clientes: Cliente[] = [];
-    try {
-      // Lee el archivo
-      const datos = fs.readFileSync(archivo, "utf-8");
-      // Parsea los datos leídos
-      const clientesLeidos: any[] = JSON.parse(datos);
+  const clientes: Cliente[] = [];
+  try {
+    // Lee el archivo
+    const datos = fs.readFileSync(archivo, "utf-8");
+    // Parsea los datos leídos
+    const clientesLeidos: any[] = JSON.parse(datos);
 
-      clientesLeidos.forEach((elem) => {
-        const cliente = new Cliente(elem.dni, elem.nombre);
-        //el credito no se carga en el constructor 
-        cliente.setCredito(elem.credito);
+    clientesLeidos.forEach((elem) => {
+      const cliente = new Cliente(elem.dni, elem.nombre);
+      //el credito no se carga en el constructor 
+      cliente.setCredito(elem.credito);
 
-        clientes.push(cliente);
+      clientes.push(cliente);
 
-      });
-    } catch (e) {
-      funciones.mensajeAlertaSinMarco("Error en archivo de Clientes, se retorna un arreglo vacio", "rojo");
-      funciones.mensajeAlertaSinMarco(` ${(e as Error).message}`, "rojo");
-    }
-    finally {
-      return clientes
-    }
+    });
+  } catch (e) {
+    funciones.mensajeAlertaSinMarco("Error en archivo de Clientes, se retorna un arreglo vacio", "rojo");
+    funciones.mensajeAlertaSinMarco(` ${(e as Error).message}`, "rojo");
   }
+  finally {
+    return clientes
+  }
+}
 
 
   public leerArchivoInstrucciones(ruta: string, titulo: string) {
-    try {
-      //controla que exista el archivo
-      if (fs.existsSync(ruta)) {
-        //lee el archivo
-        const instrucciones = fs.readFileSync(ruta, "utf-8");
+  try {
+    //controla que exista el archivo
+    if (fs.existsSync(ruta)) {
+      //lee el archivo
+      const instrucciones = fs.readFileSync(ruta, "utf-8");
 
-        funciones.mensajeAlerta(`Instrucciones para ${titulo} `, "azul");
-        console.log(`\n${instrucciones}`); //muetra el contenido del archivo
-        console.log("\n \n");
-        let caracter = rls.question(" Presione una tecla para continuar ...").blue;
-        console.log("\n \n");
-      } else {
-        funciones.mensajeAlertaSinMarco(`\nNo se encontraron instrucciones para ${titulo}.`, "amarillo");
-        let caracter = rls.question("\n Presione una tecla para continuar ...").blue;
-      }
-    } catch (e) {
-      //otros tipos de errores menos frecuentes (como error de acceso)
-      funciones.mensajeAlertaSinMarco(` ${(e as Error).message}`, "rojo");
+      funciones.mensajeAlerta(`Instrucciones para ${titulo} `, "azul");
+      console.log(`\n${instrucciones}`); //muetra el contenido del archivo
+      console.log("\n \n");
+      let caracter = rls.question(" Presione una tecla para continuar ...").blue;
+      console.log("\n \n");
+    } else {
+      funciones.mensajeAlertaSinMarco(`\nNo se encontraron instrucciones para ${titulo}.`, "amarillo");
+      let caracter = rls.question("\n Presione una tecla para continuar ...").blue;
     }
-
+  } catch (e) {
+    //otros tipos de errores menos frecuentes (como error de acceso)
+    funciones.mensajeAlertaSinMarco(` ${(e as Error).message}`, "rojo");
   }
+
+}
 }
