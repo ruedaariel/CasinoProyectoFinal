@@ -92,7 +92,7 @@ export class Ruleta extends Juego implements JuegoCasino {
     const numero = Math.floor(Math.random() * this.nrosRuleta.length);
 
     return numero;
-    
+        
   }
 
   public jugar(): void {
@@ -119,7 +119,7 @@ export class Ruleta extends Juego implements JuegoCasino {
       apostado += apuesta.getCantidadApostada();
     });
 
-    let resultadoBolilla: string = funciones.igualoCadena(" Bolilla: -> " + `${this.bolilla}` + " <-  -> " + `${this.bolillaColor}` + " <- -> " + `${this.bolillaPar}` + " <- -> " + `${this.bolillaDocenaString} <-`, 46, " ");
+    let resultadoBolilla: string = funciones.igualoCadena(" Bolilla: » " + `${this.bolilla}` + " «  » " + `${this.bolillaColor}` + " «  » " + `${this.bolillaPar}` + " «  » " + `${this.bolillaDocenaString} «`, 46, " ");
     funciones.mensajeAlerta(resultadoBolilla, "amarillo");
 
     funciones.mensajeAlerta(funciones.igualoCadena("Lo apostado fue: ", 46, " "), "azul");
@@ -138,8 +138,7 @@ export class Ruleta extends Juego implements JuegoCasino {
 
   private evaluarApuesta(apuesta: Apuesta, bolilla: number): number {
 
-
-    this.bolillaColor = this.colorRuleta[bolilla]; // color del nro que salio
+   this.bolillaColor = this.colorRuleta[bolilla]; // color del nro que salio
 
     let montoGanado = 0;
 
@@ -160,22 +159,24 @@ export class Ruleta extends Juego implements JuegoCasino {
     } else {
       this.bolillaPar = "impar";
     }
-
    
+    // si bolilla es 0 solo se paga la puesta de nro si coincide con 0
+    if (bolilla === 0) {
+
+      this.bolillaColor = " - ";
+      this.bolillaDocenaString = " - ";
+      this.bolillaPar = " - "
+
+    }
+
+
+
+
     // verifico si acerto con el nro apostado
     if (apuesta.getTipo().toLowerCase() === "numero" && bolilla === Number(apuesta.getValor())) {
 
       montoGanado += apuesta.getCantidadApostada() * 36;
       apuesta.setResultadoApuesta(montoGanado);
-
-      // si bolilla es 0 retorno lo que gano en nro, el resto se anula
-      if (bolilla === 0) {
-
-        this.bolillaColor = " ";
-        this.bolillaPar = " ";
-        this.bolillaDocena = 0;
-        return montoGanado;
-      }
 
     }
 
