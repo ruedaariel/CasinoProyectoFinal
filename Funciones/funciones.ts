@@ -24,7 +24,10 @@ export function menuGenerico() {
 
     pantallaMenu(" Titulo general", servicios, 30, 40, 2);
 
-    if (!errorIngreso) { lineaConRecuadroError(30, "Opción inválida. Por favor, reinteinte", 40, 2); }
+    if (!errorIngreso) {
+      lineaConRecuadroError(30, "Opción inválida. Por favor, reinteinte", 40, 2);
+      errorIngreso = true;
+    }
 
     opcion = rls.question(igualoCadena("", 31, " ") + "Seleccione una de las opciones:".green);
 
@@ -131,7 +134,7 @@ export function armaLinea(padIzquierdo: number, texto: string, ancho: number, se
 //                              set = 1 => linea simple | o 2 => linea doble ║                     
 export function lineaConRecuadro(padIzquierdo: number, texto: string, ancho: number, set: number) {
 
-  
+
   cierreSuperior(padIzquierdo, ancho, set);
   armaLinea(padIzquierdo, texto, ancho, set);
   cierreInferior(padIzquierdo, ancho, set);
@@ -315,21 +318,21 @@ export function validarNumeroEntre(cartel: string, min: number, max: number): nu
     numeroString = rls.question(igualoCadena("", 31, " ") + "Ingrese el valor: ".green);
     numero = parseInt(numeroString);
 
-    if (isNaN(numero)) { 
+    if (isNaN(numero)) {
       errorEntrada = false
-    }else{ 
-          if ((numero >= min) && (numero <= max)) { errorEntrada = true }
-           else {errorEntrada = false}
+    } else {
+      if ((numero >= min) && (numero <= max)) { errorEntrada = true }
+      else { errorEntrada = false }
     }
     //console.clear();
 
-  }while(!errorEntrada)
- 
+  } while (!errorEntrada)
+
   return numero
 }
 
 // valida la entrada de dos numeros
-export function validarValidezApuesta(cartel: string, apumin: number, apumax: number, saldo:number): number {
+export function validarValidezApuesta(cartel: string, apumin: number, apumax: number, saldo: number): number {
   let apuestaHecha: number;
   let apuestaString: string = "0";
   let errorEntrada: boolean = true;
@@ -349,31 +352,30 @@ export function validarValidezApuesta(cartel: string, apumin: number, apumax: nu
     apuestaString = rls.question(igualoCadena("", 31, " ") + "Ingrese el valor: ".green);
     apuestaHecha = parseInt(apuestaString);
 
-    if (isNaN(apuestaHecha)) { 
+    if (isNaN(apuestaHecha)) {
       errorEntrada = false
-    }else{ 
+    } else {
 
-            
-            if ((apuestaHecha > apumax) || (apuestaHecha < apumin) || (apuestaHecha > saldo)) {
-                    cartel = `Su apuesta de $${apuestaHecha} esta fuera del minimo de $${apumin} o el maximo de $${apumax}. O supera su crédito de $${saldo}`;
-                    errorEntrada = false
-                    }
-            else {
 
-              if (apuestaHecha >= apumin && apuestaHecha <= apumax) 
-                { errorEntrada = true}
+      if ((apuestaHecha > apumax) || (apuestaHecha < apumin) || (apuestaHecha > saldo)) {
+        cartel = `Su apuesta de $${apuestaHecha} esta fuera del minimo de $${apumin} o el maximo de $${apumax}. O supera su crédito de $${saldo}`;
+        errorEntrada = false
+      }
+      else {
 
-            }        
-                 
-                 
+        if (apuestaHecha >= apumin && apuestaHecha <= apumax) { errorEntrada = true }
 
-                 }
-         
-    
-         //console.clear();
+      }
 
-  }while(!errorEntrada)
- 
+
+
+    }
+
+
+    //console.clear();
+
+  } while (!errorEntrada)
+
   return apuestaHecha;
 }
 
@@ -399,8 +401,8 @@ export function ingresarString(cartel: string, cad1: string, cad2: string, cad3?
     }
 
     mensajeAlerta(cartel, "azul");
-    cadena= rls.question(igualoCadena("", 31, " ") + `Ingrese valor: `.green).toLowerCase();
-  
+    cadena = rls.question(igualoCadena("", 31, " ") + `Ingrese valor: `.green).toLowerCase();
+
 
     if (cadena === cad1 || cadena === cad2 || cadena === cad3) {
 
@@ -505,9 +507,9 @@ export function dibujaTablero(apuestaNumero: number[], apuestaColor: string[]): 
 
   console.log(PADIZQUIERDO + bordeInferior);
   //console.log(PADIZQUIERDO + cuartaLinea);
-  console.log (PADIZQUIERDO+cero[2]+"║".green+(priDoc as any)[colorPriDoc]+"║".green+(segDoc as any)[colorSegDoc].white+"║".green+(terDoc as any)[colorTerDoc].white+"║".green)
+  console.log(PADIZQUIERDO + cero[2] + "║".green + (priDoc as any)[colorPriDoc] + "║".green + (segDoc as any)[colorSegDoc].white + "║".green + (terDoc as any)[colorTerDoc].white + "║".green)
   console.log(PADIZQUIERDO + quintaLinea);
-  console.log(PADIZQUIERDO+"                  ║".green+(par as any)[colorPar]+"║".green+(rojo as any)[colorRojo] +"║"+(negro as any)[colorNegro]+"║".green+(impar as any)[colorImpar]+"║            ".green)
+  console.log(PADIZQUIERDO + "                  ║".green + (par as any)[colorPar] + "║".green + (rojo as any)[colorRojo] + "║" + (negro as any)[colorNegro] + "║".green + (impar as any)[colorImpar] + "║            ".green)
   //console.log(PADIZQUIERDO + lineaParRojo);
   console.log(PADIZQUIERDO + ultimaLinea);
 
@@ -519,7 +521,7 @@ function armaColorParDoc(colores: string[]): void {
   // por cada lugar del arreglo asigna fondo azul para lo apostado
   const azul = `bgBlue`;
 
-  if (colores.length === 0) { 
+  if (colores.length === 0) {
     colorPriDoc = colorApuesta;
     colorSegDoc = colorApuesta;
     colorTerDoc = colorApuesta;
@@ -653,10 +655,10 @@ export function mostrarResultadoApuesta(apuestas: Apuesta[], montoApostado: numb
 
   console.log(lineaSuperior);
   console.log(lineaEncabezado);
-    console.log(lineaInferior);
+  console.log(lineaInferior);
 
   apuestas.forEach(apuesta => {
-    
+
     let lineaImprimir: string = tabIzquierdo + " │ " +
       igualoCadena(apuesta.getTipo(), 9, " ").yellow + " │ " +
       igualoCadena(apuesta.getValor().toString(), 9, " ").yellow + " │ " +
