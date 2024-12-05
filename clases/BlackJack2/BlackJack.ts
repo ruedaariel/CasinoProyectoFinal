@@ -27,24 +27,7 @@ public setApuestaActual(apuestaActual: number): void {
    this.apuestaActual = apuestaActual ;
 } 
 //----------------------------------------------------------------------------------------------------------
-/*public apostar(jugador:Cliente):void { 
-  let premio:number=0; 
-  this.apuestaActual = this.ingresarApuesta();
-  if (this.apuestaActual >= jugador.getACredito()) {
-         funciones.mensajeAlerta(`La apuesta debe serdir
-           menor o igual a su credito de $ ${jugador.getACredito()}`, "Rojo")
-  } else {
-          jugador.setCredito(jugador.getACredito()-this.apuestaActual);
-          //funciones.mensajeAlerta(`Tu crédito actual es de ${jugador.getACredito()}`,"Rojo");
-          funciones.mensajeAlerta(`Apostando ${this.apuestaActual} pesos...`,"Azul"); 
-          this.jugar();
-          premio = this.pagar();
-          jugador.setCredito(jugador.getACredito()+premio);
-          funciones.mensajeAlerta(premio > 0 ? `¡Ganaste ${this.apuestaActual} pesos!` : `Lo siento, perdiste.`, premio > 0? "Rojo" : "Azul");
-          funciones.mensajeAlerta(`Tu crédito actual es de ${jugador.getACredito()}`,"Rojo");
-       }
-  }*/
-       public apostar(jugador: Cliente): void{ 
+   public apostar(jugador: Cliente): void{ 
         let premio: number = 0; //Variable para asignar monto ganado en la jugada
         this.apuestaActual = funciones.validarValidezApuesta(`Realice su apuesta comprendida entre $ ${this.apuestaMinima} y $ ${this.apuestaMaxima} `, this.apuestaMinima, this.apuestaMaxima, jugador.getACredito());
         jugador.setCredito(jugador.getACredito()-this.apuestaActual);
