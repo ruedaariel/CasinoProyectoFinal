@@ -63,7 +63,7 @@ export abstract class Tragamonedas extends Juego {
         }
         premio = 0;
         if (conteo[this.comodin]) {
-            premio = this.cantApostada * this.multiplicador;
+            premio = this.cantApostada * this.multiplicador * conteo[this.comodin];
         } else {
             for (const key in conteo) {
                 if (conteo[key] >= 2) {
