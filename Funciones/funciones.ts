@@ -3,8 +3,8 @@ import { error } from "console";
 import * as rls from "readline-sync";
 import { Apuesta } from "../clases/ruleta/Apuesta";
 
-// resuleve la logica de la seleccion de opciones conm manejo del error
-// servicio => es un aregllo que define las opciones y su texto y sirve para pasarlo a
+// resuelve la logica de la seleccion de opciones conm manejo del error
+// servicio => es un arreglo que define las opciones y su texto y sirve para pasarlo a
 // pantalla menu para dibujarlo 
 
 export function menuGenerico() {
@@ -233,6 +233,8 @@ export function igualoCadena(cadena: string, largo: number, caracter: string): s
 
 }
 
+// -------------------------------------------
+// funciones para armar los dados en la consola
 export function dibujaUnDado(dado1: number, dado2: number): void {
 
   const todosLosDados: string[][] = [["╔════╦════╦════╗",
@@ -331,7 +333,7 @@ export function validarNumeroEntre(cartel: string, min: number, max: number): nu
   return numero
 }
 
-// valida la entrada de dos numeros
+// valida la apuesta
 export function validarValidezApuesta(cartel: string, apumin: number, apumax: number, saldo: number): number {
   let apuestaHecha: number;
   let apuestaString: string = "0";
@@ -371,9 +373,6 @@ export function validarValidezApuesta(cartel: string, apumin: number, apumax: nu
 
     }
 
-
-    //console.clear();
-
   } while (!errorEntrada)
 
   return apuestaHecha;
@@ -385,6 +384,7 @@ export function stop(): void {
   let pausa = rls.question(igualoCadena("", 28, " ") + `Presione una tecla ... `.green);
 }
 
+//-----------------------------------------
 // valida la entrada de dos/tres cadenas
 export function ingresarString(cartel: string, cad1: string, cad2: string, cad3?: string): string {
   let cadena: string = "";
@@ -493,6 +493,8 @@ function salioCero(apuestaNumero: number[]): void {
 
 }
 
+//--------------------------------------------
+// dibuja el tablero
 export function dibujaTablero(apuestaNumero: number[], apuestaColor: string[]): void {
 
   armaColorParDoc(apuestaColor);
@@ -545,6 +547,8 @@ function armaColorParDoc(colores: string[]): void {
 
 }
 
+
+
 function armaLineaTablero(apuesta: number[]): void {
 
   const colorRuletaAux: string[] = [...colorRuleta]; // crea una copia auxiliar
@@ -589,6 +593,7 @@ function armaLineaTablero(apuesta: number[]): void {
   })
 }
 
+//--------------------------------------------------------
 // muestra un mensaje que se le puede variar el color
 export function mensajeAlertaSinMarco(mensaje: string, color: string): void {
 
@@ -610,7 +615,7 @@ export function mensajeAlertaSinMarco(mensaje: string, color: string): void {
   console.log(igualoCadena(" ", padIzquierdo, " ") + mensaje + " ");
 }
 
-//---------- muestra resultado de la apuesta  ---------------------
+//---------- muestra resultado de la apuesta en ruleta ---------------------
 
 //arma un listado con las apuestas hechas al momento de pagar
 export function mostrarResultadoApuesta(apuestas: Apuesta[], montoApostado: number, montoGanado: number): void {
