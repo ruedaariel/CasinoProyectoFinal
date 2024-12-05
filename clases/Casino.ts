@@ -175,7 +175,8 @@ export class Casino {
       console.clear();
       funciones.pantallaMenu("      CASINO ON-LINE ", servicios, 30, 40, 2);
       if (!errorIngreso) {
-        funciones.lineaConRecuadroError(30, "Opción inválida. Por favor, intente nuevamente", 40, 2);
+        funciones.lineaConRecuadroError(30, "Opción inválida. Reintente", 40, 2);
+        errorIngreso = true;
       }
       opcion = rls.question(funciones.igualoCadena("", 31, " ") + "Seleccione una de las opciones:".green);
       condicion = "1";
@@ -184,12 +185,10 @@ export class Casino {
       switch (opcion) {
         case "1":
           funciones.mensajeAlerta(`          🍒    BIENVENIDO ${jugador.getNombre()} A TRAGAMONEDAS CLASICO    🍒          `, "verde");
-          // console.log("seleccionaste Tragamonedas Clásico");
           this.leerArchivoInstrucciones("./clases/datos/tragamonedas.txt", "Tragamonedas");
           this.repetirUnJuego(0, jugador);
           break;
         case "2":
-          // console.log("seleccionaste Tragamonedas Temático");
           this.leerArchivoInstrucciones("./clases/datos/tragamonedas.txt", "Tragamonedas");
           funciones.mensajeAlerta(`          🍀    BIENVENIDO ${jugador.getNombre()} A TRAGAMONEDAS TEMATICO    🍀         ` , "verde");
           this.repetirUnJuego(1, jugador);
@@ -197,7 +196,7 @@ export class Casino {
         case "3":
           funciones.mensajeAlerta(`          🃏    BIENVENIDO ${jugador.getNombre()} A BLACKJACK    🃏          `, "verde");
           this.leerArchivoInstrucciones("./clases/datos/blackJack.txt", "Blackjack");
-          this.repetirUnJuego(2, jugador); //VER COMO SE INICIA BLACKJACK
+          this.repetirUnJuego(2, jugador); 
           break;
         case "4":
           funciones.mensajeAlerta(`              BIENVENIDO ${jugador.getNombre()} A RULETA              `, "verde");
@@ -224,7 +223,8 @@ export class Casino {
           );
           break;
         case "0":
-          console.log("Saliendo del menú...");
+          funciones.mensajeAlertaSinMarco(`      🃏   GRACIAS ${jugador.getNombre()} POR JUGAR EN NUESTRO CASINO    🃏      `, "verde")
+          funciones.mensajeAlertaSinMarco("\n                             ¡Hasta la próxima! 🎩✨","amarillo" );
           break;
         default:
           errorIngreso = false;

@@ -31,14 +31,14 @@ export class Ruleta extends Juego implements JuegoCasino {
     this.apuestaMaxima = 1000;
     this.apuestaMinima = 100;
     this.nombre = "RULETA";
-    
+
 
     this.nrosRuleta = [
       0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
       21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36,
     ];
 
-    this.colorRuleta = ["verde","rojo", "negro", "rojo", "negro", "rojo", "negro", "rojo", "negro", "rojo",
+    this.colorRuleta = ["verde", "rojo", "negro", "rojo", "negro", "rojo", "negro", "rojo", "negro", "rojo",
       "negro", "negro", "rojo", "negro", "rojo", "negro", "rojo", "negro", "rojo", "negro",
       "rojo", "negro", "rojo", "negro", "rojo", "negro", "rojo", "negro", "rojo", "negro",
       "rojo", "negro", "rojo", "negro", "rojo", "negro", "rojo",];
@@ -47,52 +47,40 @@ export class Ruleta extends Juego implements JuegoCasino {
   public comenzarAJugar(jugador: Cliente): void {
 
     let JugadorRuleta: Cliente = jugador;
-    //let primeraVez = true;
     let mensajeBienvenida: string = ""
     this.apuestas = [];  // asegur tener vacio el arreglo de apuestas
 
-    //if (!this.verificarCredito(jugador)) { return; } // retorno a casino
+    console.clear();
 
-    //while (true) {
+    funciones.mensajeAlerta(mensajeBienvenida + ` Dispone de $${jugador.getACredito()}` + " para apostar", "azul")
+    funciones.mensajeAlerta(`Las apuestas permitidas son un minimo de $${this.apuestaMinima} y un maximo de $${this.apuestaMaxima} `, "amarillo");
 
-      //mensajeBienvenida = `Bienvenido ${jugador.getNombre()} a la mesa de ruleta.
-      console.clear();
-
-      //if (primeraVez) { mensajeBienvenida = `Bienvenido ${jugador.getNombre()} a la mesa de ruleta.` }
-      //else { mensajeBienvenida = `${jugador.getNombre()} seguimos jugando? ` }
-
-      funciones.mensajeAlerta(mensajeBienvenida+` Dispone de $${jugador.getACredito()}` + " para apostar", "azul")
-      funciones.mensajeAlerta(`Las apuestas permitidas son un minimo de $${this.apuestaMinima} y un maximo de $${this.apuestaMaxima} `, "amarillo");
+    funciones.stop();
 
 
-      //funciones.mensajeAlerta(" -- Presionando cualquier tecla va a jugar -- . -- Pulsando 0 -- vuelve al casino ", "azul");
-      funciones.stop();
 
-     
+    // jugador habilitado voy a apostar
+    this.apostar(JugadorRuleta);
 
+    // tiramos bolilla y jugamos
 
-      // jugador habilitado voy a apostar
-      this.apostar(JugadorRuleta);
+    this.jugar();
 
-      // tiramos bolilla y jugamos
+    let paraAcreditar: number = this.pagar();
 
-      this.jugar();
+    // actualizo el crédito del cliente.
+    JugadorRuleta.setCredito(jugador.getACredito() + paraAcreditar);
 
-      let paraAcreditar: number = this.pagar();
-      
-      // actualizo el crédito del cliente.
-      JugadorRuleta.setCredito(jugador.getACredito() + paraAcreditar);
-
-      //primeraVez = false // vuelvo a jugar
+    //primeraVez = false // vuelvo a jugar
 
     //}
 
   }
+
   public tirarBolilla(): number {
     const numero = Math.floor(Math.random() * this.nrosRuleta.length);
 
     return numero;
-        
   }
 
   public jugar(): void {
@@ -107,12 +95,12 @@ export class Ruleta extends Juego implements JuegoCasino {
     let montoGanado: number = 0;
 
     console.clear();
-    
-    // si longitud es 0 no evaluo porque no se aposto nada
-    if (this.apuestas.length === 0) {return 0;}
 
-    
-    
+    // si longitud es 0 no evaluo porque no se aposto nada
+    if (this.apuestas.length === 0) { return 0; }
+
+
+
     this.apuestas.forEach(apuesta => {
 
       montoGanado += this.evaluarApuesta(apuesta, this.bolilla);
@@ -138,7 +126,7 @@ export class Ruleta extends Juego implements JuegoCasino {
 
   private evaluarApuesta(apuesta: Apuesta, bolilla: number): number {
 
-   this.bolillaColor = this.colorRuleta[bolilla]; // color del nro que salio
+    this.bolillaColor = this.colorRuleta[bolilla]; // color del nro que salio
 
     let montoGanado = 0;
 
@@ -148,9 +136,11 @@ export class Ruleta extends Juego implements JuegoCasino {
       this.bolillaDocena = Math.floor(bolilla / 12) + 1;
     }
 
-    if (this.bolillaDocena === 1) { this.bolillaDocenaString = "primera";}
-    else { if (this.bolillaDocena === 2) {this.bolillaDocenaString = "segunda";}
-            else {this.bolillaDocenaString = "tercera";}}
+    if (this.bolillaDocena === 1) { this.bolillaDocenaString = "primera"; }
+    else {
+      if (this.bolillaDocena === 2) { this.bolillaDocenaString = "segunda"; }
+      else { this.bolillaDocenaString = "tercera"; }
+    }
 
     this.bolillaPar = ""; // se almacena si par o impar el nro que salio
 
@@ -159,7 +149,7 @@ export class Ruleta extends Juego implements JuegoCasino {
     } else {
       this.bolillaPar = "impar";
     }
-   
+
     // si bolilla es 0 solo se paga la puesta de nro si coincide con 0
     if (bolilla === 0) {
 
@@ -193,7 +183,7 @@ export class Ruleta extends Juego implements JuegoCasino {
 
       montoGanado += apuesta.getCantidadApostada() * 2;
       apuesta.setResultadoApuesta(montoGanado);
-      
+
     }
 
     // verifico si acerto par o impar
@@ -257,10 +247,11 @@ export class Ruleta extends Juego implements JuegoCasino {
       }
 
       // se verifica que el jugador tenga el saldo suficiente para realizar la apuesta minima
-      if (jugador.getACredito() === 0 || jugador.getACredito() < this.apuestaMinima) { 
-        
-        funciones.mensajeAlerta(`${jugador.getNombre()} su saldo de $${jugador.getACredito()} es inferior al minimo para apostar. Finalice apuesta `,"rojo");}
-        
+      if (jugador.getACredito() === 0 || jugador.getACredito() < this.apuestaMinima) {
+
+        funciones.mensajeAlerta(`${jugador.getNombre()} su saldo de $${jugador.getACredito()} es inferior al minimo para apostar. Finalice apuesta `, "rojo");
+      }
+
       else { cartel = ` ${jugador.getNombre()} Tomamos su apuesta ` }
 
       // muestra el menu de apuestas
@@ -268,7 +259,10 @@ export class Ruleta extends Juego implements JuegoCasino {
 
       let CreditoParApostar: string = ` Dispone de $${jugador.getACredito()} `;
 
-      if (!errorIngreso) { funciones.lineaConRecuadroError(30, "Opción inválida. Por favor, reinteinte", 40, 2); }
+      if (!errorIngreso) {
+        funciones.lineaConRecuadroError(30, "Opción inválida. Por favor, reinteinte", 40, 2);
+        errorIngreso = true;
+      }
 
       opcion = rls.question(funciones.igualoCadena("", 31, " ") + "Seleccione una de las opciones:".green);
 
