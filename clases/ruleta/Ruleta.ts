@@ -44,6 +44,8 @@ export class Ruleta extends Juego implements JuegoCasino {
       "rojo", "negro", "rojo", "negro", "rojo", "negro", "rojo",];
   }
 
+  //------------------------------------------------------
+  // inicio del juego
   public comenzarAJugar(jugador: Cliente): void {
 
     let JugadorRuleta: Cliente = jugador;
@@ -57,13 +59,10 @@ export class Ruleta extends Juego implements JuegoCasino {
 
     funciones.stop();
 
-
-
     // jugador habilitado voy a apostar
     this.apostar(JugadorRuleta);
 
     // tiramos bolilla y jugamos
-
     this.jugar();
 
     let paraAcreditar: number = this.pagar();
@@ -71,24 +70,25 @@ export class Ruleta extends Juego implements JuegoCasino {
     // actualizo el crédito del cliente.
     JugadorRuleta.setCredito(jugador.getACredito() + paraAcreditar);
 
-    //primeraVez = false // vuelvo a jugar
-
-    //}
-
   }
 
+  // ------------------------------------------
+  // calcula la bolilla
   public tirarBolilla(): number {
     const numero = Math.floor(Math.random() * this.nrosRuleta.length);
 
     return numero;
   }
 
+  
   public jugar(): void {
 
     this.bolilla = this.tirarBolilla(); // numero que salio al tirar la bolilla
 
   }
 
+  // ----------------------------------------------------
+  // recorre el arreglo de apuestas y calcula si se ha ganado en funcion de la bolilla
   public pagar(): number {
 
     let apostado: number = 0;
@@ -100,7 +100,7 @@ export class Ruleta extends Juego implements JuegoCasino {
     if (this.apuestas.length === 0) { return 0; }
 
 
-
+    // se evalua cada apuesta hecha
     this.apuestas.forEach(apuesta => {
 
       montoGanado += this.evaluarApuesta(apuesta, this.bolilla);
@@ -120,6 +120,7 @@ export class Ruleta extends Juego implements JuegoCasino {
 
   }
 
+  //-----------------------------------------------------------------------
   // evaluar apuesta recibe un objeto de tipo Apuesta y el numero que resulto de tira la bolilla
   // en funcion del tipo de apuesta evalua si hubo acierto o no
   // y ademas calcula el monto ganado en funcion de lo apostado
@@ -130,6 +131,7 @@ export class Ruleta extends Juego implements JuegoCasino {
 
     let montoGanado = 0;
 
+    // se determina la docena
     if (bolilla / 12 - Math.trunc(bolilla / 12) === 0) {
       this.bolillaDocena = Math.trunc(bolilla / 12);
     } else {
@@ -158,9 +160,6 @@ export class Ruleta extends Juego implements JuegoCasino {
       this.bolillaPar = " - "
 
     }
-
-
-
 
     // verifico si acerto con el nro apostado
     if (apuesta.getTipo().toLowerCase() === "numero" && bolilla === Number(apuesta.getValor())) {
@@ -198,6 +197,8 @@ export class Ruleta extends Juego implements JuegoCasino {
 
   }
 
+  // ----------------------------------------------------------
+  // visuliza la apuesta que se esta haciendo
   private mostrarApuesta(): void {
 
     let contador: number = 1;
@@ -223,6 +224,7 @@ export class Ruleta extends Juego implements JuegoCasino {
 
   }
 
+  // ---------------------------------------------------------------
   // apostar recibe todas las apuestas de un jugador sobre el tablero
   public apostar(jugador: Cliente): void {
 
@@ -317,6 +319,8 @@ export class Ruleta extends Juego implements JuegoCasino {
   }
 
 
+  //--------------------------------------------------
+  // arma arreglos para que se diguje el tablero
   private preparaDatosTablero(): void {
 
 
