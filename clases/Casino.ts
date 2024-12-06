@@ -306,7 +306,7 @@ export class Casino {
       funciones.mensajeAlerta(`Instrucciones para ${titulo} `, "azul");
       console.log(`\n${instrucciones}`); //muetra el contenido del archivo
       console.log("\n \n");
-      let caracter = readlineSync.question(" Presione una tecla para continuar ...").blue;
+      let caracter = rls.question(" Presione una tecla para continuar ...").blue;
       console.log("\n \n");
     } else {
       funciones.mensajeAlertaSinMarco(`\nNo se encontraron instrucciones para ${titulo}.`, "amarillo");
