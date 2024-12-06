@@ -1,0 +1,20 @@
+,,,,,,
+,id,Descripcion,Datos de entrada,Resultado Esperado,Resultado Real,
+,1,registro de nuevo usuario,dni: 25333222 -Nombre: Juan Perez,Se ingresa el nuevo cliente - mensaje de grabado,"No hay mensaje, se pasa automaticamente al menu de juego",Resuelto
+,2,registro de nuevo usuario,dni: aa,mensaje de error - volver a ingresar el dato,se obtiene el resultado esperado,
+,3,registro de nuevo usuario,dni: -1,mensaje de error - volver a ingresar el dato,se obtiene el resultado esperado,
+,4,registro de nuevo usuario,dni: 10,documento invalido - volver a ingresar,permite ingresarlo como valido,Resuelto
+,5,registro de nuevo usuario,dni: 26123123 - nombre: (espacio en blanco),mensaje de error en nombre - volver a ingresar nombre,se obtiene el resultado esperado,
+,6,Usuario existente,dni: 16998400 (dni ya cargado),se encuentra el cliente (muestra los datod del cliente),no muestra ningun mensaje ni datos del cliente,Resuelto
+,7,Carga de credito con usuario con credito 0,monto: -1,mensaje de error - volver a ingresar el dato,se obtiene el resultado esperado,
+,8,Carga de credito con usuario con credito 0,monto: 1000,credito: 1000,se obtiene el resultado esperado,
+,9,Carga de credito con usuario mayor que 0,monto: 1000 (monto existente: 1000),credito: 2000,se obtiene el resultado esperado,
+,10,carga del archivo clientes.txt,,"Si no encuentra el archivo, se muestra un mensaje de error y el arreglo de Clientes queda vacio",se obtiene el resultado esperado,
+,11,Mostrar Cliente,"dni 16998400, Nombre: Gladys, credito: 2000",Mostrar por pantalla los datos,se obtiene el resultado esperado,
+,12,Si el cliente no tiene suficiente credito para ingresar a jugar,"dni 16998400,  credito: 20, eleccion: 4 (ruleta)",muestra un mensaje y vuelve al menu,se obtiene el resultado esperado,
+,13,,,,,
+,14,,,,,
+,15,,,,,
+,16,,,,,
+,17,,,,,
+,18,,,,,
