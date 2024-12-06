@@ -1,18 +1,13 @@
 [
   {
-    "dni": 16998400,
-    "nombre": "gladys",
-    "credito": 0
-  },
-  {
     "dni": 17342282,
-    "nombre": "Ariel",
-    "credito": 11489
+    "nombre": "ariel",
+    "credito": 50
   },
   {
     "dni": 23457291,
     "nombre": "Marcelo",
-    "credito": 340500
+    "credito": 400
   },
   {
     "dni": 11123123,
@@ -25,23 +20,13 @@
     "credito": 3400
   },
   {
-    "dni": 12345,
-    "nombre": "rob",
+    "dni": 16998400,
+    "nombre": "Gladys",
+    "credito": 4200
+  },
+  {
+    "dni": 10000000,
+    "nombre": "Juan",
     "credito": 0
-  },
-  {
-    "dni": 23456674,
-    "nombre": "www",
-    "credito": 11000
-  },
-  {
-    "dni": 123456,
-    "nombre": "Hugo Corrales",
-    "credito": 16500
-  },
-  {
-    "dni": 121212,
-    "nombre": "qqq",
-    "credito": 11500
   }
 ]

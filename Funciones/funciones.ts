@@ -3,8 +3,8 @@ import { error } from "console";
 import * as rls from "readline-sync";
 import { Apuesta } from "../clases/ruleta/Apuesta";
 
-// resuleve la logica de la seleccion de opciones conm manejo del error
-// servicio => es un aregllo que define las opciones y su texto y sirve para pasarlo a
+// resuelve la logica de la seleccion de opciones conm manejo del error
+// servicio => es un arreglo que define las opciones y su texto y sirve para pasarlo a
 // pantalla menu para dibujarlo 
 
 export function menuGenerico() {
@@ -24,10 +24,10 @@ export function menuGenerico() {
 
     pantallaMenu(" Titulo general", servicios, 30, 40, 2);
 
-
-    if (!errorIngreso) { lineaConRecuadroError(30, "Opción inválida. Por favor, reinteinte", 40, 2); }
-
-
+    if (!errorIngreso) {
+      lineaConRecuadroError(30, "Opción inválida. Por favor, reinteinte", 40, 2);
+      errorIngreso = true;
+    }
 
     opcion = rls.question(igualoCadena("", 31, " ") + "Seleccione una de las opciones:".green);
 
@@ -80,7 +80,6 @@ export function pantallaMenu(titulo: string, opciones: string[], padIzquierdo: n
 
 }
 
-
 // arma linea superior de cuadro
 export function cierreSuperior(padIzquierdo: number, ancho: number, set: number) {
 
@@ -94,7 +93,6 @@ export function cierreSuperior(padIzquierdo: number, ancho: number, set: number)
     console.log(igualoCadena(" ", padIzquierdo, " ") + "╔" + igualoCadena("═", ancho, "═") + "╗");
   }
 }
-
 
 // arma linea inferior de cuadro
 export function linea(padIzquierdo: number, ancho: number, set: number) {
@@ -130,14 +128,13 @@ export function armaLinea(padIzquierdo: number, texto: string, ancho: number, se
 
 }
 
-
 // genera un texto enmarcado    PadIzquierdo = separacion del margen izquierdo
 //                              texto = lo que se quiere mostrar
 //                              ancho = cuantocaracteres de ancho debe tener
 //                              set = 1 => linea simple | o 2 => linea doble ║                     
 export function lineaConRecuadro(padIzquierdo: number, texto: string, ancho: number, set: number) {
 
-  //igualoCadena(texto,ancho," ");
+
   cierreSuperior(padIzquierdo, ancho, set);
   armaLinea(padIzquierdo, texto, ancho, set);
   cierreInferior(padIzquierdo, ancho, set);
@@ -236,6 +233,8 @@ export function igualoCadena(cadena: string, largo: number, caracter: string): s
 
 }
 
+// -------------------------------------------
+// funciones para armar los dados en la consola
 export function dibujaUnDado(dado1: number, dado2: number): void {
 
   const todosLosDados: string[][] = [["╔════╦════╦════╗",
@@ -301,47 +300,91 @@ export function dibujaUnDado(dado1: number, dado2: number): void {
   }
 }
 
-
 // valida la entrada de dos numeros
-export function validarNumeroEntre(cartel: string, min: number, max: number, averificar: number): number {
+export function validarNumeroEntre(cartel: string, min: number, max: number): number {
   let numero: number;
+  let numeroString: string = "0";
   let errorEntrada: boolean = true;
 
-
-  while (true) {
+  do {
     console.clear();
 
     mensajeAlerta(cartel, "azul");
-
     // para evitar el scroll indefinido usamos una variable bool 
     if (!errorEntrada) {
 
       mensajeAlerta("Ingreso invalido... reintente por favor", "rojo");
       errorEntrada = true;
     }
+    // ingresa el nro
+    numeroString = rls.question(igualoCadena("", 31, " ") + "Ingrese el valor: ".green);
+    numero = parseInt(numeroString);
 
-    numero = rls.questionInt(igualoCadena("", 31, " ") + "Ingrese el valor: ".green);
-
-    if (numero >= averificar || averificar < min) {
-      cartel = `No dispone de crédito para realizar una apuesta de $${numero} su saldo máximo es $${averificar}`;
+    if (isNaN(numero)) {
       errorEntrada = false
+    } else {
+      if ((numero >= min) && (numero <= max)) { errorEntrada = true }
+      else { errorEntrada = false }
     }
+    //console.clear();
 
-    if (numero >= min && numero <= max) { break; }
-    errorEntrada = false;
-    console.clear();
+  } while (!errorEntrada)
 
-  }
-
- 
   return numero
 }
+
+// valida la apuesta
+export function validarValidezApuesta(cartel: string, apumin: number, apumax: number, saldo: number): number {
+  let apuestaHecha: number;
+  let apuestaString: string = "0";
+  let errorEntrada: boolean = true;
+
+
+  do {
+    console.clear();
+
+    mensajeAlerta(cartel, "azul");
+    // para evitar el scroll indefinido usamos una variable bool 
+    if (!errorEntrada) {
+
+      mensajeAlerta("Ingreso invalido... reintente por favor", "rojo");
+      errorEntrada = true;
+    }
+    // ingresa el nro
+    apuestaString = rls.question(igualoCadena("", 31, " ") + "Ingrese el valor: ".green);
+    apuestaHecha = parseInt(apuestaString);
+
+    if (isNaN(apuestaHecha)) {
+      errorEntrada = false
+    } else {
+
+
+      if ((apuestaHecha > apumax) || (apuestaHecha < apumin) || (apuestaHecha > saldo)) {
+        cartel = `Su apuesta de $${apuestaHecha} esta fuera del minimo de $${apumin} o el maximo de $${apumax}. O supera su crédito de $${saldo}`;
+        errorEntrada = false
+      }
+      else {
+
+        if (apuestaHecha >= apumin && apuestaHecha <= apumax) { errorEntrada = true }
+
+      }
+
+
+
+    }
+
+  } while (!errorEntrada)
+
+  return apuestaHecha;
+}
+
 
 export function stop(): void {
 
   let pausa = rls.question(igualoCadena("", 28, " ") + `Presione una tecla ... `.green);
 }
 
+//-----------------------------------------
 // valida la entrada de dos/tres cadenas
 export function ingresarString(cartel: string, cad1: string, cad2: string, cad3?: string): string {
   let cadena: string = "";
@@ -358,7 +401,8 @@ export function ingresarString(cartel: string, cad1: string, cad2: string, cad3?
     }
 
     mensajeAlerta(cartel, "azul");
-    cadena = rls.question(igualoCadena("", 31, " ") + `Ingrese valor: `.green);
+    cadena = rls.question(igualoCadena("", 31, " ") + `Ingrese valor: `.green).toLowerCase();
+
 
     if (cadena === cad1 || cadena === cad2 || cadena === cad3) {
 
@@ -425,14 +469,13 @@ let bordeSuperior: string = cero[0] + "═╦═════╦═════�
 let lineaInternedia: string = "║".green + esCero + "╠═════╬═════╬═════╬═════╬═════╬═════╬═════╬═════╬═════╬═════╬═════╬═════╣".green;
 let teceraLinea: string = "║     ║  4  ║  7  ║ 1 0 ║ 1 3 ║ 1 6 ║ 1 9 ║ 2 2 ║ 2 4 ║ 2 8 ║ 3 1 ║ 3 4 ║".blue;
 let bordeInferior: string = "║".green + `${esCero}` + "╠═════╩═════╩═════╩═════╬═════╩═════╩═════╩═════╬═════╩═════╩═════╩═════╣".green;
-let cuartaLinea: string = cero[2] + "║".green + (priDoc as any)[colorPriDoc] + "║".green + (segDoc as any)[colorSegDoc].white + "║".green + (terDoc as any)[colorTerDoc].white + "║".green;
+//let cuartaLinea: string = cero[2] + "║".green + (priDoc as any)[colorPriDoc] + "║".green + (segDoc as any)[colorSegDoc].white + "║".green + (terDoc as any)[colorTerDoc].white + "║".green;
 let quintaLinea: string = cero[3] + "╩═══════════╦═══════════╬═══════════╦═══════════╬═══════════╦═══════════╝".green;
-let lineaParRojo: string = cero[4] + "║".green + (par as any)[colorPar] + "║".green + (rojo as any)[colorRojo] + "║" + (negro as any)[colorNegro] + "║".green + (impar as any)[colorImpar] + "║            ".green;
+//let lineaParRojo: string = cero[4] + "║".green + (par as any)[colorPar] + "║".green + (rojo as any)[colorRojo] + "║" + (negro as any)[colorNegro] + "║".green + (impar as any)[colorImpar] + "║            ".green;
 let ultimaLinea: string = "                  ╚═══════════╩═══════════╩═══════════╩═══════════╝            ".green;
 
 // si se aposto por cero se pinta esa zona del tablero
 function salioCero(apuestaNumero: number[]): void {
-
 
   let indiceApuesta: number = apuestaNumero.findIndex(apu => apu === 0);
   if (indiceApuesta != -1) { esCero = "     ".bgBlue; }
@@ -443,21 +486,21 @@ function salioCero(apuestaNumero: number[]): void {
   lineaInternedia = "║".green + `${esCero}` + "╠═════╬═════╬═════╬═════╬═════╬═════╬═════╬═════╬═════╬═════╬═════╬═════╣".green;
   teceraLinea = "║     ║  4  ║  7  ║ 1 0 ║ 1 3 ║ 1 6 ║ 1 9 ║ 2 2 ║ 2 4 ║ 2 8 ║ 3 1 ║ 3 4 ║".blue;
   bordeInferior = "║".green + `${esCero}` + "╠═════╩═════╩═════╩═════╬═════╩═════╩═════╩═════╬═════╩═════╩═════╩═════╣".green;
-  cuartaLinea = cero[2] + "║".green + (priDoc as any)[colorPriDoc] + "║".green + (segDoc as any)[colorSegDoc].white + "║".green + (terDoc as any)[colorTerDoc].white + "║".green;
+  //cuartaLinea = cero[2] + "║".green + (priDoc as any)[colorPriDoc] + "║".green + (segDoc as any)[colorSegDoc].white + "║".green + (terDoc as any)[colorTerDoc].white + "║".green;
   quintaLinea = cero[3] + "╩═══════════╦═══════════╬═══════════╦═══════════╬═══════════╦═══════════╝".green;
-  lineaParRojo = cero[4] + "║".green + (par as any)[colorPar] + "║".green + (rojo as any)[colorRojo] + "║" + (negro as any)[colorNegro] + "║".green + (impar as any)[colorImpar] + "║            ".green;
+  //lineaParRojo = cero[4] + "║".green + (par as any)[colorPar] + "║".green + (rojo as any)[colorRojo] + "║" + (negro as any)[colorNegro] + "║".green + (impar as any)[colorImpar] + "║            ".green;
   ultimaLinea = "                  ╚═══════════╩═══════════╩═══════════╩═══════════╝            ".green;
 
 }
 
+//--------------------------------------------
+// dibuja el tablero
 export function dibujaTablero(apuestaNumero: number[], apuestaColor: string[]): void {
 
-  // veo si salio 0 e inicializo las variables
   armaColorParDoc(apuestaColor);
+
   salioCero(apuestaNumero);
 
-  
-  armaColorParDoc(apuestaColor);
   console.clear();
 
   console.log(PADIZQUIERDO + bordeSuperior);
@@ -465,11 +508,11 @@ export function dibujaTablero(apuestaNumero: number[], apuestaColor: string[]): 
   armaLineaTablero(apuestaNumero);
 
   console.log(PADIZQUIERDO + bordeInferior);
-  console.log(PADIZQUIERDO + cuartaLinea);
-  //console.log (PADIZQUIERDO+cero[2]+"║".green+(priDoc as any)[colorPriDoc]+"║".green+(segDoc as any)[colorSegDoc].white+"║".green+(terDoc as any)[colorTerDoc].white+"║".green)
+  //console.log(PADIZQUIERDO + cuartaLinea);
+  console.log(PADIZQUIERDO + cero[2] + "║".green + (priDoc as any)[colorPriDoc] + "║".green + (segDoc as any)[colorSegDoc].white + "║".green + (terDoc as any)[colorTerDoc].white + "║".green)
   console.log(PADIZQUIERDO + quintaLinea);
-  //console.log(PADIZQUIERDO+"                  ║".green+(par as any)[colorPar]+"║".green+(rojo as any)[colorRojo] +"║"+(negro as any)[colorNegro]+"║".green+(impar as any)[colorImpar]+"║            ".green)
-  console.log(PADIZQUIERDO + lineaParRojo);
+  console.log(PADIZQUIERDO + "                  ║".green + (par as any)[colorPar] + "║".green + (rojo as any)[colorRojo] + "║" + (negro as any)[colorNegro] + "║".green + (impar as any)[colorImpar] + "║            ".green)
+  //console.log(PADIZQUIERDO + lineaParRojo);
   console.log(PADIZQUIERDO + ultimaLinea);
 
 }
@@ -480,8 +523,15 @@ function armaColorParDoc(colores: string[]): void {
   // por cada lugar del arreglo asigna fondo azul para lo apostado
   const azul = `bgBlue`;
 
-  if (colores.length === 0) { return; }
-
+  if (colores.length === 0) {
+    colorPriDoc = colorApuesta;
+    colorSegDoc = colorApuesta;
+    colorTerDoc = colorApuesta;
+    colorPar = colorApuesta;
+    colorImpar = colorApuesta;
+    colorRojo = colorApuesta;
+    colorNegro = colorApuesta;
+  }
   colores.forEach(apuesta => {
 
     if (apuesta === "rojo") { colorRojo = azul; }
@@ -496,6 +546,8 @@ function armaColorParDoc(colores: string[]): void {
   })
 
 }
+
+
 
 function armaLineaTablero(apuesta: number[]): void {
 
@@ -541,6 +593,7 @@ function armaLineaTablero(apuesta: number[]): void {
   })
 }
 
+//--------------------------------------------------------
 // muestra un mensaje que se le puede variar el color
 export function mensajeAlertaSinMarco(mensaje: string, color: string): void {
 
@@ -562,7 +615,7 @@ export function mensajeAlertaSinMarco(mensaje: string, color: string): void {
   console.log(igualoCadena(" ", padIzquierdo, " ") + mensaje + " ");
 }
 
-//---------- muestra resultado de la apuesta  ---------------------
+//---------- muestra resultado de la apuesta en ruleta ---------------------
 
 //arma un listado con las apuestas hechas al momento de pagar
 export function mostrarResultadoApuesta(apuestas: Apuesta[], montoApostado: number, montoGanado: number): void {
@@ -607,10 +660,10 @@ export function mostrarResultadoApuesta(apuestas: Apuesta[], montoApostado: numb
 
   console.log(lineaSuperior);
   console.log(lineaEncabezado);
-    console.log(lineaInferior);
+  console.log(lineaInferior);
 
   apuestas.forEach(apuesta => {
-    
+
     let lineaImprimir: string = tabIzquierdo + " │ " +
       igualoCadena(apuesta.getTipo(), 9, " ").yellow + " │ " +
       igualoCadena(apuesta.getValor().toString(), 9, " ").yellow + " │ " +

@@ -5,10 +5,12 @@ import { BlackJack } from "./BlackJack2/BlackJack";
 import { Ruleta } from "./ruleta/Ruleta";
 import { PaseIngles } from "./Dados/PaseIngles";
 import { Cliente } from "./Cliente";
-import * as readlineSync from "readline-sync";
-import * as Funciones from "../Funciones/funciones";
+import * as rls from "readline-sync";
+import * as funciones from "../Funciones/funciones";
 import 'colors';
 import * as fs from "fs";
+
+
 
 
 export class Casino {
@@ -25,45 +27,58 @@ export class Casino {
 
   public abrirCasino(): void {
     let jugador: Cliente;
+    let condicion: string = "";
 
+    //carga los datos desde el archivo
     this.clientes = this.leeDatosCliente("./clases/datos/clientes.txt");
-    Funciones.mensajeAlerta("          🃏    BIENVENIDOS al CASINO     🃏          ", "verde");
+
+    funciones.mensajeAlerta("          🃏    BIENVENIDOS al CASINO     🃏          ", "verde");
 
     let dni: number = this.ingresarDni();
     let clienteIndex: number = this.existeDni(dni, this.clientes);
-    if (dni !== 0) {
-      if (clienteIndex !== -1) {
-        Funciones.mensajeAlerta("Cliente encontrado: ", "azul");
-        this.clientes[clienteIndex].mostrarCliente();
+    if (dni !== 0) { //controla que no quiera salir
+      if (clienteIndex !== -1) { //Cliente encontrado
         jugador = this.clientes[clienteIndex];
-      } else {
+        funciones.mensajeAlertaSinMarco("Cliente encontrado:\n ", "azul");
+        funciones.mensajeAlerta(jugador.mostrarCliente(), "azul");
+      } else { //Carga de cliente nuevo
         jugador = this.hacerAltaCliente(dni);
+        funciones.mensajeAlerta("Cliente guardado ", "azul");
       }
+
+      condicion = rls.question(
+        funciones.igualoCadena("", 31, " ") +
+        `\n Presione una tecla para continuar ...`.green);
+
+      //este menu permite acceder a las distintas opciones de casino
       this.mostrarMenu(jugador);
+
+      //Cuando salgo, grabo los datos de los clientes
       this.grabaDatos("./clases/datos/clientes.txt", this.clientes);
     }
   }
 
   private ingresarDni(): number {
+    //controla que sea un numero entre 10000000 y 100000000, el numero puede ser 0
     let dni: number;
-    let errorEntrada: boolean = true;
+    let errorEntrada: boolean = false;
 
     do {
-      // console.clear();
-      Funciones.mensajeAlerta("Por favor, ingrese su DNI:", "azul");
-      if (!errorEntrada) {
-        Funciones.mensajeAlerta("DNI inválido. Debe ser un número.", "rojo");
-      }
-      let dniString: string = readlineSync.question(
-        Funciones.igualoCadena("\n", 31, " ") + "Ingrese el DNI (0 para salir): ".green
+      if (errorEntrada) {
+        funciones.mensajeAlerta("DNI inválido. Debe ser un número.", "rojo");
+      } else { funciones.mensajeAlerta("Por favor, ingrese su DNI:", "azul"); }
+
+      let dniString: string = rls.question(
+        funciones.igualoCadena("\n", 31, " ") + "Ingrese el DNI (0 para salir): ".green
       );
+
       dni = parseInt(dniString);
-      if (isNaN(dni) || dni < 0) {
-        errorEntrada = false;
-      } else {
+      if (isNaN(dni) || (dni < 1000000 && dni != 0) || dni > 99999999) {
         errorEntrada = true;
+      } else {
+        errorEntrada = false;
       }
-    } while (!errorEntrada);
+    } while (errorEntrada);
     console.clear();
     return dni;
   }
@@ -77,14 +92,14 @@ export class Casino {
     let cartel: string = "Ingrese nombre del Cliente";
     do {
       console.clear();
-      Funciones.mensajeAlerta(cartel, "azul");
+      funciones.mensajeAlerta(cartel, "azul");
       if (!errorEntrada) {
-        Funciones.mensajeAlerta("Error en el ingreso del nombre", "rojo");
+        funciones.mensajeAlerta("Error en el ingreso del nombre", "rojo");
       }
-      nombre = readlineSync.question(
-        Funciones.igualoCadena("\n", 31, " ") + "Ingrese el nombre: ".green
+      nombre = rls.question(
+        funciones.igualoCadena("\n", 31, " ") + "Ingrese el nombre: ".green
       );
-      if (nombre.trim() === "") {
+      if (nombre.trim() === "") { //controla que el nombre no sea vacio
         errorEntrada = false;
       } else {
         errorEntrada = true;
@@ -93,32 +108,30 @@ export class Casino {
     console.clear();
     return nombre;
   }
+
   private hacerAltaCliente(dni: number): Cliente {
     const nombre: string = this.ingresarNombre();
     const nuevoCliente = new Cliente(dni, nombre);
     this.clientes.push(nuevoCliente);
     return nuevoCliente;
   }
+
   private ingresarCredito(): number {
     let creditoCliente: number;
     let creditoString: string = "";
     let errorEntrada: boolean = true;
 
     do {
-      // console.clear();
-      Funciones.mensajeAlerta("Por favor, ingrese el dinero que desea tener a favor :", "azul");
+      funciones.mensajeAlerta("Por favor, ingrese el dinero que desea tener a favor :", "azul");
       if (!errorEntrada) {
-        Funciones.mensajeAlerta(
+        funciones.mensajeAlerta(
           "Monto inválido. Debe ser un número mayor que 0.",
           "rojo"
         );
       }
-      let creditoString: string = readlineSync.question(
-        Funciones.igualoCadena("\n", 31, " ") +
-        "Ingrese el monto (0 para salir): ".green
-      );
+      let creditoString: string = rls.question(funciones.igualoCadena("\n", 31, " ") + "Ingrese el monto (0 para salir): ".green);
       creditoCliente = parseInt(creditoString);
-      if (isNaN(creditoCliente) || creditoCliente < 0) {
+      if (isNaN(creditoCliente) || creditoCliente < 0) { //controla que sea un numero >= 0
         errorEntrada = false;
       } else {
         errorEntrada = true;
@@ -129,14 +142,15 @@ export class Casino {
   }
 
   public cargarCredito(jugador: Cliente): void {
-    jugador.mostrarCliente();
-    if (jugador) {
+    //muestra los datos del jugador
+    funciones.mensajeAlertaSinMarco(jugador.mostrarCliente(), "azul");
+    if (jugador) { //si no es undefined
       let nuevoCredito = this.ingresarCredito();
       if (nuevoCredito != 0) {
         jugador.setCredito(jugador.getACredito() + nuevoCredito);
-      }
+      }  //si es 0, sale, no hace nada
     } else {
-      Funciones.mensajeAlerta("No se encontro el cliente", "rojo");
+      funciones.mensajeAlerta("No se encontro el cliente", "rojo");
     }
   }
 
@@ -157,65 +171,58 @@ export class Casino {
     ];
     do {
       console.clear();
-      Funciones.pantallaMenu("      CASINO ON-LINE ", servicios, 30, 40, 2);
+      funciones.pantallaMenu("      CASINO ON-LINE ", servicios, 30, 40, 2);
       if (!errorIngreso) {
-        Funciones.lineaConRecuadroError(
-          30,
-          "Opción inválida. Por favor, intente nuevamente",
-          40,
-          2
-        );
+        funciones.lineaConRecuadroError(30, "Opción inválida. Reintente", 40, 2);
+        errorIngreso = true;
       }
-      opcion = readlineSync.question(
-        Funciones.igualoCadena("", 31, " ") +
-        "Seleccione una de las opciones:".green
-      );
+      opcion = rls.question(funciones.igualoCadena("", 31, " ") + "Seleccione una de las opciones:".green);
       condicion = "1";
       console.clear();
+
       switch (opcion) {
         case "1":
-          Funciones.mensajeAlerta("          🍒    BIENVENIDOS A TRAGAMONEDAS CLASICO    🍒          ", "verde");
-          // console.log("seleccionaste Tragamonedas Clásico");
+          funciones.mensajeAlerta(`          🍒    BIENVENIDO ${jugador.getNombre()} A TRAGAMONEDAS CLASICO    🍒          `, "verde");
           this.leerArchivoInstrucciones("./clases/datos/tragamonedas.txt", "Tragamonedas");
           this.repetirUnJuego(0, jugador);
           break;
         case "2":
-          // console.log("seleccionaste Tragamonedas Temático");
           this.leerArchivoInstrucciones("./clases/datos/tragamonedas.txt", "Tragamonedas");
-          Funciones.mensajeAlerta("          🍀    BIENVENIDOS A TRAGAMONEDAS TEMATICO    🍀          ", "verde");
+          funciones.mensajeAlerta(`          🍀    BIENVENIDO ${jugador.getNombre()} A TRAGAMONEDAS TEMATICO    🍀         ` , "verde");
           this.repetirUnJuego(1, jugador);
           break;
         case "3":
-          Funciones.mensajeAlerta("          🃏    BIENVENIDOS A BLACKJACK    🃏          ", "verde");
+          funciones.mensajeAlerta(`          🃏    BIENVENIDO ${jugador.getNombre()} A BLACKJACK    🃏          `, "verde");
           this.leerArchivoInstrucciones("./clases/datos/blackJack.txt", "Blackjack");
-          this.repetirUnJuego(2, jugador); //VER COMO SE INICIA BLACKJACK
+          this.repetirUnJuego(2, jugador); 
           break;
         case "4":
-          Funciones.mensajeAlerta("              BIENVENIDOS A RULETA              ", "verde");
+          funciones.mensajeAlerta(`              BIENVENIDO ${jugador.getNombre()} A RULETA              `, "verde");
           this.leerArchivoInstrucciones("./clases/datos/ruleta.txt", "Ruleta");
           this.repetirUnJuego(3, jugador);
 
           break;
         case "5":
-          Funciones.mensajeAlerta("          🎲    BIENVENIDOS A PASE INGLES    🎲          ", "verde");
+          funciones.mensajeAlerta(`          🎲    BIENVENIDO ${jugador.getNombre()} A PASE INGLES    🎲          `, "verde");
           this.leerArchivoInstrucciones("./clases/datos/paseIngles.txt", "Pase Ingles");
           this.repetirUnJuego(4, jugador);
           break;
         case "6":
-          Funciones.mensajeAlerta("          💵    BIENVENIDOS A CARGAR CREDITO    💵          ", "verde");
+          funciones.mensajeAlerta(`          💵    BIENVENIDO ${jugador.getNombre()} A CARGAR CREDITO    💵          `, "verde");
           this.cargarCredito(jugador);
           break;
         case "7":
-          Funciones.mensajeAlerta("              LISTAR CLIENTE              ", "verde");
+          funciones.mensajeAlerta("              LISTAR CLIENTE              ", "verde");
           console.log("\n");
-          Funciones.mensajeAlertaSinMarco(jugador.mostrarCliente(), "azul");
-          condicion = readlineSync.question(
-            Funciones.igualoCadena("", 31, " ") +
+          funciones.mensajeAlertaSinMarco(jugador.mostrarCliente(), "azul");
+          condicion = rls.question(
+            funciones.igualoCadena("", 31, " ") +
             `\n Presione una tecla para continuar ...`.green
           );
           break;
         case "0":
-          console.log("Saliendo del menú...");
+          funciones.mensajeAlertaSinMarco(`      🃏   GRACIAS ${jugador.getNombre()} POR JUGAR EN NUESTRO CASINO    🃏      `, "verde")
+          funciones.mensajeAlertaSinMarco("\n                             ¡Hasta la próxima! 🎩✨","amarillo" );
           break;
         default:
           errorIngreso = false;
@@ -228,58 +235,87 @@ export class Casino {
   public repetirUnJuego(indice: number, jugador: Cliente) {
     let condicion = "1";
     console.clear();
+
+
     while (parseInt(condicion) > 0) {
-      if (indice == 3) {
-        (this.juegos[indice] as Ruleta).comenzarAJugar(jugador);
-      } else {
-        this.juegos[indice].apostar(jugador);
+
+      if (this.juegos[indice].verificarCredito(jugador)) {
+
+
+        if (indice == 3) {
+          (this.juegos[indice] as Ruleta).comenzarAJugar(jugador);
+        } else {
+          this.juegos[indice].apostar(jugador);
+        }
+      
+        condicion = rls.question(
+          funciones.igualoCadena("\n", 20, " ") +
+          ` Si desea seguir apostando a ${this.juegos[indice].getNombre()}, presione un numero mayor a 0:  `.green);
+        console.clear();
       }
-      condicion = readlineSync.question(
-        Funciones.igualoCadena("\n", 20, " ") +
-        ` Si desea seguir apostando a ${this.juegos[indice].getNombre()}, presione un numero mayor a 0:  `.green);
-      console.clear();
+      else { condicion = "0"; }
     }
   }
 
+
   public grabaDatos(archivo: string, datos: Cliente[]): void {
-    // Convertir los datos a JSON
+  try {
+    // Convertir los datos a JSON, null no aplica ninguna transformacion especial, space = 2 mejora la legilibilidad del JSON
     const datosJSON = JSON.stringify(datos, null, 2);
     // Escribir datos en un archivo .txt
     fs.writeFileSync(archivo, datosJSON, "utf-8");
-    //console.log(Archivo ${archivo} creado con éxito.);
+  } catch(e) {
+    funciones.mensajeAlertaSinMarco(`\n ${(e as Error).message}.`, "amarillo");
+    let caracter = rls.question("\n Presione una tecla para continuar ...").blue;
   }
+}
 
   public leeDatosCliente(archivo: string): Cliente[] {
-    // Leer el archivo
+  const clientes: Cliente[] = [];
+  try {
+    // Lee el archivo
     const datos = fs.readFileSync(archivo, "utf-8");
-    // Parsear los datos leídos
-    const objetosLeidos: any[] = JSON.parse(datos);
-    const clientes: Cliente[] = [];
+    // Parsea los datos leídos
+    const clientesLeidos: any[] = JSON.parse(datos);
 
-    // Reconstituir los objetos como instancias de Cliente
-    objetosLeidos.forEach((objeto) => {
-      const cliente = new Cliente(objeto.dni, objeto.nombre);
-
-      cliente.setCredito(objeto.credito);
+    clientesLeidos.forEach((elem) => {
+      const cliente = new Cliente(elem.dni, elem.nombre);
+      //el credito no se carga en el constructor 
+      cliente.setCredito(elem.credito);
 
       clientes.push(cliente);
-    });
 
-    return clientes;
+    });
+  } catch (e) {
+    funciones.mensajeAlertaSinMarco("Error en archivo de Clientes, se retorna un arreglo vacio", "rojo");
+    funciones.mensajeAlertaSinMarco(` ${(e as Error).message}`, "rojo");
   }
+  finally {
+    return clientes
+  }
+}
+
 
   public leerArchivoInstrucciones(ruta: string, titulo: string) {
-    // VER
-    //const ruta = `./instrucciones/${juego.toLowerCase()}.txt`;
+  try {
+    //controla que exista el archivo
     if (fs.existsSync(ruta)) {
+      //lee el archivo
       const instrucciones = fs.readFileSync(ruta, "utf-8");
-      Funciones.mensajeAlerta(`Instrucciones para ${titulo} `, "azul");
-      console.log(`\n${instrucciones}`);
+
+      funciones.mensajeAlerta(`Instrucciones para ${titulo} `, "azul");
+      console.log(`\n${instrucciones}`); //muetra el contenido del archivo
       console.log("\n \n");
       let caracter = readlineSync.question(" Presione una tecla para continuar ...").blue;
       console.log("\n \n");
     } else {
-      Funciones.mensajeAlerta(`\nNo se encontraron instrucciones para ${titulo}.`, "amarillo");
+      funciones.mensajeAlertaSinMarco(`\nNo se encontraron instrucciones para ${titulo}.`, "amarillo");
+      let caracter = rls.question("\n Presione una tecla para continuar ...").blue;
     }
+  } catch (e) {
+    //otros tipos de errores menos frecuentes (como error de acceso)
+    funciones.mensajeAlertaSinMarco(` ${(e as Error).message}`, "rojo");
   }
+
+}
 }

@@ -29,19 +29,17 @@ export abstract class Tragamonedas extends Juego {
         }
     } 
  
-     
-        public apostar(jugador: Cliente): void{ 
-            let premio: number = 0; //Variable para asignar monto ganado en la jugada
-            this.cantApostada = funciones.validarValidezApuesta(`Realice su apuesta comprendida entre $ ${this.apuestaMinima} y $ ${this.apuestaMaxima} `, this.apuestaMinima, this.apuestaMaxima, jugador.getACredito());
-            jugador.setCredito(jugador.getACredito()-this.cantApostada);
-            this.jugar();
-            premio = this.pagar();
-            premio += this.pagoBonus(premio);
-            jugador.setCredito(jugador.getACredito()+premio);
-            funciones.mensajeAlerta(premio > 0 ? `¡GANASTE UN TOTAL DE ${premio} PESOS!` : `Lo siento, perdiste.`, premio > 0? "Amarillo" : "Azul");
-            funciones.mensajeAlerta(`Tu crédito actual es de ${jugador.getACredito()} pesos`,"Rojo");
-        }
-    
+    public apostar(jugador: Cliente): void{ 
+        let premio: number = 0; //Variable para asignar monto ganado en la jugada
+        this.cantApostada = funciones.validarValidezApuesta(`Realice su apuesta comprendida entre $ ${this.apuestaMinima} y $ ${this.apuestaMaxima} `, this.apuestaMinima, this.apuestaMaxima, jugador.getACredito());
+        jugador.setCredito(jugador.getACredito()-this.cantApostada);
+        this.jugar();
+        premio = this.pagar();
+        premio += this.pagoBonus(premio);
+        jugador.setCredito(jugador.getACredito()+premio);
+        funciones.mensajeAlerta(premio > 0 ? `¡GANASTE UN TOTAL DE ${premio} PESOS!` : `Lo siento, perdiste.`, premio > 0? "Amarillo" : "Azul");
+        funciones.mensajeAlerta(`Tu crédito actual es de ${jugador.getACredito()} pesos`,"Rojo");
+    }
 
     public jugar(): void {
         this.resultadoJuego = []; //Vuelvo la rariable a 0 para que no acumule
@@ -49,7 +47,7 @@ export abstract class Tragamonedas extends Juego {
             const indice = Math.floor(Math.random() * this.estructuraTambores[i].length);
             this.resultadoJuego.push(this.estructuraTambores[i][indice]);
         }
-        funciones.mensajeAlerta(`Resultados: ${this.resultadoJuego.join(" | ")}`,"Amarillo");
+        funciones.mensajeAlertaSinMarco(`${this.resultadoJuego.join(" | ")}`,"Amarillo");
     }
 
     public pagar(): number {
@@ -65,7 +63,7 @@ export abstract class Tragamonedas extends Juego {
         }
         premio = 0;
         if (conteo[this.comodin]) {
-            premio = this.cantApostada * this.multiplicador;
+            premio = this.cantApostada * this.multiplicador * conteo[this.comodin];
         } else {
             for (const key in conteo) {
                 if (conteo[key] >= 2) {
@@ -76,27 +74,6 @@ export abstract class Tragamonedas extends Juego {
     return premio;
     }
 
-    public ingresarApuesta(): number {
-        let montoApuesta: number = 0;
-        let errorEntrada: boolean = true;
-
-        do {
-            funciones.mensajeAlerta(`La apuesta puede variar entre ${this.apuestaMinima} y ${this.apuestaMaxima} pesos`,"Amarillo");
-            if (!errorEntrada) {
-                funciones.mensajeAlerta(`Monto inválido. Debe ser un numero entre ${this.apuestaMinima} y ${this.apuestaMaxima} pesos`,"Rojo");
-            }
-            montoApuesta = rls.questionInt(funciones.igualoCadena("", 31, " ") + 'Ingrese la apuesta en pesos (0: sale): '.green);
-            if (!this.validarMontoApuesta(montoApuesta)) { 
-                errorEntrada = false; 
-            }
-
-        } while (!this.validarMontoApuesta(montoApuesta));
-
-        return montoApuesta;
-    }
-    private validarMontoApuesta(valor: number): boolean {
-        return !isNaN(valor) && valor == 0 || valor >= this.apuestaMinima && valor <= this.apuestaMaxima;  
-    }
     //este método sirve para que cada tragamonedas pague un bono extra de alguna manera para agregar al premio
     public abstract pagoBonus(premio : number): number;
 }
