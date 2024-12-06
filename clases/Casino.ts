@@ -257,7 +257,6 @@ export class Casino {
     }
   }
 
-
   public grabaDatos(archivo: string, datos: Cliente[]): void {
   try {
     // Convertir los datos a JSON, null no aplica ninguna transformacion especial, space = 2 mejora la legilibilidad del JSON
