@@ -29,15 +29,11 @@ export abstract class Tragamonedas extends Juego {
         }
     } 
  
-    public apostar(jugador: Cliente): void{ 
-        let premio: number = 0; //Variable para asignar monto ganado en la jugada
-        funciones.mensajeAlerta(`Tu crédito actual es de ${jugador.getACredito()} pesos`,"Azul");
-        this.cantApostada = this.ingresarApuesta();
-        if (this.cantApostada > jugador.getACredito()) {
-            funciones.mensajeAlerta(`La apuesta debe ser menor o igual a su credito de $ ${jugador.getACredito()}`, "Rojo")
-        } else {
+     
+        public apostar(jugador: Cliente): void{ 
+            let premio: number = 0; //Variable para asignar monto ganado en la jugada
+            this.cantApostada = funciones.validarValidezApuesta(`Realice su apuesta comprendida entre $ ${this.apuestaMinima} y $ ${this.apuestaMaxima} `, this.apuestaMinima, this.apuestaMaxima, jugador.getACredito());
             jugador.setCredito(jugador.getACredito()-this.cantApostada);
-            funciones.mensajeAlerta(`Apostando ${this.cantApostada} pesos...`,"Azul"); 
             this.jugar();
             premio = this.pagar();
             premio += this.pagoBonus(premio);
@@ -45,7 +41,7 @@ export abstract class Tragamonedas extends Juego {
             funciones.mensajeAlerta(premio > 0 ? `¡GANASTE UN TOTAL DE ${premio} PESOS!` : `Lo siento, perdiste.`, premio > 0? "Amarillo" : "Azul");
             funciones.mensajeAlerta(`Tu crédito actual es de ${jugador.getACredito()} pesos`,"Rojo");
         }
-    }
+    
 
     public jugar(): void {
         this.resultadoJuego = []; //Vuelvo la rariable a 0 para que no acumule

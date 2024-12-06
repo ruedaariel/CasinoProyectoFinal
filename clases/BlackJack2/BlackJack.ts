@@ -1,4 +1,3 @@
-//import * as funciones from "../../Funciones/funciones";
 import "colors";
 import { Cliente } from '../Cliente';
 import {Carta} from './Carta';

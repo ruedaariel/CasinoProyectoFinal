@@ -38,5 +38,10 @@
     "dni": 123456,
     "nombre": "Hugo Corrales",
     "credito": 16500
+  },
+  {
+    "dni": 121212,
+    "nombre": "qqq",
+    "credito": 11500
   }
 ]
