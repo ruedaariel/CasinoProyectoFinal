@@ -2,7 +2,7 @@
   {
     "dni": 17342282,
     "nombre": "ariel",
-    "credito": 27050
+    "credito": 50
   },
   {
     "dni": 23457291,
