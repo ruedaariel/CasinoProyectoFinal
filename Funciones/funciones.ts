@@ -684,3 +684,49 @@ export function mostrarResultadoApuesta(apuestas: Apuesta[], montoApostado: numb
   console.log(lineafinalParcial);
 
 }
+export function validarValidezApuesta(cartel: string, apumin: number, apumax: number, saldo: number): number {
+  let apuestaHecha: number;
+  let apuestaString: string = "0";
+  let errorEntrada: boolean = true;
+
+
+  do {
+    console.clear();
+
+    mensajeAlerta(cartel, "azul");
+    // para evitar el scroll indefinido usamos una variable bool 
+    if (!errorEntrada) {
+
+      mensajeAlerta("Ingreso invalido... reintente por favor", "rojo");
+      errorEntrada = true;
+    }
+    // ingresa el nro
+    apuestaString = rls.question(igualoCadena("", 31, " ") + "Ingrese el valor: ".green);
+    apuestaHecha = parseInt(apuestaString);
+
+    if (isNaN(apuestaHecha)) {
+      errorEntrada = false
+    } else {
+
+
+      if ((apuestaHecha > apumax) || (apuestaHecha < apumin) || (apuestaHecha > saldo)) {
+        cartel = `Su apuesta de $${apuestaHecha} esta fuera del minimo de $${apumin} o el maximo de $${apumax}. O supera su crédito de $${saldo}`;
+        errorEntrada = false
+      }
+      else {
+
+        if (apuestaHecha >= apumin && apuestaHecha <= apumax) { errorEntrada = true }
+
+      }
+
+
+
+    }
+
+
+    //console.clear();
+
+  } while (!errorEntrada)
+
+  return apuestaHecha;
+}
