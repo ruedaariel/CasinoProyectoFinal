@@ -1,7 +1,7 @@
 import { Juego } from "./juego";
 import { TragamonedasClasico } from "./tragamonedas/TragamonedasClasico";
 import { TragamonedasTematico } from "./tragamonedas/TragamonedasTematico";
-import { BlackJack } from "./Blackjack2/blackjack";
+import { BlackJack } from "./BlackJack2/BlackJack";
 import { Ruleta } from "./ruleta/Ruleta";
 import { PaseIngles } from "./Dados/PaseIngles";
 import { Cliente } from "./Cliente";
@@ -64,7 +64,6 @@ export class Casino {
     let errorEntrada: boolean = false;
 
     do {
-
       if (errorEntrada) {
         funciones.mensajeAlerta("DNI inválido. Debe ser un número.", "rojo");
       } else { funciones.mensajeAlerta("Por favor, ingrese su DNI:", "azul"); }
@@ -130,7 +129,6 @@ export class Casino {
           "rojo"
         );
       }
-
       let creditoString: string = rls.question(funciones.igualoCadena("\n", 31, " ") + "Ingrese el monto (0 para salir): ".green);
       creditoCliente = parseInt(creditoString);
       if (isNaN(creditoCliente) || creditoCliente < 0) { //controla que sea un numero >= 0
@@ -256,10 +254,8 @@ export class Casino {
         console.clear();
       }
       else { condicion = "0"; }
-
     }
   }
-
 
   public grabaDatos(archivo: string, datos: Cliente[]): void {
   try {

@@ -1,4 +1,3 @@
-//import * as funciones from "../../Funciones/funciones";
 import "colors";
 import { Cliente } from '../Cliente';
 import {Carta} from './Carta';
@@ -27,24 +26,19 @@ public setApuestaActual(apuestaActual: number): void {
    this.apuestaActual = apuestaActual ;
 } 
 //----------------------------------------------------------------------------------------------------------
-public apostar(jugador:Cliente):void { 
-  let premio:number=0; 
-  this.apuestaActual = this.ingresarApuesta();
-  if (this.apuestaActual >= jugador.getACredito()) {
-         funciones.mensajeAlerta(`La apuesta debe ser menor o igual a su credito de $ ${jugador.getACredito()}`, "Rojo")
-  } else {
-          jugador.setCredito(jugador.getACredito()-this.apuestaActual);
-          //funciones.mensajeAlerta(`Tu crédito actual es de ${jugador.getACredito()}`,"Rojo");
-          funciones.mensajeAlerta(`Apostando ${this.apuestaActual} pesos...`,"Azul"); 
-          this.jugar();
-          premio = this.pagar();
-          jugador.setCredito(jugador.getACredito()+premio);
-          funciones.mensajeAlerta(premio > 0 ? `¡Ganaste ${premio} pesos!` : `Lo siento, perdiste.`, premio > 0? "Rojo" : "Azul");
-          funciones.mensajeAlerta(`Tu crédito actual es de ${jugador.getACredito()}`,"Rojo");
-       }
-  }
+   public apostar(jugador: Cliente): void{ 
+        let premio: number = 0; //Variable para asignar monto ganado en la jugada
+        this.apuestaActual = funciones.validarValidezApuesta(`Realice su apuesta comprendida entre $ ${this.apuestaMinima} y $ ${this.apuestaMaxima} `, this.apuestaMinima, this.apuestaMaxima, jugador.getACredito());
+        jugador.setCredito(jugador.getACredito()-this.apuestaActual);
+        this.jugar();
+        premio = this.pagar();
+        jugador.setCredito(jugador.getACredito()+premio);
+        funciones.mensajeAlerta(premio > 0 ? `¡GANASTE UN TOTAL DE ${premio} PESOS!` : `Lo siento, perdiste.`, premio > 0? "Amarillo" : "Azul");
+        funciones.mensajeAlerta(`Tu crédito actual es de ${jugador.getACredito()} pesos`,"Rojo");
+    }
+
 //-------------------------------------------------------------------------------------------------------------- 
-inicializarBaraja(){                      
+inicializarBaraja(){                       
       const palos=['❤️  CORAZONES',' 🔶  DIAMANTES',' ♣️ TRÉBOLES', '♠ PICAS'];
       const valores=['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
       this.baraja=[];

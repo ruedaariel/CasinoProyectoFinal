@@ -369,8 +369,6 @@ export function validarValidezApuesta(cartel: string, apumin: number, apumax: nu
 
       }
 
-
-
     }
 
   } while (!errorEntrada)
