@@ -287,15 +287,17 @@ export class Casino {
       cliente.setCredito(elem.credito);
 
       clientes.push(cliente);
-
+     
     });
   } catch (e) {
     funciones.mensajeAlertaSinMarco("Error en archivo de Clientes, se retorna un arreglo vacio", "rojo");
     funciones.mensajeAlertaSinMarco(` ${(e as Error).message}`, "rojo");
+    
   }
-  finally {
+   finally {
     return clientes
-  }
+ }
+ 
 }
 
 
