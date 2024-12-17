@@ -1,0 +1,7 @@
+Ajustar la Apuesta: El jugador elige la cantidad de créditos que desea apostar por línea de pago.
+
+Girar los Rodillos: El jugador presiona un botón o tira de una palanca para hacer girar los rodillos.
+
+Ver el Resultado: Cuando los rodillos se detienen, las combinaciones de símbolos en las líneas de pago determinan si el jugador gana o pierde.
+
+Pago: Si las combinaciones de símbolos coinciden con las líneas ganadoras predefinidas, la máquina paga según la tabla de pagos.
