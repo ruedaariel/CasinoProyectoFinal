@@ -1,0 +1,11 @@
+        
+       - Comienza con un Tiro de Salida:
+               * Gana: Si el tirador obtiene un 7 u 11.
+               * Pierde: Si el tirador obtiene un 2, 3 o 12.
+
+        - Si no Ganó ni Perdió, se establece el "Punto": Si el tirador obtiene un 4, 5, 6, 8, 9 o 10,
+          ese número se convierte en el "punto" y el juego continúa a la segunda ronda.
+
+        - Sigue con Tiro del Punto (puede ser una o más tiradas):
+                * Gana: Si el tirador obtiene el "punto" antes de sacar un 7.
+                * Pierde: Si el tirador obtiene un 7 antes de volver a obtener el "punto".
